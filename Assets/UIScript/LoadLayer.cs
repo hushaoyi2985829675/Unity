@@ -1,0 +1,59 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using static UnityEditor.Experimental.GraphView.GraphView;
+
+public class LoadLayer : PanelBase
+{
+    public Slider slider;
+    public enum LayerType 
+    {
+        MainLayer,
+        FightLayer
+    }
+    public override void onEnter(object[] data)
+    {
+       
+    }
+
+    public override void onExit()
+    {      
+        Destroy(gameObject);
+    }
+
+    void Start()
+    {
+       
+    }
+    public void StartScene(string sceneName, Func<Slider, IEnumerator> loadData)
+    {
+        StartCoroutine(LoadScene(sceneName, loadData));
+    }
+    public IEnumerator LoadScene(string sceneName,Func<Slider,IEnumerator> loadData)
+    {
+        if (!gameObject.activeSelf)
+        {
+            gameObject.SetActive(true);  // 激活当前的游戏对象
+        }
+        yield return StartCoroutine(loadData.Invoke(slider));
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+        operation.allowSceneActivation = false;
+
+        while (!operation.isDone)
+        {
+            slider.value += operation.progress * 50;
+
+            if (operation.progress >= 0.9f)
+            {             
+                slider.value = 100;           
+                operation.allowSceneActivation = true;           
+            }
+            yield return null; 
+        }
+        UIManager.Instance.colseLayer();
+    }
+}

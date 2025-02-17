@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a0d030c42e2a5d4ab38ac27dfb66c6e, type: 3}
+  m_Name: PlayerEquipData
+  m_EditorClassIdentifier: 
+  EquipInfo:
+  - name: Armor
+    SpriteGroupEntry:
+      Name: AizenHeavyArmor
+      Collection: Legendary
+      Edition: Extensions
+      Id: Extensions.Legendary.Armor.AizenHeavyArmor
+      Path: Assets/HeroEditor/Extensions/EpicHeroes/Sprites/Equipment/Armor/Legendary/AizenHeavyArmor.png
+      Sprite: {fileID: 21300024, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      Sprites:
+      - {fileID: 21300024, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300022, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300040, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300028, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300026, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300034, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300036, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300030, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300006, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300032, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300038, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300000, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      Multiple: 1
+      Hash: 89ae329ddfa9ae9bf992e84f37c6c021
+      Meta: 
+      Tags: []
+    Part: 0
+  - name: Weapon
+    SpriteGroupEntry:
+      Name: AoiWingSword
+      Collection: Legendary
+      Edition: Extensions
+      Id: Extensions.Legendary.MeleeWeapon1H.AoiWingSword
+      Path: Assets/HeroEditor/Extensions/EpicHeroes/Sprites/Equipment/MeleeWeapon1H/Legendary/Sword/AoiWingSword.png
+      Sprite: {fileID: 21300000, guid: 6545049198b85cb448c3da5b6af1c671, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 6545049198b85cb448c3da5b6af1c671, type: 3}
+      Multiple: 1
+      Hash: 0f5a4feebd91808a21d139d6f5bd0669
+      Meta: 
+      Tags: []
+    Part: 7

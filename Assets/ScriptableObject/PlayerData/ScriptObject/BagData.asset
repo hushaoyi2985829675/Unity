@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f5c5906093a3cb4fa3abe819ff23f53, type: 3}
+  m_Name: BagData
+  m_EditorClassIdentifier: 
+  MeleeWeapon1H:
+  - SpriteGroupEntry:
+      Name: AoiWingSword
+      Collection: Legendary
+      Edition: Extensions
+      Id: Extensions.Legendary.MeleeWeapon1H.AoiWingSword
+      Path: Assets/HeroEditor/Extensions/EpicHeroes/Sprites/Equipment/MeleeWeapon1H/Legendary/Sword/AoiWingSword.png
+      Sprite: {fileID: 21300000, guid: 6545049198b85cb448c3da5b6af1c671, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 6545049198b85cb448c3da5b6af1c671, type: 3}
+      Multiple: 1
+      Hash: 0f5a4feebd91808a21d139d6f5bd0669
+      Meta: 
+      Tags: []
+    num: 1
+    Part: 7
+  - SpriteGroupEntry:
+      Name: ApprenticeWand
+      Collection: AbandonedWorkshop
+      Edition: Extensions
+      Id: Extensions.AbandonedWorkshop.MeleeWeapon1H.ApprenticeWand
+      Path: Assets/HeroEditor/Extensions/AbandonedWorkshop/Sprites/Equipment/MeleeWeapon1H/AbandonedWorkshop/Wand/ApprenticeWand.png
+      Sprite: {fileID: 21300000, guid: 4456f4afd92142a7b0186562887261bf, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 4456f4afd92142a7b0186562887261bf, type: 3}
+      Multiple: 1
+      Hash: 0899e95f2553fb543bee4cdc07b3f1b4
+      Meta: 
+      Tags: []
+    num: 1
+    Part: 7
+  Equipments:
+  - SpriteGroupEntry:
+      Name: AoiWingSword
+      Collection: Legendary
+      Edition: Extensions
+      Id: Extensions.Legendary.MeleeWeapon1H.AoiWingSword
+      Path: Assets/HeroEditor/Extensions/EpicHeroes/Sprites/Equipment/MeleeWeapon1H/Legendary/Sword/AoiWingSword.png
+      Sprite: {fileID: 21300000, guid: 6545049198b85cb448c3da5b6af1c671, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 6545049198b85cb448c3da5b6af1c671, type: 3}
+      Multiple: 1
+      Hash: 0f5a4feebd91808a21d139d6f5bd0669
+      Meta: 
+      Tags: []
+    num: 1
+    Part: 7
+  - SpriteGroupEntry:
+      Name: ApprenticeWand
+      Collection: AbandonedWorkshop
+      Edition: Extensions
+      Id: Extensions.AbandonedWorkshop.MeleeWeapon1H.ApprenticeWand
+      Path: Assets/HeroEditor/Extensions/AbandonedWorkshop/Sprites/Equipment/MeleeWeapon1H/AbandonedWorkshop/Wand/ApprenticeWand.png
+      Sprite: {fileID: 21300000, guid: 4456f4afd92142a7b0186562887261bf, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 4456f4afd92142a7b0186562887261bf, type: 3}
+      Multiple: 1
+      Hash: 0899e95f2553fb543bee4cdc07b3f1b4
+      Meta: 
+      Tags: []
+    num: 1
+    Part: 7
