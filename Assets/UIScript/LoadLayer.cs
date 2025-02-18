@@ -39,21 +39,21 @@ public class LoadLayer : PanelBase
         {
             gameObject.SetActive(true);  // 激活当前的游戏对象
         }
-        yield return StartCoroutine(loadData.Invoke(slider));
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
         operation.allowSceneActivation = false;
-
         while (!operation.isDone)
         {
             slider.value += operation.progress * 50;
 
             if (operation.progress >= 0.9f)
             {             
-                slider.value = 100;           
+                slider.value = 50;           
                 operation.allowSceneActivation = true;           
             }
             yield return null; 
         }
-        UIManager.Instance.colseLayer();
+        yield return StartCoroutine(loadData.Invoke(slider));
+        Debug.Log("关闭页面");
+        UIManager.Instance.CloseLayer();
     }
 }

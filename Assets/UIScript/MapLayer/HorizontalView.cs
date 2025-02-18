@@ -2,18 +2,22 @@ using Assets.HeroEditor.FantasyInventory.Scripts.Data;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class HorizontalView : MonoBehaviour
 {
-    [Header("ƒ£∞Â")]
+    [Header("ƒ£ÔøΩÔøΩ")]
     public GameObject temp;
-    [Header("∏∏¿‡")]
+    [Header("ÔøΩÔøΩÔøΩÔøΩ")]
     public GameObject content;
-    [Header("◊Û±ﬂæ‡")]
+    [Header("ÔøΩÔøΩﬂæÔøΩ")]
     public float leftSpace;
+    [Header("Âè≥ËæπÈó¥Èöî")]
+    public float rightSpace;
     private int num;
     private GameObject scrollView;
     Dictionary<int, GameObject> itemList = new Dictionary<int, GameObject>();
@@ -29,33 +33,39 @@ public class HorizontalView : MonoBehaviour
         scrollView = gameObject;
         scrollView.GetComponent<ScrollRect>().onValueChanged.AddListener(onUpdate);
         size = temp.GetComponent<RectTransform>().sizeDelta.x ;
-        content.GetComponent<RectTransform>().sizeDelta = new Vector2(size * num + leftSpace, content.GetComponent<RectTransform>().rect.height);
+        content.GetComponent<RectTransform>().sizeDelta = new Vector2(size * num + leftSpace + rightSpace - size, content.GetComponent<RectTransform>().rect.height);
         this.num = num;
         RefreshData();
     }
     private void RefreshData()
     {
-        count = (int)Mathf.Ceil(scrollView.GetComponent<RectTransform>().sizeDelta.x / size) + 1;
-        for (int i = 0; i < count; i++)
+        count = (int)Mathf.Ceil(scrollView.GetComponent<RectTransform>().sizeDelta.x / size);
+        int minNum = Mathf.Max((int)((-content.GetComponent<RectTransform>().anchoredPosition.x - leftSpace + size / 2) / size) , 0);
+        var maxNum = Mathf.Min(minNum + count,num - 1);
+        for (int i = minNum; i <= maxNum; i++)
         {
-            var item = Instantiate(temp, content.transform);
+            GameObject item ;
+            if (! itemList.ContainsKey(i))
+            {
+                item = Instantiate(temp, content.transform);
+                itemList[i] = item;
+            }
+            else
+            {
+                item = itemList[i];
+            }
             item.SetActive(true);
             item.transform.localPosition = new Vector3(size * i + leftSpace, 0, 0);
-            itemList[i] = item;
             action.Invoke(i, item);
         }
-        this.maxIndx = count - 1;
+        this.maxIndx = count;
+        UpdateScale();
     }
 
     public void onUpdate(Vector2 v)
     {
-        int minNum = (int)((-content.GetComponent<RectTransform>().anchoredPosition.x - leftSpace) / size);
-        var maxNum = minNum + count - 1;
-        if (minNum < 0 || maxNum > num - 1)
-        {
-            return;
-        }
-
+        int minNum = Mathf.Max((int)((-content.GetComponent<RectTransform>().anchoredPosition.x - leftSpace + size / 2) / size),0);
+        var maxNum = Mathf.Min(minNum + count,num - 1);
         for (int i = minIndx; i < minNum; i++)
         {
             itemList[i].SetActive(false);
@@ -95,7 +105,15 @@ public class HorizontalView : MonoBehaviour
             GameObject item = data.Value;
             var worldPos = item.transform.parent.TransformPoint(item.transform.localPosition);
             var pos = item.transform.parent.parent.InverseTransformPoint(worldPos);
-            
+            if (Mathf.Abs(pos.x) < 300.0f)
+            {
+                var x = Mathf.Lerp(1.2f, 1.0f, Mathf.Abs(pos.x) / 300.0f);
+                item.transform.localScale = new Vector3(x, x, 1);
+            }
+            else
+            {
+                item.transform.localScale = new Vector3(1, 1, 1);
+            }
         }
     }
     public void AddRefreshEvent(Action<int,GameObject> action) 

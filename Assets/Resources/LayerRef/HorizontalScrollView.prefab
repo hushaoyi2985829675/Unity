@@ -122,7 +122,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   temp: {fileID: 0}
   content: {fileID: 3061626445482136690}
-  leftSpace: 0
+  leftSpace: 843.8025
+  rightSpace: 843.8025
 --- !u!1 &2970708623186969589
 GameObject:
   m_ObjectHideFlags: 0

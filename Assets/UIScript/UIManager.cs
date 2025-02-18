@@ -37,35 +37,35 @@ public class UIManager
     GameObject PlayerCamera;
     CinemachineBlenderSettings CinemachineBlenderSettings;
     UIManager()
-    { 
+    {
         LayerList = new Dictionary<GameObject, PanelBase>();
         CinemachineBlenderSettings = AssetDatabase.LoadAssetAtPath<CinemachineBlenderSettings>("Assets/CameraBlends/CameraBlends.asset");
         LayerStack = new Stack<PanelBase>();
         NpcCamera = GameObject.FindWithTag("NpcCamera");
         PlayerCamera = GameObject.FindWithTag("PlayerCamera");
     }
-    public GameObject openLayer(string name)
-    {
-        var layerRef = Resources.Load("Panle/" + name) as GameObject;
-        Debug.Log(layerRef);
-        if (layerRef != null)
-        {
-            var layer = GameObject.Instantiate(layerRef, GameObject.Find("LayerCanvas").transform);
-            PanelBase layerScript = layer.GetComponent<PanelBase>();
-            //if (layerStack == null)
-            //{
-            //    layerStack = new Stack<PanelBase>();
-            //}
-            layerScript.onEnter();
-            layerScript.StartCoroutine(CallOnEnter(layerScript));
-            LayerList[layerRef] = layerScript;
-        }
-        else
-        {
-            Debug.Log("²»´æÔÚ" + name);
-        }
-        return layerRef;
-    }
+    // public GameObject openLayer(string name)
+    // {
+    //     var layerRef = Resources.Load("Panle/" + name) as GameObject;
+    //     Debug.Log(layerRef);
+    //     if (layerRef != null)
+    //     {
+    //         var layer = GameObject.Instantiate(layerRef, GameObject.Find("LayerCanvas").transform);
+    //         PanelBase layerScript = layer.GetComponent<PanelBase>();
+    //         //if (layerStack == null)
+    //         //{
+    //         //    layerStack = new Stack<PanelBase>();
+    //         //}
+    //         layerScript.onEnter();
+    //         layerScript.StartCoroutine(CallOnEnter(layerScript));
+    //         LayerList[layerRef] = layerScript;
+    //     }
+    //     else
+    //     {
+    //         Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" + name);
+    //     }
+    //     return layerRef;
+    // }
     public PanelBase OpenLayer(GameObject layerRef, params object[] data)
     {
         if (LayerList.ContainsKey(layerRef))
@@ -80,13 +80,13 @@ public class UIManager
         {
             if (layerRef == null)
             {
-                Debug.Log("¼ÓÔØµÄlayerÎª¿Õ");
+                Debug.Log("ï¿½ï¿½ï¿½Øµï¿½layerÎªï¿½ï¿½");
                 return null;
             }
             var LayerCanvas = GameObject.FindWithTag("LayerCanvas");
             if (LayerCanvas == null)
             {
-                Debug.Log("³¡¾°ÖÐÃ»ÓÐTagÎªLayerCanvasµÄÎïÌå");
+                Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½TagÎªLayerCanvasï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
                 return null;
             }
             var layer = GameObject.Instantiate(layerRef, LayerCanvas.transform);
@@ -113,13 +113,13 @@ public class UIManager
         {
             if (layerRef == null)
             {
-                Debug.Log("¼ÓÔØµÄlayerÎª¿Õ");
+                Debug.Log("ï¿½ï¿½ï¿½Øµï¿½layerÎªï¿½ï¿½");
                 return null;
             }
             var LayerCanvas = GameObject.FindWithTag("LayerCanvas");
             if (LayerCanvas == null)
             {
-                Debug.Log("³¡¾°ÖÐÃ»ÓÐTagÎªLayerCanvasµÄÎïÌå");
+                Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½TagÎªLayerCanvasï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
                 return null;
             }
             var layer = GameObject.Instantiate(layerRef, LayerCanvas.transform);
@@ -132,16 +132,16 @@ public class UIManager
             return layerScript;
         }
     }
-    public void addMap(string mapName)
+    public void addMap(GameObject mapLayer)
     {
         var layerRef = Resources.Load("Panle/" + mapName) as GameObject;
         if (layerRef != null)
         {
-            GameObject.Instantiate(layerRef, GameObject.Find("Grid").transform);      
+            layerRef = GameObject.Instantiate(layerRef, GameObject.Find("Grid").transform);      
         }
         else
         {
-            Debug.Log("²»´æÔÚ" + mapName);
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" + mapName);
         }
     }
     public void setPlayerPos(Vector2 pos)
@@ -154,19 +154,10 @@ public class UIManager
         yield return null;
         layer.onEnter();
     }
-    public void colseLayer()
-    {
-        //if (LayerList.Count > 0)
-        //{
-        //    var layer = layerStack.Pop();
-        //    layer.transform.SetActive(false);          
-        //    layer.onExit();
-        //}
-    }
     public void OpenTalkLayer(GameObject Npc)
     {
         GameObject layer = Resources.Load<GameObject>("LayerRef/TalkLayer");
-        //ÉãÏñ»ú¹ý¶É¶¯»­ÐÅÏ¢           
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¶ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢           
         NpcCamera.GetComponent<CameraScript>().SetFollowTarget(Npc.transform);
         PlayerCamera.GetComponent<CameraScript>().HideCamera(() =>
         {
