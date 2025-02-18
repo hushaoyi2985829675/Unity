@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Attacked : MonoBehaviour
 {
-    [Header("¹¥»÷")]
+    [Header("ï¿½ï¿½ï¿½ï¿½")]
     public Transform edge;
     Player player;
     PlayerInfo PlayerValueData;
@@ -19,6 +19,8 @@ public class Attacked : MonoBehaviour
         player = GetComponent<Player>();
         playerAnimator = GetComponent<PlayerAnimator>();
         PlayerValueData = player.PlayerValueData.PlayerInfo;
+        attackInterval = 0;
+        SceneManager.sceneLoaded += UpdateState;
     }
 
     void Update()
@@ -27,10 +29,7 @@ public class Attacked : MonoBehaviour
         {
             isNpcOpen = true;
         }
-        if (SceneManager.GetActiveScene().name == "MainScene")
-        {
-            player.attackState = ButtonState.Talk;
-        }
+      
         switch (player.attackState)
         { 
             case ButtonState.Attack:
@@ -44,7 +43,7 @@ public class Attacked : MonoBehaviour
     }
     void Attack()
     {
-        if (Input.GetKeyDown(KeyCode.J) && PlayerValueData.AttackInterval <= 0 && !player.isWounded)
+        if (Input.GetKeyDown(KeyCode.J) && attackInterval <= 0 && !player.isWounded)
         {
             playerAnimator.PlayTrigger("Slash");
             attackInterval = PlayerValueData.AttackInterval;
@@ -98,5 +97,18 @@ public class Attacked : MonoBehaviour
     void Talk(GameObject npc)
     {
          UIManager.Instance.OpenTalkLayer(npc);
+    }
+
+    void UpdateState(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log(scene.name);
+        if (scene.name == "MainScene")
+        {
+            player.attackState = ButtonState.Talk;
+        }
+        else if (scene.name == "FightScene")
+        {
+            player.attackState = ButtonState.Attack;
+        }
     }
 }

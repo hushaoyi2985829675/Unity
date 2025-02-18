@@ -53,7 +53,6 @@ public class LoadLayer : PanelBase
             yield return null; 
         }
         yield return StartCoroutine(loadData.Invoke(slider));
-        Debug.Log("πÿ±’“≥√Ê");
         UIManager.Instance.CloseLayer();
     }
 }

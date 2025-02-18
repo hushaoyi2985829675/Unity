@@ -12,27 +12,27 @@ using UnityEngine.UI;
 
 public class BagLayer : PanelBase
 {
-    [Header("ÈËÎï")]
+    [Header("ï¿½ï¿½ï¿½ï¿½")]
     public GameObject Player;
-    [Header("±³°üÊý¾Ý")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public BagData BagData;
     Dictionary<int, EquipmentInfo> BagDataInfo;
-    [Header("Íæ¼Òµ±Ç°×°±¸Êý¾Ý")]
+    [Header("ï¿½ï¿½Òµï¿½Ç°×°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public PlayerEquipData PlayerEquipData;
-    [Header("IconÊý¾Ý")]
+    [Header("Iconï¿½ï¿½ï¿½ï¿½")]
     public IconCollection IconCollection;
-    [Header("ÈËÎïÔ¤ÖÆÌå")]
+    [Header("ï¿½ï¿½ï¿½ï¿½Ô¤ï¿½ï¿½ï¿½ï¿½")]
     public GameObject PlayerRef;
     GameObject BagPlayer;
-    [Header("±³°ü¸ñ×ÓÊýÁ¿")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public int HorizontalNum;
     public int VerticalNum;
-    [Header("Ã¿¸ö¸ñ×Ó¼ä¸ô")]
+    [Header("Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½")]
     public Vector2 Space;
-    [Header("ÊÓÍ¼½Úµã")]
+    [Header("ï¿½ï¿½Í¼ï¿½Úµï¿½")]
     public GridView GridView;
     public TabView TabView;
-    [Header("×°±¸À¸")]
+    [Header("×°ï¿½ï¿½ï¿½ï¿½")]
     public PlayerEquipSlot PlayerEquipSlot;
     private List<GameObject> TabViewList;
     string[] TabNameList;
@@ -46,13 +46,13 @@ public class BagLayer : PanelBase
         Player = GameObject.FindWithTag("Player");
         if (Player == null)
         {
-            Debug.Log("±³°üÔÚ³¡¾°ÖÐÃ»ÕÒµ½Player");
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½Ú³ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Òµï¿½Player");
         }
         Tag = 0;
         SelectIdx = -1;
         BeforeItem = null;
         TabView.AddRefreshEvent(RefreshTabView);
-        TabNameList = new string[]{ "×°±¸", "µÀ¾ß", "µÀ¾ß" };
+        TabNameList = new string[]{ "×°ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½" };
         TabView.SetNum(TabNameList.Length);
         onChangeTitle(true);
         PlayerEquipSlot.RefreshAllEquip();
@@ -79,7 +79,7 @@ public class BagLayer : PanelBase
                 else
                 {
                     Sprite = null;
-                    Debug.LogFormat("IdÎª{}µÄIconÃ»ÕÒµ½", BagDataInfo[index].SpriteGroupEntry.Id);
+                    Debug.LogFormat("IdÎª{}ï¿½ï¿½IconÃ»ï¿½Òµï¿½", BagDataInfo[index].SpriteGroupEntry.Id);
                 }
             }
             else
@@ -159,6 +159,8 @@ public class BagLayer : PanelBase
         var info = BagDataInfo[SelectIdx];
         BagPlayer.transform.Find("Player").GetComponent<Character>().Equip(info.SpriteGroupEntry, info.Part);
         Player.GetComponent<Player>().CheckoutEquip(info.SpriteGroupEntry, info.Part);
+        //æ›´æ–°
+        PlayerEquipSlot.RefreshAllEquip();
     }
     public override void onExit()
     {

@@ -16,7 +16,7 @@ MonoBehaviour:
   - Id: 1
     Name: "\u5730\u56FE1"
     Sprite: {fileID: 21300000, guid: 976f35bcc7c843141850709126d37bf4, type: 3}
-    MapLayer: {fileID: 0}
+    MapLayer: {fileID: 7295409651151782881, guid: 550b0225e77b26045a3c662b5dad5672, type: 3}
   - Id: 2
     Name: "\u5730\u56FE2"
     Sprite: {fileID: 21300000, guid: adf2f40296eba314891728a56cc9d24a, type: 3}

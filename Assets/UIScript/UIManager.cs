@@ -30,15 +30,18 @@ public class UIManager
             return _instance;
         }
     }
-    private Dictionary<GameObject,PanelBase> LayerList;
+    private Dictionary<string,PanelBase> LayerList;
     private Stack<PanelBase> LayerStack;
     private PanelBase CurLayer;
+    private Dictionary<string,GameObject> MapList;
+    private GameObject CurMap;
     GameObject NpcCamera;
     GameObject PlayerCamera;
     CinemachineBlenderSettings CinemachineBlenderSettings;
     UIManager()
     {
-        LayerList = new Dictionary<GameObject, PanelBase>();
+        LayerList = new Dictionary<string, PanelBase>();
+        MapList = new Dictionary<string, GameObject>();
         CinemachineBlenderSettings = AssetDatabase.LoadAssetAtPath<CinemachineBlenderSettings>("Assets/CameraBlends/CameraBlends.asset");
         LayerStack = new Stack<PanelBase>();
         NpcCamera = GameObject.FindWithTag("NpcCamera");
@@ -68,13 +71,13 @@ public class UIManager
     // }
     public PanelBase OpenLayer(GameObject layerRef, params object[] data)
     {
-        if (LayerList.ContainsKey(layerRef))
+        if (LayerList.ContainsKey(layerRef.name))
         {
-            LayerList[layerRef].SetActive(true);
-            LayerList[layerRef].onEnter(data);
-            LayerStack.Push(LayerList[layerRef]);
-            CurLayer = LayerList[layerRef];
-            return LayerList[layerRef];
+            LayerList[layerRef.name].SetActive(true);
+            LayerList[layerRef.name].onEnter(data);
+            LayerStack.Push(LayerList[layerRef.name]);
+            CurLayer = LayerList[layerRef.name];
+            return LayerList[layerRef.name];
         }
         else
         {
@@ -93,7 +96,7 @@ public class UIManager
             PanelBase layerScript = layer.GetComponent<PanelBase>();
             layerScript.transform.localPosition = new Vector3(0, 0, 0);
             layerScript.onEnter(data);
-            LayerList[layerRef] = layerScript;
+            LayerList[layerRef.name] = layerScript;
             LayerStack.Push(layerScript);
             CurLayer = layerScript;
             return layerScript;
@@ -101,13 +104,13 @@ public class UIManager
     }
     public PanelBase OpenLayer(GameObject layerRef, LayerAction action = 0, params object[] data)
     {
-        if (LayerList.ContainsKey(layerRef))
+        if (LayerList.ContainsKey(layerRef.name))
         {
-            LayerList[layerRef].SetActive(true);
-            LayerList[layerRef].onEnter(data);
-            LayerStack.Push(LayerList[layerRef]);
-            CurLayer = LayerList[layerRef];
-            return LayerList[layerRef];
+            LayerList[layerRef.name].SetActive(true);
+            LayerList[layerRef.name].onEnter(data);
+            LayerStack.Push(LayerList[layerRef.name]);
+            CurLayer = LayerList[layerRef.name];
+            return LayerList[layerRef.name];
         }
         else
         {
@@ -126,22 +129,28 @@ public class UIManager
             PanelBase layerScript = layer.GetComponent<PanelBase>();
             layerScript.transform.localPosition = new Vector3(0, 0, 0);
             layerScript.onEnter(data);
-            LayerList[layerRef] = layerScript;
+            LayerList[layerRef.name] = layerScript;
             LayerStack.Push(layerScript);
             CurLayer = layerScript;
             return layerScript;
         }
     }
-    public void addMap(GameObject mapLayer)
+    public void AddMap(GameObject mapLayer)
     {
-        var layerRef = Resources.Load("Panle/" + mapName) as GameObject;
-        if (layerRef != null)
+        if (CurMap != null)
         {
-            layerRef = GameObject.Instantiate(layerRef, GameObject.Find("Grid").transform);      
+            CurMap.SetActive(false);
+        }
+        if (MapList.ContainsKey(mapLayer.name))
+        {
+            CurMap = MapList[mapLayer.name];
+            CurMap.SetActive(true);
         }
         else
         {
-            Debug.Log("������" + mapName);
+            var layer = GameObject.Instantiate(mapLayer, GameObject.Find("Grid").transform);
+            MapList.Add(layer.name,layer);
+            CurMap = layer;
         }
     }
     public void setPlayerPos(Vector2 pos)

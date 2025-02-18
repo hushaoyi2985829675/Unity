@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ public class MapLayer : PanelBase
 {
     public HorizontalView scrollView;
     public MapConfig config;
+    private MapData curData;
     public override void onEnter(params object[] data)
     {
         scrollView.AddRefreshEvent(RefreshItem);
@@ -24,6 +26,7 @@ public class MapLayer : PanelBase
             //点击地图
             btn.GetComponent<Button>().onClick.AddListener(() =>
             {
+                curData = data;
                 UIManager.Instance.CloseLayer();
                 UIManager.Instance.LoadScene("FightScene",InitMap);
             });
@@ -33,6 +36,14 @@ public class MapLayer : PanelBase
     IEnumerator InitMap(Slider slider)
     {
         //加入对应地图到场景中
+        if (curData.MapLayer == null)
+        {
+            Debug.Log("地图空");
+        }
+        else
+        {
+            UIManager.Instance.AddMap(curData.MapLayer);
+        }
         slider.value = 100;
         yield return null;
     }
