@@ -21,13 +21,13 @@ public class InfiniteBackground : MonoBehaviour
 
     private void Update()
     {
-        if (mainCamera.transform.localPosition.x > transform.localPosition.x + mapWidth / 2)
+        if (mainCamera.transform.position.x > transform.position.x + mapWidth / 2)
         {
-            transform.localPosition = new Vector2( transform.localPosition.x + mapWidth / 2, transform.localPosition.y);
+            transform.position = new Vector2( transform.position.x + mapWidth, transform.position.y);
         }
-        else if (mainCamera.transform.localPosition.x < transform.localPosition.x -mapWidth / 2)
+        else if (mainCamera.transform.position.x < transform.position.x - mapWidth / 2)
         {
-            transform.localPosition = new Vector2(transform.localPosition.x - mapWidth / 2, transform.position.y);
+            transform.position = new Vector2(transform.position.x - mapWidth, transform.position.y);
         }
     }
 }
