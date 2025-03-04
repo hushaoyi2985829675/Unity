@@ -16,7 +16,6 @@ public class InfiniteBackground : MonoBehaviour
         width = GetComponent<SpriteRenderer>().sprite.bounds.size.x;
         num = transform.parent.childCount;
         mapWidth = num * width;
-        Debug.Log(mapWidth);
     }
 
     private void Update()

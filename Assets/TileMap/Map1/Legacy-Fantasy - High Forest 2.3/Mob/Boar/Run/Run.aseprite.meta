@@ -77,7 +77,6 @@ ScriptedImporter:
     defaultPivotSpace: 0
     defaultPivotAlignment: 7
     customPivotPosition: {x: 0.5, y: 0.5}
-    mosaicPadding: 4
     spritePadding: 0
     generateModelPrefab: 1
     generateAnimationClips: 1
@@ -90,7 +89,6 @@ ScriptedImporter:
     defaultPivotSpace: 0
     defaultPivotAlignment: 7
     customPivotPosition: {x: 0.5, y: 0.5}
-    mosaicPadding: 4
     spritePadding: 0
     generateModelPrefab: 1
     generateAnimationClips: 1
@@ -252,7 +250,6 @@ ScriptedImporter:
     cells:
     - name: Run_Frame_0
       frameIndex: 0
-      additiveSortOrder: 0
       cellRect:
         x: 4
         y: 0
@@ -261,7 +258,6 @@ ScriptedImporter:
       spriteId: 78b7863db128b724b8a438c4c120a3cc
     - name: Run_Frame_1
       frameIndex: 1
-      additiveSortOrder: 0
       cellRect:
         x: 4
         y: 2
@@ -270,7 +266,6 @@ ScriptedImporter:
       spriteId: f301a5e8771011b489a5359830d22223
     - name: Run_Frame_2
       frameIndex: 2
-      additiveSortOrder: 0
       cellRect:
         x: 4
         y: 0
@@ -279,7 +274,6 @@ ScriptedImporter:
       spriteId: a173e4597bd4a8f46bd15a28e4de8514
     - name: Run_Frame_3
       frameIndex: 3
-      additiveSortOrder: 0
       cellRect:
         x: 4
         y: 0
@@ -288,7 +282,6 @@ ScriptedImporter:
       spriteId: 8e44996e40a6ea24fa1f7e0f1a68e91b
     - name: Run_Frame_4
       frameIndex: 4
-      additiveSortOrder: 0
       cellRect:
         x: 4
         y: 0
@@ -297,7 +290,6 @@ ScriptedImporter:
       spriteId: 15a070df864eb8a499cb0e29219f71e1
     - name: Run_Frame_5
       frameIndex: 5
-      additiveSortOrder: 0
       cellRect:
         x: 4
         y: 0
@@ -307,7 +299,6 @@ ScriptedImporter:
     linkedCells: []
     parentIndex: -1
   platformSettings: []
-  generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 48, y: 32}
