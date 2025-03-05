@@ -6307,6 +6307,7 @@ GameObject:
   - component: {fileID: 1920468713547987748}
   - component: {fileID: 134135362328109169}
   - component: {fileID: 1326593298667521697}
+  - component: {fileID: 7215671843790929217}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -6342,7 +6343,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb0af6753281fb942b81c3407cb1ae06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerValueData: {fileID: 0}
+  PlayerValueData: {fileID: 11400000, guid: 1c1ca10943772664d86470047883a9b3, type: 2}
+  PlayerLvData: {fileID: 0}
   speed: 0
   jumpHeight: 0
   isJump: 0
@@ -6584,7 +6586,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1718427540579414978}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: a8e7f5b1b5e368148a885bf6d1ec9b18, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -6633,7 +6635,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpSlider: {fileID: 0}
-  hpText: {fileID: 0}
+  expSlider: {fileID: 0}
+  LvText: {fileID: 0}
+--- !u!114 &7215671843790929217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718427540579414978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c89fc62987fb30744aabaa3888e225db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  edge: {fileID: 4351004764640890583}
 --- !u!1 &1721934432435115764
 GameObject:
   m_ObjectHideFlags: 0

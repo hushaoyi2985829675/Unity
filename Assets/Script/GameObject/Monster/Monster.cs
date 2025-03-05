@@ -28,7 +28,7 @@ public class Monster : MonoBehaviour
     public bool talking;
     public float attackPower;
     public float attackInterval;
-    [Header("¹¥»÷¾àÀë")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public float attackDistance;
     public Collider2D detectPlayer;
     public RaycastHit2D leftFoot;
@@ -43,7 +43,7 @@ public class Monster : MonoBehaviour
     Dictionary<State, StateBase> stateList = new Dictionary<State, StateBase>();
     StateBase curState;
     State stateId;
-    [Header("¹¥»÷Î»ÖÃ")]
+    [Header("ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½")]
     public Transform edge;
     public void Start()
     {
@@ -70,8 +70,6 @@ public class Monster : MonoBehaviour
         stateList.Add(State.Victory, new VictoryState(this));
         Tool.AddPlayerEvent(()=>{ ChangeState(State.Victory); });
         ChangeState(State.Idle);
-        
-
     }
     public void Update()
     {
@@ -103,7 +101,7 @@ public class Monster : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(edge.position, 0.2f);
     }
-    public void Attacked(float attackPower)
+    public bool Attacked(float attackPower)
     {
         var harm = Math.Max(0, attackPower - monsterValue.Armor);
         monsterValue.Hp = Math.Max(0, monsterValue.Hp - harm);
@@ -111,11 +109,13 @@ public class Monster : MonoBehaviour
         if (monsterValue.Hp == 0)
         {           
             ChangeState(State.Deanth);
+            return true;
         }
         else
         {
             ChangeState(State.Wounded);
-        }       
+        }   
+        return false;
     }
     void AttackEvent(string name)
     {
@@ -140,6 +140,11 @@ public class Monster : MonoBehaviour
         Instantiate(Resources.Load("Effect/Death Particles"), transform.position, transform.rotation);
         Destroy(gameObject);
         monsterUI.delectHpBar();
+    }
+
+    public float GetExp()
+    {
+        return monsterValue.Exp;
     }
 }
 

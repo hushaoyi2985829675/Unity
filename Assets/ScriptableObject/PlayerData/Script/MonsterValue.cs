@@ -22,4 +22,6 @@ public class MonsterValue : ScriptableObject
     public float AttackInterval;
     [Header("护甲")]
     public float Armor;
+    [Header("经验值")]
+    public float Exp;
 }

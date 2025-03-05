@@ -21,3 +21,4 @@ MonoBehaviour:
   AttackDitance: 1.5
   AttackInterval: 1
   Armor: 0
+  Exp: 3

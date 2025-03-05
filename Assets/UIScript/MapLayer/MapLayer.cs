@@ -8,9 +8,11 @@ public class MapLayer : PanelBase
 {
     public HorizontalView scrollView;
     public MapConfig config;
+    private Player player;
     private MapData curData;
     public override void onEnter(params object[] data)
     {
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
         scrollView.AddRefreshEvent(RefreshItem);
         scrollView.SetNum(config.data.Count);
     }
@@ -44,7 +46,9 @@ public class MapLayer : PanelBase
         {
             UIManager.Instance.AddMap(curData.MapLayer);
         }
-        slider.value = 100;
+        slider.value = 90;
+        //设置玩家位置
+        player.setPlayerPos(curData.PlayerPosition);
         yield return null;
     }
     

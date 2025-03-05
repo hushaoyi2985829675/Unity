@@ -14,5 +14,6 @@ public class MapData
     public int Id;
     public string Name;
     public Sprite Sprite;
-    [SerializeField]  public GameObject MapLayer;
+    public GameObject MapLayer;
+    public Vector2 PlayerPosition;
 }

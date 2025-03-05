@@ -17,23 +17,21 @@ public class LoadData : MonoBehaviour
     IEnumerator loadData(Slider slider)
     {
         var num = 50 / 3;
-        LoadBagData("BagData",BagData);
+        LoadPlayerData("BagData",BagData);
         slider.value += num;
-        LoadBagData("PlayerEquipData", PlayerEquipData);
+        LoadPlayerData("PlayerEquipData", PlayerEquipData);
         slider.value += num;
-        LoadBagData("PlayerValueData", PlayerValueData);
+        LoadPlayerData("PlayerValueData", PlayerValueData);
         slider.value += num;
         yield return null;
     }
 
-    void LoadBagData<T>(string FileName,T data)where T : ScriptableBase
+    void LoadPlayerData<T>(string FileName,T data)where T : ScriptableBase
     {
-
         var path = Path.Combine(Application.persistentDataPath, "Data" ,FileName + ".txt");
         if (!File.Exists(path))
         {
             File.Create(path).Close();
-            
         }
         data.Clear();
         var json = File.ReadAllText(path);

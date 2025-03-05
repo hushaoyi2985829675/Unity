@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +11,7 @@ public class Attacked : MonoBehaviour
     public Transform edge;
     Player player;
     PlayerInfo PlayerValueData;
+    PlayerLvData PlayerLvData;
     PlayerAnimator playerAnimator;
     float attackInterval;
     bool isNpc;
@@ -19,6 +21,7 @@ public class Attacked : MonoBehaviour
         player = GetComponent<Player>();
         playerAnimator = GetComponent<PlayerAnimator>();
         PlayerValueData = player.PlayerValueData.PlayerInfo;
+        PlayerLvData = player.PlayerLvData;
         attackInterval = 0;
         SceneManager.sceneLoaded += UpdateState;
     }
@@ -86,9 +89,47 @@ public class Attacked : MonoBehaviour
         var hit = Tool.OverlapCircle(edge.position, 0.2f, LayerMask.GetMask("Monster"));
         if (hit)
         {
-            hit.gameObject.GetComponent<Monster>().Attacked(PlayerValueData.AttackPower);
+            var monster = hit.GetComponent<Monster>();
+            bool isDeath = monster.Attacked(PlayerValueData.AttackPower);
+            if (isDeath)
+            {
+                var exp = monster.GetExp();
+                Debug.Log(exp);
+                AddExp(exp);
+            }
         }
     }
+
+    void AddExp(float exp)
+    {
+        if (PlayerValueData.Lv == PlayerLvData.PlayerLvDatas.Count)
+        {
+            //满级
+            return;
+        }
+        PlayerValueData.Exp += exp; 
+        while (true)
+        {
+            var curLvInfo = PlayerLvData.PlayerLvDatas.Find(info => info.Lv == PlayerValueData.Lv);
+            //升级
+            if (PlayerValueData.Exp >= curLvInfo.Exp)
+            {
+                var n = curLvInfo.Lv;
+                PlayerValueData.Exp -= curLvInfo.Exp;
+                PlayerValueData.Lv++;
+                PlayerValueData.AttackPower += curLvInfo.AttackPower;
+                PlayerValueData.MaxHp += curLvInfo.Hp;
+                PlayerValueData.Armor += curLvInfo.Armor;
+            }
+            else
+            {
+                //更新UI
+                player.RefreshUI();
+                break;
+            }
+        }
+    }
+
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -101,7 +142,6 @@ public class Attacked : MonoBehaviour
 
     void UpdateState(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log(scene.name);
         if (scene.name == "MainScene")
         {
             player.attackState = ButtonState.Talk;

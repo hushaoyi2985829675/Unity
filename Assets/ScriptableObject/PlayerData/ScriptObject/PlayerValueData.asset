@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerValueData
   m_EditorClassIdentifier: 
   PlayerInfo:
-    MaxHp: 100
+    MaxHp: 20
     Hp: 20
     AttackPower: 1
     Exp: 0

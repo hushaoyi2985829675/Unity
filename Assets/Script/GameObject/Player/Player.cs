@@ -18,6 +18,8 @@ public partial class Player : MonoBehaviour
 {
     [Header("玩家数值")]
     public PlayerValueData PlayerValueData;
+    [Header("玩家等级加成")]
+    public PlayerLvData PlayerLvData;
     [Header("移动参数")]
     public float speed;
     public float jumpHeight;
@@ -45,15 +47,17 @@ public partial class Player : MonoBehaviour
     public ButtonState attackState;
     void Start()
     {
+        //初始化UI
+        playerUI = GetComponent<PlayerUI>();
+        playerUI.InitUI();
         rd = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
+        Debug.Log(coll);
         attacked = GetComponent<Attacked>();
         scale = transform.localScale;
         speed = PlayerValueData.PlayerInfo.walkSpeed;
         jumpHeight = PlayerValueData.PlayerInfo.jumpSpeed;
         jumpNum = PlayerValueData.PlayerInfo.JumpNum;
-        playerUI = GetComponent<PlayerUI>();
-        playerUI.setHp(PlayerValueData.PlayerInfo.Hp);
         animationEvent = transform.Find("Animation").GetComponent<AnimationEvents>();
         playerAnimator = GetComponent<PlayerAnimator>();
         animationEvent.OnCustomEvent += AttackEvent;
@@ -128,26 +132,6 @@ public partial class Player : MonoBehaviour
         }
         velocityY = rd.velocity.y;
     }
-    public void Attacked(float attackPower,Vector2 pos)
-    { 
-        var harm = Math.Max(0, attackPower - PlayerValueData.PlayerInfo.Armor);
-        PlayerValueData.PlayerInfo.Hp = Math.Max(0, PlayerValueData.PlayerInfo.Hp - harm);
-        playerUI.setHp(PlayerValueData.PlayerInfo.Hp);
-        if (PlayerValueData.PlayerInfo.Hp == 0)
-        {
-            DeathState(pos);
-        }
-        else
-        {
-            HitState();
-        }
-        
-    }
-    public void HitState()
-    {
-        isWounded = true;
-        playerAnimator.PlayTrigger("Hit");
-    }
     void DeathState(Vector2 pos)
     {
         isDeath = true;
@@ -168,5 +152,35 @@ public partial class Player : MonoBehaviour
                 Tool.onPlayerEvent();
                 break;
         }
+    }
+    public void Attacked(float attackPower,Vector2 pos)
+    { 
+        var harm = Math.Max(0, attackPower - PlayerValueData.PlayerInfo.Armor);
+        PlayerValueData.PlayerInfo.Hp = Math.Max(0, PlayerValueData.PlayerInfo.Hp - harm);
+        playerUI.setHp(PlayerValueData.PlayerInfo.Hp);
+        if (PlayerValueData.PlayerInfo.Hp == 0)
+        {
+            DeathState(pos);
+        }
+        else
+        {
+            HitState();
+        }
+        
+    }
+    public void HitState()
+    {
+        isWounded = true;
+        playerAnimator.PlayTrigger("Hit");
+    }
+
+    public void RefreshUI()
+    {
+        playerUI.InitUI();
+    }
+
+    public void setPlayerPos(Vector2 pos)
+    {
+        transform.localPosition = pos;
     }
 }
