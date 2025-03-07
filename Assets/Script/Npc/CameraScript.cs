@@ -1,7 +1,6 @@
 using Cinemachine;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,7 +11,7 @@ public class CameraScript : MonoBehaviour
     public string ToCamera;
     void Start()
     {
-        CinemachineBlenderSettings = AssetDatabase.LoadAssetAtPath<CinemachineBlenderSettings>("Assets/CameraBlends/CameraBlends.asset");
+        CinemachineBlenderSettings = AssetDatabase.LoadAssetAtPath<CinemachineBlenderSettings>("Assets/Editor/CameraBlends/CameraBlends.asset");
         CinemachineBlendDefinition = CinemachineBlenderSettings.GetBlendForVirtualCameras(gameObject.name, ToCamera, new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.EaseInOut, 0.5f));
     }
 

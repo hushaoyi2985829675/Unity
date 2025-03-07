@@ -6,9 +6,11 @@ public class Portal : MonoBehaviour
 {
     public GameObject MapLayer;
     private bool isPlayer;
+    public MeshRenderer meshRenderer;
     void Start()
     {
-        
+        meshRenderer.sortingLayerName = "Men";
+        meshRenderer.sortingOrder = 0;
     }
 
     // Update is called once per frame

@@ -6,44 +6,47 @@ public class Door : MonoBehaviour
 {
     Animator animator;
     public GameObject Layer;
+    private bool isPlayer;
     void Start()
     {
         animator = GetComponent<Animator>();
     }
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.W) && isPlayer)
+        {
+            animator.SetTrigger("Open");       
+            OpenLayer();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            animator.SetTrigger("Open");          
+            isPlayer = true;
         }
     }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
-        {
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                OpenLayer();
-            }
-        } 
-    }
+    // private void OnTriggerStay2D(Collider2D collision)
+    // {
+    //     if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+    //     {
+    //         
+    //     } 
+    // }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            animator.SetTrigger("Close");
+            animator.SetTrigger("Close");            
+            isPlayer = false;
         }
     }
     void OpenLayer()
     {
         if (Layer == null)
         {
-            Debug.Log("当前门打开的Layer为空");
+            Debug.Log("Layer涓虹┖");
             return;
         }
         GameObject.Find("LayerManager").GetComponent<LayerManager>().OpenLayer(Layer);

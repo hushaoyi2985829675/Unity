@@ -50,17 +50,17 @@ TagManager:
   - name: Tree
     uniqueID: 1819002569
     locked: 0
-  - name: House
-    uniqueID: 1541127035
+  - name: Men
+    uniqueID: 1232006253
     locked: 0
   - name: Ground
     uniqueID: 3924343955
     locked: 0
+  - name: House
+    uniqueID: 1541127035
+    locked: 0
   - name: Plant
     uniqueID: 1852424627
-    locked: 0
-  - name: Men
-    uniqueID: 1232006253
     locked: 0
   - name: Equip
     uniqueID: 2948734723

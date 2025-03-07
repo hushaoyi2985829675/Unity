@@ -52,7 +52,6 @@ public partial class Player : MonoBehaviour
         playerUI.InitUI();
         rd = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
-        Debug.Log(coll);
         attacked = GetComponent<Attacked>();
         scale = transform.localScale;
         speed = PlayerValueData.PlayerInfo.walkSpeed;

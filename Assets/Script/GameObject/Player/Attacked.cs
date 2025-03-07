@@ -14,8 +14,9 @@ public class Attacked : MonoBehaviour
     PlayerLvData PlayerLvData;
     PlayerAnimator playerAnimator;
     float attackInterval;
+    GameObject npcObj;
     bool isNpc;
-    bool isNpcOpen;
+    bool npcObjOpen;
     void Start()
     {
         player = GetComponent<Player>();
@@ -24,23 +25,29 @@ public class Attacked : MonoBehaviour
         PlayerLvData = player.PlayerLvData;
         attackInterval = 0;
         SceneManager.sceneLoaded += UpdateState;
+        InitAttackState();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J) && isNpc)
+        if (Input.GetKeyDown(KeyCode.J) && npcObj != null)
         {
-            isNpcOpen = true;
+            isNpc = true;
         }
       
         switch (player.attackState)
         { 
             case ButtonState.Attack:
                 Attack(); 
-            break;
+                break;
             case ButtonState.Talk:
-                
-            break;
+                if (isNpc && !npcObjOpen)
+                {
+                    isNpc = false;
+                   // Talk(npcObj);
+                   Debug.Log("Talk");
+                }
+                break;
         }
         attackInterval -= Time.deltaTime;
     }
@@ -56,25 +63,25 @@ public class Attacked : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("NPC"))
         {
-            isNpc = true;
+            npcObj = collision.gameObject;
         }
     }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("NPC"))
-        {
-            if (isNpcOpen)
-            {
-                Talk(collision.gameObject);
-                isNpcOpen = false;
-            }   
-        }
-    }
+    // private void OnTriggerStay2D(Collider2D collision)
+    // {
+    //     if (collision.gameObject.layer == LayerMask.NameToLayer("NPC"))
+    //     {
+    //         if (npcObjOpen)
+    //         {
+    //             Talk(collision.gameObject);
+    //             npcObjOpen = false;
+    //         }   
+    //     }
+    // }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("NPC"))
         {
-            isNpc = false;
+            npcObj = null;
         }        
     }
     //private void OnCollisionStay2D(Collision2D collision)
@@ -138,6 +145,19 @@ public class Attacked : MonoBehaviour
     void Talk(GameObject npc)
     {
          UIManager.Instance.OpenTalkLayer(npc);
+    }
+
+    void InitAttackState()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName == "MainScene")
+        {
+            player.attackState = ButtonState.Talk;
+        }
+        else if (sceneName == "FightScene")
+        {
+            player.attackState = ButtonState.Attack;
+        }
     }
 
     void UpdateState(Scene scene, LoadSceneMode mode)
