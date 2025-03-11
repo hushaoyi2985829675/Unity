@@ -135,12 +135,14 @@ public class UIManager
             return layerScript;
         }
     }
-    public void AddMap(GameObject mapLayer)
+    public void AddMap(GameObject mapLayer,Vector2 position)
     {
-        if (CurMap != null)
+        if (CurMap == null)
         {
-            CurMap.SetActive(false);
+            CurMap = GameObject.Find("MainMap");
+            MapList.Add(CurMap.name,CurMap);
         }
+        CurMap.SetActive(false);
         if (MapList.ContainsKey(mapLayer.name))
         {
             CurMap = MapList[mapLayer.name];
@@ -152,6 +154,7 @@ public class UIManager
             MapList.Add(layer.name,layer);
             CurMap = layer;
         }
+        setPlayerPos(position);
     }
     public void setPlayerPos(Vector2 pos)
     {
@@ -192,7 +195,7 @@ public class UIManager
     }
     public void LoadScene(string sceneName, Func<Slider, IEnumerator> loadDataClick)
     {
-        var layer = OpenLayer(Resources.Load("Panle/LoadLayer") as GameObject).GetComponent<LoadLayer>();
+        var layer = OpenLayer(Resources.Load("LayerRef/UIRef/LoadLayer") as GameObject).GetComponent<LoadLayer>();
         layer.StartScene(sceneName,loadDataClick);
     }
 }

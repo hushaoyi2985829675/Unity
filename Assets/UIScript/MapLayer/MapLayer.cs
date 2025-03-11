@@ -44,11 +44,9 @@ public class MapLayer : PanelBase
         }
         else
         {
-            UIManager.Instance.AddMap(curData.MapLayer);
+            UIManager.Instance.AddMap(curData.MapLayer,curData.PlayerPosition);
         }
         slider.value = 90;
-        //设置玩家位置
-        player.setPlayerPos(curData.PlayerPosition);
         yield return null;
     }
     

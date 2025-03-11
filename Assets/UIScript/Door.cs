@@ -6,6 +6,7 @@ public class Door : MonoBehaviour
 {
     Animator animator;
     public GameObject Layer;
+    public Vector2 playerPos;
     private bool isPlayer;
     void Start()
     {
@@ -49,6 +50,6 @@ public class Door : MonoBehaviour
             Debug.Log("Layer为空");
             return;
         }
-        GameObject.Find("LayerManager").GetComponent<LayerManager>().OpenLayer(Layer);
+        UIManager.Instance.AddMap(Layer,playerPos);
     }
 }

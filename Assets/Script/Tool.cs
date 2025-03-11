@@ -21,15 +21,15 @@ public class Tool
         var hit = Physics2D.OverlapBox(pos, size, 0, layer);
         Vector2 halfSize = size / 2;
         Vector2[] boxCorners = new Vector2[4];
-        boxCorners[0] = pos + new Vector2(-halfSize.x, -halfSize.y);  // вСоб╫г
-        boxCorners[1] = pos + new Vector2(halfSize.x, -halfSize.y);   // сроб╫г
-        boxCorners[2] = pos + new Vector2(-halfSize.x, halfSize.y);   // вСио╫г
-        boxCorners[3] = pos + new Vector2(halfSize.x, halfSize.y);    // срио╫г
+        boxCorners[0] = pos + new Vector2(-halfSize.x, -halfSize.y);  // Е╥╕Д╦▀Х╖▓
+        boxCorners[1] = pos + new Vector2(halfSize.x, -halfSize.y);   // Е▐ЁД╦▀Х╖▓
+        boxCorners[2] = pos + new Vector2(-halfSize.x, halfSize.y);   // Е╥╕Д╦┼Х╖▓
+        boxCorners[3] = pos + new Vector2(halfSize.x, halfSize.y);    // Е▐ЁД╦┼Х╖▓
         Color color = hit ? Color.green : Color.red;
-        Debug.DrawLine(boxCorners[0], boxCorners[1], color); // вСоб╣╫сроб
-        Debug.DrawLine(boxCorners[1], boxCorners[3], color); // сроб╣╫срио
-        Debug.DrawLine(boxCorners[3], boxCorners[2], color); // срио╣╫вСио
-        Debug.DrawLine(boxCorners[2], boxCorners[0], color); // вСио╣╫вСоб
+        Debug.DrawLine(boxCorners[0], boxCorners[1], color); // Е╥╕Д╦▀Е┬╟Е▐ЁД╦▀
+        Debug.DrawLine(boxCorners[1], boxCorners[3], color); // Е▐ЁД╦▀Е┬╟Е▐ЁД╦┼
+        Debug.DrawLine(boxCorners[3], boxCorners[2], color); // Е▐ЁД╦┼Е┬╟Е╥╕Д╦┼
+        Debug.DrawLine(boxCorners[2], boxCorners[0], color); // Е╥╕Д╦┼Е┬╟Е╥╕Д╦▀
         return hit;
     }
     public static Collider2D OverlapCircle(Vector2 pos, float r, int layer)

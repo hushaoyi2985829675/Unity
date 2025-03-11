@@ -7,7 +7,7 @@ using Assets.HeroEditor.Common.CharacterScripts;
 
 public partial class Player
 {
-    [Header("玩家当前装备数据")]
+    [Header("鐜╁褰撳墠瑁呭鏁版嵁")]
     public PlayerEquipData PlayerEquipData;
     public void CheckoutEquip(SpriteGroupEntry item, EquipmentPart part)
     {
