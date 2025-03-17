@@ -15,6 +15,14 @@ public class EquipCharate : ScriptableObject
 [System.Serializable]
 public class EquipData
 {
+    public string name;
     public string Id;
     public EquipmentPart Part;
+    public EquipData() { }
+
+    public EquipData(EquipmentPart part)
+    {
+        Part = part;
+        Id = "";
+    }
 }

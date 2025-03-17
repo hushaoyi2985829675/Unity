@@ -9,25 +9,25 @@ using UnityEngine;
 [System.Flags]
 public enum MonsterPart
 {
-    Armor = 1 << 0,
-    Helmet = 1 << 1,
-    Pauldrons = 1 << 2,
-    Vest = 1 << 3,
-    Gloves = 1 << 4,
-    Belt = 1 << 5,
-    Boots = 1 << 6,
-    MeleeWeapon1H = 1 << 7,
-    MeleeWeapon2H = 1 << 8,
-    MeleeWeaponPaired = 1 << 9,
-    Bow = 1 << 10,
-    Firearm1H = 1 << 11,
-    Firearm2H = 1 << 12,
-    Shield = 1 << 13,
-    Earrings = 1 << 14,
-    Cape = 1 << 15,
-    Back = 1 << 16,
-    Glasses = 1 << 17,
-    Mask = 1 << 18
+    Armor = 1 << EquipmentPart.Armor,
+    Helmet = 1 << EquipmentPart.Helmet,
+    Pauldrons = 1 << EquipmentPart.Pauldrons,
+    Vest = 1 << EquipmentPart.Vest,
+    Gloves = 1 << EquipmentPart.Gloves,
+    Belt = 1 << EquipmentPart.Belt,
+    Boots = 1 << EquipmentPart.Boots,
+    MeleeWeapon1H = 1 << EquipmentPart.MeleeWeapon1H,
+    MeleeWeapon2H = 1 << EquipmentPart.MeleeWeapon2H,
+    MeleeWeaponPaired = 1 << EquipmentPart.MeleeWeaponPaired,
+    Bow = 1 << EquipmentPart.Bow,
+    Firearm1H = 1 << EquipmentPart.Firearm1H,
+    Firearm2H = 1 << EquipmentPart.Firearm2H,
+    Shield = 1 << EquipmentPart.Shield,
+    Earrings = 1 << EquipmentPart.Earrings,
+    Cape = 1 << EquipmentPart.Cape,
+    Back = 1 << EquipmentPart.Back,
+    Glasses = 1 << EquipmentPart.Glasses,
+    Mask = 1 << EquipmentPart.Mask
 }
 public class MonsterEquipManager : MonoBehaviour
 {
@@ -50,19 +50,13 @@ public class MonsterEquipManager : MonoBehaviour
 
     void RefreshEquip()
     {
+        MonsterEquipData.InitMonsterEquipData();
         foreach (MonsterPart part in Enum.GetValues(typeof(MonsterPart)))
         {
             if ((Parts & part) != 0)
             {
-                switch (part)
-                {
-                   case MonsterPart.Armor:
-                       Equip(EquipmentPart.Armor);
-                       break;
-                   case MonsterPart.MeleeWeapon1H:
-                       Equip(EquipmentPart.MeleeWeapon1H);
-                       break;
-                }
+                EquipmentPart p =  (EquipmentPart)Math.Log((int)part, 2);
+                Equip(p);
             }
         }
     }
@@ -83,9 +77,20 @@ public class MonsterEquipManager : MonoBehaviour
             case EquipmentPart.MeleeWeapon1H:
                 spriteGroupEntry = SpriteCollection.MeleeWeapon1H.Find(data => data.Id == id);
                 break;
+            case EquipmentPart.Helmet:
+                
+                break;
+            
         }
         monsterCharacter.Equip(spriteGroupEntry,part);
+        MonsterEquipData.SetEquip(part,id);
     }
+
+    public void EquipDrop()
+    {
+        
+    }
+
     private void OnGUI()
     {
         Parts = (MonsterPart)EditorGUILayout.EnumMaskField("Selected Parts", (MonsterPart)Parts);

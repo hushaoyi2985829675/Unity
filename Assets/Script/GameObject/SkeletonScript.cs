@@ -45,10 +45,10 @@ public class SkeletonScript : Monster
         yield return new WaitForSeconds(5f);
         talkUI.GetComponent<RectTransform>().SetParent(null, false);
     }
-    public new IEnumerator playerDeathEff()
+    public new IEnumerator MonsterDeathEff()
     {
         yield return new WaitForEndOfFrame();
-        StartCoroutine(base.playerDeathEff());
+        StartCoroutine(base.MonsterDeathEff());
         Destroy(talkUI);
     }
 }

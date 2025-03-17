@@ -38,6 +38,7 @@ public class Monster : MonoBehaviour
     public BoxCollider2D coll;
     public Rigidbody2D rd;
     public Animator animator;
+    private MonsterEquipManager monsterEquipManager;
     public AnimationEvents animationEvent;
     MonsterUI monsterUI;
     Dictionary<State, StateBase> stateList = new Dictionary<State, StateBase>();
@@ -59,6 +60,7 @@ public class Monster : MonoBehaviour
         animationEvent = transform.Find("Animation").GetComponent<AnimationEvents>();
         animationEvent.OnCustomEvent += AttackEvent;
         animator = transform.Find("Animation").GetComponent<Animator>();
+        monsterEquipManager = GetComponent<MonsterEquipManager>();
         coll = GetComponent<BoxCollider2D>();
         stateList.Add(State.Idle, new IdleState(this));
         stateList.Add(State.Patrol, new PatrolState(this));
@@ -132,14 +134,16 @@ public class Monster : MonoBehaviour
     }
     public void CreateDeathEff()
     {
-        StartCoroutine("playerDeathEff");
+        StartCoroutine(MonsterDeathEff());
     }
-    public IEnumerator playerDeathEff()
+    public IEnumerator MonsterDeathEff()
     {
-        yield return new WaitForSeconds(1f);
         Instantiate(Resources.Load("Effect/Death Particles"), transform.position, transform.rotation);
+        yield return new WaitForSeconds(1f);
         Destroy(gameObject);
         monsterUI.delectHpBar();
+        //掉落物品
+        
     }
 
     public float GetExp()
