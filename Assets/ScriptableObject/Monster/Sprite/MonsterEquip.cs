@@ -38,6 +38,20 @@ public class MonsterEquip : ScriptableObject
    {
       MonsterEquipData = new List<EquipData>();
    }
+
+   public EquipData GetEquipDrop(float dropProbability)
+   {
+      foreach (var equip in MonsterEquipData)
+      {
+         var idx = Random.Range(1, 101);
+         if (idx <= dropProbability)
+         {
+            //掉落
+            return equip;
+         }
+      }
+      return null;
+   }
 }
 
 [System.Serializable]

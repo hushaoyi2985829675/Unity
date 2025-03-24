@@ -17,7 +17,7 @@ MonoBehaviour:
     Name: "\u5730\u56FE1"
     Sprite: {fileID: 21300000, guid: 976f35bcc7c843141850709126d37bf4, type: 3}
     MapLayer: {fileID: 3581180547540379720, guid: 664377739557f154fbe65ea78c5dec0e, type: 3}
-    PlayerPosition: {x: 3, y: 0.5}
+    PlayerPosition: {x: -6, y: 0.5}
   - Id: 2
     Name: "\u5730\u56FE2"
     Sprite: {fileID: 21300000, guid: adf2f40296eba314891728a56cc9d24a, type: 3}

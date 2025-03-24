@@ -7,6 +7,8 @@ TagManager:
   - LayerCanvas
   - NpcCamera
   - PlayerCamera
+  - Equip
+  - Monster
   layers:
   - Default
   - TransparentFX

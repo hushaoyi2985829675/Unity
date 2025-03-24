@@ -11,27 +11,37 @@ public class EquipItemScript : MonoBehaviour
     public SpriteCollection SpriteCollection;
     public IconCollection IconCollection;
     public BagData BagData;
-    public string Id;
-    public EquipmentPart part;
+    
+    private PolygonCollider2D collider;
+    private SpriteRenderer spriteRenderer;
+        
+    private string id;
+    private EquipmentPart part;
     SpriteGroupEntry Weapon;
     ItemIcon WeaponIcon;
     void Start()
     {
+        
+    }
+
+    void Refresh()
+    {
         switch (part)
         {
             case EquipmentPart.MeleeWeapon1H:
-                Weapon = SpriteCollection.MeleeWeapon1H.Find(data => data.Id == Id );
+                Weapon = SpriteCollection.MeleeWeapon1H.Find(data => data.Id ==id );
                 break;
             case EquipmentPart.Armor:
-                Weapon = SpriteCollection.Armor.Find(data => data.Id == Id);
+                Weapon = SpriteCollection.Armor.Find(data => data.Id ==id);
                 break;
         }
+        //’“Icon
         if (Weapon != null)
         {
-            WeaponIcon = IconCollection.Icons.Find(data => data.Id == Id);
+            WeaponIcon = IconCollection.Icons.Find(data => data.Id ==id);
             if (WeaponIcon != null)
             {
-                gameObject.GetComponent<SpriteRenderer>().sprite = WeaponIcon.Sprite;
+                spriteRenderer.sprite = WeaponIcon.Sprite;
             }
             else
             {
@@ -40,14 +50,25 @@ public class EquipItemScript : MonoBehaviour
         }
         else
         {
-            Debug.Log("√ª’“µΩŒ‰∆˜" + Id);
+            Debug.Log("√ª’“µΩŒ‰∆˜" +id);
         }
+        collider.SetPath(0,spriteRenderer.sprite.vertices);
     }
 
     void Update()
     {
         
     }
+    
+    public void InitData(string id, EquipmentPart part)
+    {
+        this.id = id;
+        this.part = part;
+        collider = GetComponent<PolygonCollider2D>();
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        Refresh();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
@@ -58,6 +79,5 @@ public class EquipItemScript : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-
+    
 }

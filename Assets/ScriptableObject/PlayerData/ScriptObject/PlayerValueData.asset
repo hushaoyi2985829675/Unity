@@ -24,3 +24,4 @@ MonoBehaviour:
     walkSpeed: 4
     runSpeed: 0
     jumpSpeed: 10
+    LuckValue: 80

@@ -1541,6 +1541,7 @@ MonoBehaviour:
   MonsterEquipData: {fileID: 11400000, guid: 0ca1af3d0f01a604caeb39161b324084, type: 2}
   SpriteCollection: {fileID: 11400000, guid: 620e7b0c742440a4be6c065493edd0eb, type: 2}
   Parts: 79
+  monster: {fileID: 0}
 --- !u!1 &1591756749193304148
 GameObject:
   m_ObjectHideFlags: 0

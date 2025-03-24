@@ -72,6 +72,7 @@ public class Monster : MonoBehaviour
         stateList.Add(State.Victory, new VictoryState(this));
         Tool.AddPlayerEvent(()=>{ ChangeState(State.Victory); });
         ChangeState(State.Idle);
+        monsterEquipManager.EquipDrop();
     }
     public void Update()
     {
@@ -143,7 +144,7 @@ public class Monster : MonoBehaviour
         Destroy(gameObject);
         monsterUI.delectHpBar();
         //掉落物品
-        
+        monsterEquipManager.EquipDrop();
     }
 
     public float GetExp()

@@ -101,7 +101,6 @@ public class Attacked : MonoBehaviour
             if (isDeath)
             {
                 var exp = monster.GetExp();
-                Debug.Log(exp);
                 AddExp(exp);
             }
         }

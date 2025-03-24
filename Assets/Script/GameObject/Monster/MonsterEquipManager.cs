@@ -35,9 +35,11 @@ public class MonsterEquipManager : MonoBehaviour
     public SpriteCollection SpriteCollection;
     private Character monsterCharacter;
     public MonsterPart Parts;
+    public Monster monster;
     void Start()
     {
         monsterCharacter = GetComponent<Character>();
+        monster = GetComponent<Monster>();
         //处理装备
         RefreshEquip();
     }
@@ -88,7 +90,17 @@ public class MonsterEquipManager : MonoBehaviour
 
     public void EquipDrop()
     {
-        
+        var player = GameObjectManager.instance.GetPlayer();
+        var value = monster.monsterValue.DropProbability + player.PlayerValueData.PlayerInfo.LuckValue;
+        EquipData equipData = MonsterEquipData.GetEquipDrop(value);
+        if (equipData != null)
+        {
+            Debug.Log("ss");
+            GameObject item = Resources.Load<GameObject>("GameObjectRef/EquipItemRef");
+            item.transform.localPosition = monster.transform.localPosition;
+            item.GetComponent<EquipItemScript>().InitData(equipData.Id,equipData.Part);
+            Instantiate(item);
+        }
     }
 
     private void OnGUI()

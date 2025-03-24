@@ -27,12 +27,11 @@ public class EquipUI : MonoBehaviour
         float x = 0;
         foreach (EquipData data in equipCharate.equipDatas)
         { 
-            GameObject item = Resources.Load<GameObject>("GameObjectRef/EquipRef");
+            GameObject item = Resources.Load<GameObject>("GameObjectRef/EquipItemRef");
             Vector2 pos = new Vector2(x,0);
             item.transform.localPosition = pos;
             x += 5;
-            item.GetComponent<EquipItemScript>().Id = data.Id;
-            item.GetComponent<EquipItemScript>().part = data.Part;
+            item.GetComponent<EquipItemScript>().InitData(data.Id,data.Part);
             Instantiate(item, parent);
         }
     }

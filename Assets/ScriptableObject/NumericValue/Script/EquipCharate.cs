@@ -19,10 +19,5 @@ public class EquipData
     public string Id;
     public EquipmentPart Part;
     public EquipData() { }
-
-    public EquipData(EquipmentPart part)
-    {
-        Part = part;
-        Id = "";
-    }
+    
 }

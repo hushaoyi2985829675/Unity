@@ -60,6 +60,7 @@ public partial class Player : MonoBehaviour
         animationEvent = transform.Find("Animation").GetComponent<AnimationEvents>();
         playerAnimator = GetComponent<PlayerAnimator>();
         animationEvent.OnCustomEvent += AttackEvent;
+        GameObjectManager.instance.SetPlayer(this);
         UpdateEquip();
     }
 

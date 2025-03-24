@@ -5,23 +5,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Data", menuName = "Character Data/MonsterValueCharate")]
 public class MonsterValue : ScriptableObject
 {      
-    [Header("ÒÆ¶¯²ÎÊı")]
+    [Header("ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public float walkSpeed;
     public float runSpeed;
-    [Header("ÒÆ¶¯µÈ´ıÊ±¼ä")]
+    [Header("ï¿½Æ¶ï¿½ï¿½È´ï¿½Ê±ï¿½ï¿½")]
     public float awaitTime;
-    [Header("×î´óÉúÃü")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public float MaxHp;
-    [Header("ÉúÃü")]
+    [Header("ï¿½ï¿½ï¿½ï¿½")]
     public float Hp;
-    [Header("¹¥»÷Á¦")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public float AttackPower;
-    [Header("¹¥»÷¾àÀë")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public float AttackDitance;
-    [Header("¹¥»÷¼ä¸ô")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public float AttackInterval;
-    [Header("»¤¼×")]
+    [Header("ï¿½ï¿½ï¿½ï¿½")]
     public float Armor;
-    [Header("¾­ÑéÖµ")]
+    [Header("ï¿½ï¿½ï¿½ï¿½Öµ")]
     public float Exp;
+    [Header("åŸºç¡€æ‰è½æ¦‚ç‡")]
+    public float DropProbability;
 }

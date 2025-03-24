@@ -137,12 +137,13 @@ public class UIManager
     }
     public void AddMap(GameObject mapLayer,Vector2 position)
     {
-        if (CurMap == null)
-        {
-            CurMap = GameObject.Find("MainMap");
-            MapList.Add(CurMap.name,CurMap);
-        }
-        CurMap.SetActive(false);
+        //从最开始游戏进来就打开
+        // if (CurMap == null)
+        // {
+        //     CurMap = GameObject.Find("MainMap");
+        //     MapList.Add(CurMap.name,CurMap);
+        // }
+        // CurMap.SetActive(false);
         if (MapList.ContainsKey(mapLayer.name))
         {
             CurMap = MapList[mapLayer.name];
@@ -158,8 +159,9 @@ public class UIManager
     }
     public void setPlayerPos(Vector2 pos)
     {
-        var player = GameObject.Find("Player");
-        player.transform.position =new Vector2(pos.x,pos.y);
+        Debug.Log(pos);
+        var player = GameObjectManager.instance.GetPlayer();
+        player.transform.position = new Vector2(pos.x,pos.y);
     }
     private IEnumerator CallOnEnter(PanelBase layer)
     {
@@ -190,12 +192,12 @@ public class UIManager
     }
     public GameObject getMonsterHpBar()
     {
-        var hpBarRef = Resources.Load<GameObject>("Monster/HpBar");
+        var hpBarRef = Resources.Load<GameObject>("Ref/GameObject/Monster/HpBar");
         return hpBarRef;
     }
     public void LoadScene(string sceneName, Func<Slider, IEnumerator> loadDataClick)
     {
-        var layer = OpenLayer(Resources.Load("LayerRef/UIRef/LoadLayer") as GameObject).GetComponent<LoadLayer>();
+        var layer = OpenLayer(Resources.Load("Ref/LayerRef/UIRef/LoadLayer") as GameObject).GetComponent<LoadLayer>();
         layer.StartScene(sceneName,loadDataClick);
     }
 }

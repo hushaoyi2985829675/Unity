@@ -37,6 +37,8 @@ public class PlayerInfo
     public float runSpeed;
     [Header("跳跃速度")]
     public float jumpSpeed;
+    [Header("幸运值")]
+    public float LuckValue;
     public PlayerInfo()
     {
         MaxHp = 100;
@@ -50,5 +52,6 @@ public class PlayerInfo
         walkSpeed = 4;
         runSpeed = 0;
         jumpSpeed = 10;
+        LuckValue = 0;
     }
 }
