@@ -95,7 +95,6 @@ public class MonsterEquipManager : MonoBehaviour
         EquipData equipData = MonsterEquipData.GetEquipDrop(value);
         if (equipData != null)
         {
-            Debug.Log("ss");
             GameObject item = Resources.Load<GameObject>("GameObjectRef/EquipItemRef");
             item.transform.localPosition = monster.transform.localPosition;
             item.GetComponent<EquipItemScript>().InitData(equipData.Id,equipData.Part);

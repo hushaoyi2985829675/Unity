@@ -72,8 +72,13 @@ public class Monster : MonoBehaviour
         stateList.Add(State.Victory, new VictoryState(this));
         Tool.AddPlayerEvent(()=>{ ChangeState(State.Victory); });
         ChangeState(State.Idle);
-        monsterEquipManager.EquipDrop();
     }
+
+    private void OnEnable()
+    {
+        monsterValue.Hp = monsterValue.MaxHp;
+    }
+
     public void Update()
     {
         curState.onUpdate();
