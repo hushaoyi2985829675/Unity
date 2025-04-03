@@ -15,10 +15,11 @@ MonoBehaviour:
   walkSpeed: 3
   runSpeed: 5
   awaitTime: 1
-  MaxHp: 100
-  Hp: 0
+  MaxHp: 1
+  Hp: 82
   AttackPower: 100
   AttackDitance: 1.5
   AttackInterval: 1
   Armor: 0
   Exp: 3
+  DropProbability: 0

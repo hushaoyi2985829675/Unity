@@ -17,8 +17,13 @@ public class MonsterEquip : ScriptableObject
          return "";
       }
       //随机
-      var idx = Random.Range(0, info.EquipDatas.Length);
-      return info.EquipDatas[idx];
+      var idx = Random.Range(0, 100);
+      if (idx >= 50)
+      {
+         idx = Random.Range(0, info.EquipDatas.Length);
+         return info.EquipDatas[idx];
+      }
+      return "";
    }
 
    public void SetEquip(EquipmentPart part, string id)

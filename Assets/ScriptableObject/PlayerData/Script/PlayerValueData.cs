@@ -15,29 +15,29 @@ public class PlayerValueData : ScriptableObject,ScriptableBase
 [System.Serializable]
 public class PlayerInfo
 {
-    [Header("最大生命值")]
+    [Header("????????")]
     public float MaxHp;
-    [Header("当前生命")]
+    [Header("???????")]
     public float Hp;
-    [Header("攻击力")]
+    [Header("??????")]
     public float AttackPower;
-    [Header("经验")]
+    [Header("????")]
     public float Exp;
-    [Header("等级")]
+    [Header("???")]
     public float Lv;
-    [Header("攻击间隔")]
+    [Header("???????")]
     public float AttackInterval;
-    [Header("跳跃次数")]
+    [Header("???????")]
     public float JumpNum;
-    [Header("护甲")]
+    [Header("????")]
     public float Armor;
-    [Header("步行速度")]
+    [Header("???????")]
     public float walkSpeed;
-    [Header("跑步速度")]
+    [Header("??????")]
     public float runSpeed;
-    [Header("跳跃速度")]
+    [Header("??????")]
     public float jumpSpeed;
-    [Header("幸运值")]
+    [Header("?????")]
     public float LuckValue;
     public PlayerInfo()
     {

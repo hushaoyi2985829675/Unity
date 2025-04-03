@@ -183,4 +183,19 @@ public partial class Player : MonoBehaviour
     {
         transform.localPosition = pos;
     }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Equip"))
+        {
+            Debug.Log("Player");
+        }
+    }
+    
+    private void OnCollisionEnter2D (Collision2D other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Equip"))
+        {
+            Debug.Log("Playerss");
+        }
+    }
 }

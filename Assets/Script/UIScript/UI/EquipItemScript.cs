@@ -21,7 +21,15 @@ public class EquipItemScript : MonoBehaviour
     ItemIcon WeaponIcon;
     void Start()
     {
-        
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            // 减小物体的质量
+            rb.mass = 2f;
+            // 增大冲量的大小
+            rb.AddForce(new Vector2(2f, 10f), ForceMode2D.Impulse);
+            rb.mass = 1f;
+        }
     }
 
     void Refresh()
@@ -69,8 +77,8 @@ public class EquipItemScript : MonoBehaviour
         Refresh();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
+    private void OnCollisionEnter2D (Collision2D collision)
+    {   
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {           
             collision.gameObject.GetComponent<Player>().CheckoutEquip(Weapon,part);
@@ -79,5 +87,4 @@ public class EquipItemScript : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
 }

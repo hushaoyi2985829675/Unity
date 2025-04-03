@@ -14,7 +14,7 @@ public class SkeletonScript : Monster
         {
             if (!talking)
             {
-                StartCoroutine(createTalkUI("Äã¹ýÀ´°¡£¡"));
+                StartCoroutine(createTalkUI("?????????"));
                 talking = true;
                 talkTime = 5;
             }                  
