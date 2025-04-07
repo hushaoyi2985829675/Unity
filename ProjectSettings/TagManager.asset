@@ -49,11 +49,14 @@ TagManager:
   - name: Bg
     uniqueID: 2766591657
     locked: 0
+  - name: Men
+    uniqueID: 1232006253
+    locked: 0
   - name: Tree
     uniqueID: 1819002569
     locked: 0
-  - name: Men
-    uniqueID: 1232006253
+  - name: player
+    uniqueID: 1018542553
     locked: 0
   - name: Ground
     uniqueID: 3924343955
@@ -66,7 +69,4 @@ TagManager:
     locked: 0
   - name: Equip
     uniqueID: 2948734723
-    locked: 0
-  - name: player
-    uniqueID: 1018542553
     locked: 0
