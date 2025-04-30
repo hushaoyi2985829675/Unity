@@ -297,7 +297,7 @@ SortingGroup:
   m_GameObject: {fileID: 219341877864732069}
   m_Enabled: 1
   m_SortingLayerID: 1018542553
-  m_SortingLayer: 8
+  m_SortingLayer: 6
   m_SortingOrder: 200
   m_SortAtRoot: 0
 --- !u!1 &471320326146069668

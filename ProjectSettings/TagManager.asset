@@ -55,14 +55,14 @@ TagManager:
   - name: Tree
     uniqueID: 1819002569
     locked: 0
-  - name: player
-    uniqueID: 1018542553
-    locked: 0
   - name: Ground
     uniqueID: 3924343955
     locked: 0
   - name: House
     uniqueID: 1541127035
+    locked: 0
+  - name: player
+    uniqueID: 1018542553
     locked: 0
   - name: Plant
     uniqueID: 1852424627
