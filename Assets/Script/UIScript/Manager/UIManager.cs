@@ -137,25 +137,28 @@ public class UIManager
     }
     public void AddMap(GameObject mapLayer,Vector2 position)
     {
-        //从最开始游戏进来就打开
-        // if (CurMap == null)
-        // {
-        //     CurMap = GameObject.Find("MainMap");
-        //     MapList.Add(CurMap.name,CurMap);
-        // }
-        // CurMap.SetActive(false);
-        if (MapList.ContainsKey(mapLayer.name))
+        //摄像机放大给人物特写，2秒
+        CameraManager.Instance.ChangeMapAction(() =>
         {
-            CurMap = MapList[mapLayer.name];
-            CurMap.SetActive(true);
-        }
-        else
-        {
-            var layer = GameObject.Instantiate(mapLayer, GameObject.Find("Grid").transform);
-            MapList.Add(layer.name,layer);
-            CurMap = layer;
-        }
-        setPlayerPos(position);
+            if (MapList.ContainsKey(mapLayer.name))
+            {
+                CurMap = MapList[mapLayer.name];
+                CurMap.SetActive(true);
+            }
+            else
+            {
+                //从最开始游戏进来就打开
+                if (CurMap == null)
+                {
+                    CurMap = GameObject.Find("MainMap");
+                    MapList.Add(CurMap.name,CurMap);
+                }
+                CurMap.SetActive(false);
+                var layer = GameObject.Instantiate(mapLayer, GameObject.Find("Grid").transform);
+                MapList.Add(layer.name,layer);
+                CurMap = layer;
+            }
+        });
     }
     public void setPlayerPos(Vector2 pos)
     {
