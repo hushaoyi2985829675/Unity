@@ -9,11 +9,14 @@ public class Tool
 {
     static Action PlayerEvent;
 
-    public static RaycastHit2D Raycast(Vector2 pos, Vector2 direction, float distane,int layer,Vector2 playerPos)
+    public static RaycastHit2D Raycast(Vector2 pos, Vector2 direction, float distane,int layer,Vector2 playerPos,bool showColor = true)
     {
-        var hit = Physics2D.Raycast(pos+ playerPos, direction, distane,layer);
-        var color = hit? Color.green : Color.red;
-        Debug.DrawRay(pos+playerPos, direction  *  distane,color);
+        var hit = Physics2D.Raycast(pos + playerPos, direction, distane,layer);
+        if (showColor)
+        {
+            var color = hit? Color.green : Color.red;
+            Debug.DrawRay(pos+playerPos, direction  *  distane,color);
+        }
         return hit;
     }
     public static Collider2D BoxCast(Vector2 pos, Vector2 size, int layer, Vector2 playerPos)

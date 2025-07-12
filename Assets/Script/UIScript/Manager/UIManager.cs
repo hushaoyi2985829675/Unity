@@ -137,9 +137,12 @@ public class UIManager
     }
     public void AddMap(GameObject mapLayer,Vector2 position)
     {
-        //摄像机放大给人物特写，2秒
         CameraManager.Instance.ChangeMapAction(() =>
         {
+            if (CurMap != null)
+            {
+                CurMap.SetActive(false);
+            }
             if (MapList.ContainsKey(mapLayer.name))
             {
                 CurMap = MapList[mapLayer.name];
@@ -155,16 +158,16 @@ public class UIManager
                 }
                 CurMap.SetActive(false);
                 var layer = GameObject.Instantiate(mapLayer, GameObject.Find("Grid").transform);
-                MapList.Add(layer.name,layer);
+                MapList.Add(mapLayer.name,layer);
                 CurMap = layer;
             }
+            SetPlayerPos(position);
         });
     }
-    public void setPlayerPos(Vector2 pos)
+    public void SetPlayerPos(Vector2 pos)
     {
-        Debug.Log(pos);
         var player = GameObjectManager.instance.GetPlayer();
-        player.transform.position = new Vector2(pos.x,pos.y);
+        player.SetPlayerPos(new Vector2(pos.x,pos.y));
     }
     private IEnumerator CallOnEnter(PanelBase layer)
     {

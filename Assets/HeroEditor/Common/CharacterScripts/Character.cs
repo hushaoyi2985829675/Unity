@@ -61,7 +61,7 @@ namespace Assets.HeroEditor.Common.CharacterScripts
         public void OnEnable()
         {
             HairMask.isCustomRangeActive = true;
-            HairMask.frontSortingOrder = HelmetRenderer.sortingOrder;
+           // HairMask.frontSortingOrder = HelmetRenderer.sortingOrder;
             HairMask.backSortingOrder = HairRenderer.sortingOrder;
 			UpdateAnimation();
         }

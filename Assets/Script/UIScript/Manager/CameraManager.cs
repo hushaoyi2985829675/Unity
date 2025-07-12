@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CameraManager : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+    public Image maskLayer;
     private CinemachineVirtualCamera playerCam;
     void Start()
     {
@@ -44,34 +46,45 @@ public class CameraManager : MonoBehaviour
     private IEnumerator PlayerCamAction(float orthoSize,float time,bool isOut,Action action)
     {
         float curTime = 0;
+        float t;
+        float size;
         float startSize = playerCam.m_Lens.OrthographicSize;
         while (curTime < time)
         {
-            float t;
-            if (isOut)
-            {
-                t = Mathf.Pow(1 - (curTime / time), 3);                
-            }
-            else
-            {
-               t = 1 - Mathf.Pow(1 - (curTime / time), 3);                
-            }
             
-            float size = Mathf.Lerp(orthoSize,Math.Max(startSize, orthoSize),  t);
+            t = 1 - Mathf.Pow(1 - (curTime / time), 3);
+            size = Mathf.Lerp(startSize,orthoSize,  t);
             playerCam.m_Lens.OrthographicSize = size;
+            Color color = maskLayer.color;
+            color.a = Mathf.Lerp(0,1, t);
+            maskLayer.color = color;
             curTime += Time.deltaTime;
             yield return null;
         }
         playerCam.m_Lens.OrthographicSize = orthoSize;
         action?.Invoke();
+        yield return new WaitForSeconds(0.5f);
+        curTime = 0;
+        while (curTime < time)
+        {
+            t = Mathf.Pow(curTime / time, 2);
+            size = Mathf.Lerp(orthoSize,startSize,  t);
+            playerCam.m_Lens.OrthographicSize = size;
+            Color color = maskLayer.color;
+            color.a = Mathf.Lerp(1,0, t);
+            maskLayer.color = color;
+            curTime += Time.deltaTime;
+            yield return null;
+        }
+        playerCam.m_Lens.OrthographicSize = startSize;
+        
     }
 
     public void ChangeMapAction(Action action)
     {
-        PlayerCamScale(12.5f, 0.8f, true,() =>
+        PlayerCamScale(6f, 0.8f, true,() =>
         {
-            // action?.Invoke();
-            // PlayerCamScale(12.5f, 0.8f, true);
+            action?.Invoke();
         });
     }
 }

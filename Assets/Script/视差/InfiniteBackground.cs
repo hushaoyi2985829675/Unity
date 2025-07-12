@@ -12,7 +12,7 @@ public class InfiniteBackground : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main.gameObject;
-        width = GetComponent<SpriteRenderer>().sprite.bounds.size.x;
+        width = GetComponent<SpriteRenderer>().sprite.bounds.size.x * transform.parent.parent.localScale.x;
         num = transform.parent.childCount;
         mapWidth = num * width;
     }

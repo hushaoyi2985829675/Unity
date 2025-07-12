@@ -12,10 +12,13 @@ public class ParallaxScrolling : MonoBehaviour
     public GameObject nearBackGround;
     private Vector3 lastPosition;
     private  GameObject mainCamera;
+    private float scaleX = 0;
     void Start()
     {
+        scaleX = transform.localScale.x;
         mainCamera = Camera.main.gameObject;
         lastPosition = mainCamera.transform.localPosition;
+        transform.position = new Vector3(mainCamera.transform.position.x,transform.position.y,0);
     }
 
     // Update is called once per frame
@@ -23,10 +26,10 @@ public class ParallaxScrolling : MonoBehaviour
     {
         if (mainCamera.transform.localPosition.x - lastPosition.x != 0)
         {
-            var pos = new Vector2(mainCamera.transform.localPosition.x - lastPosition.x,0);
+            var pos = new Vector2((mainCamera.transform.localPosition.x - lastPosition.x) / scaleX * 1,0);
             farBackGround.transform.localPosition += new Vector3(pos.x , 0, 0);
-            middleBackGround.transform.localPosition += new Vector3(pos.x * 0.7f, 0, 0);
-            nearBackGround.transform.localPosition += new Vector3(pos.x * 0.5f, 0, 0);
+            middleBackGround.transform.localPosition += new Vector3(pos.x * 0.6f, 0, 0);
+            nearBackGround.transform.localPosition += new Vector3(pos.x * 0.4f, 0, 0);
             lastPosition = mainCamera.transform.localPosition;
         }
     }
