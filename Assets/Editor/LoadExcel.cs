@@ -7,6 +7,8 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using UnityEditor.Compilation;
 using UnityEngine.Tilemaps;
 using Object = System.Object;
 
@@ -17,7 +19,6 @@ class ConfigeBase : ScriptableObject
 
 public class LoadExcel
 {
-    private static object temp;  // 改为 object 类型，存储 Dictionary<string, object>
     private static string path;
     private static string headType;
     private static ExcelWorksheet worksheet;
@@ -29,7 +30,7 @@ public class LoadExcel
             Debug.LogError("请选择一个文件");
             return;
         }
-
+        
         var file = Selection.objects[0];
         path = AssetDatabase.GetAssetPath(file);
         if (!string.Equals(Path.GetExtension(path), ".xlsx"))
@@ -37,52 +38,79 @@ public class LoadExcel
             Debug.LogError("请选择一个表");
             return;
         }
-
         ReadConfig();
     }
-
+    private static void OnCompilationFinished(object obj)
+    {
+        // 取消注册，避免重复调用
+        CompilationPipeline.compilationFinished -= OnCompilationFinished;
+        
+        Debug.Log("资源刷新及编译已完成！");
+    }
     private static void ReadConfig()
     {
-        string className = "";
-        bool isHead = true;
         FileInfo fileInfo = new FileInfo(path);
-        headType = "";
-        List<StringBuilder> classStrList = new List<StringBuilder>();
-        StringBuilder scriptFIle = new StringBuilder();
         using (ExcelPackage excelPackage = new ExcelPackage(fileInfo))
         {
-            worksheet = excelPackage.Workbook.Worksheets[1];
-            //先把第一行循环一遍创建出数据格式
-            for (int k = 1; k <= worksheet.Dimension.Columns; k++)
-            {
-                StringBuilder sb = Create(worksheet,k);
-                classStrList.Add(sb);
-            }
-            scriptFIle.AppendLine("using HeroEditor.Common;\nusing HeroEditor.Common.Enums;\nusing System.Collections;\nusing System.Collections.Generic;\nusing UnityEngine;");
-            scriptFIle.AppendLine();
-            scriptFIle.AppendLine("namespace " + worksheet.Name);
-            scriptFIle.AppendLine("{");
-            foreach (var classStr in classStrList )
-            {
-                scriptFIle.AppendLine(classStr.ToString());
-            }
-            //创建ScriptTable
-            scriptFIle.AppendLine("\tclass " + worksheet.Name + " : ScriptableObject");
-            scriptFIle.AppendLine("\t{");
-            scriptFIle.AppendLine(string.Format("\t\tpublic List<{0}> data = new List<{1}>();",headType,headType));
-            scriptFIle.AppendLine("\t}");
-            scriptFIle.AppendLine("}");
-            string filePath = @"D:\game\Unity\Assets\Configs\ExcelScript\" + worksheet.Name + ".cs";
-            // 创建文件并写入内容，若文件已存在则会覆盖
-            File.WriteAllText(filePath, scriptFIle.ToString());
-            Type t = Type.GetType(string.Format("{0}.{1}, Assembly-CSharp",worksheet.Name,worksheet.Name));
-            ScriptableObject script = ScriptableObject.CreateInstance(t);
-            string dataPath = @"Assets\Configs\Data\" + worksheet.Name + ".asset";
-            AssetDatabase.CreateAsset(script,  dataPath);
-            //填充数据
-            RefreshData(t,script);
-            Debug.Log(worksheet.Name + ".cs已刷新");
-            AssetDatabase.Refresh();
+           
+           // bool isHead = true;
+          
+                List<StringBuilder> classStrList = new List<StringBuilder>();
+                StringBuilder scriptFIle = new StringBuilder();
+                headType = "";
+                worksheet = excelPackage.Workbook.Worksheets[1];
+                //先把第一行循环一遍创建出数据格式
+                for (int k = 1; k <= worksheet.Dimension.Columns; k++)
+                {
+                    StringBuilder sb = Create(worksheet,k);
+                    classStrList.Add(sb);
+                }
+                scriptFIle.AppendLine("using HeroEditor.Common;\nusing HeroEditor.Common.Enums;\nusing System.Collections;\nusing System.Collections.Generic;\nusing UnityEngine;");
+                scriptFIle.AppendLine();
+                scriptFIle.AppendLine("namespace " + worksheet.Name + "Config");
+                scriptFIle.AppendLine("{");
+                foreach (var classStr in classStrList )
+                {
+                    scriptFIle.AppendLine(classStr.ToString());
+                }
+                
+                //创建ScriptTable
+                scriptFIle.AppendLine("\tpublic class " + worksheet.Name + " : ScriptableObject");
+                scriptFIle.AppendLine("\t{");
+                scriptFIle.AppendLine(string.Format("\t\tpublic List<{0}> data = new List<{1}>();",headType,headType));
+                scriptFIle.AppendLine("\t}");
+                scriptFIle.AppendLine("}");
+                string filePath = Application.dataPath + "/Configs/ExcelScript/" + worksheet.Name + "Config.cs";
+                // 创建文件并写入内容，若文件已存在则会覆盖
+                if (!File.Exists(filePath))
+                {
+                    FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
+                    fileStream.Close();
+                }
+                File.WriteAllText(filePath, scriptFIle.ToString());
+                string fullTypeName = string.Format("{0}.{1}, Assembly-CSharp", worksheet.Name + "Config", worksheet.Name);
+                Type t = Type.GetType(fullTypeName);
+                    
+                if (t == null)
+                {
+                        
+                    Debug.LogError($"无法找到类型：{fullTypeName}，请检查生成的C#脚本是否有语法错误或命名空间正确");
+                }
+                else
+                {
+                    // 创建并保存ScriptableObject
+                    ScriptableObject script = ScriptableObject.CreateInstance(t);
+                    string dataPath = @"Assets\Configs\Data\" + worksheet.Name + "Config.asset";
+                    AssetDatabase.CreateAsset(script, dataPath);
+                        
+                    // 填充数据
+                    Debug.Log(t);
+                    RefreshData(t, script);
+                        
+                    Debug.Log(worksheet.Name + ".cs已刷新");
+                }
+               
+                AssetDatabase.Refresh();
         }
     }
 
@@ -139,7 +167,7 @@ public class LoadExcel
         IList list = (IList)fieldInfo.GetValue(script);
         for (int i = 3; i <= worksheet.Dimension.Rows; i++)
         {
-            Type type = Type.GetType(string.Format("{0}.{1}, Assembly-CSharp",worksheet.Name,headType));
+            Type type = Type.GetType(string.Format("{0}.{1}, Assembly-CSharp",worksheet.Name + "Config",headType));
             object obj = Activator.CreateInstance(type);
             Assignment(i,1,type,obj);
             list.Add(obj);
@@ -165,11 +193,10 @@ public class LoadExcel
         FieldInfo fieldInfo = type.GetField(valueName);
         if (fieldInfo == null)
         {
-            Debug.Log(valueName + "在类" + type.Name + "中不存在");
+            Debug.Log(valueName + "在表" + type.Name + "中不存在");
             return;
         }
         var str = char.ToUpper(valueName[0]) + valueName.Substring(1);
-        isType = isClass && type.Name.Equals(str);
         if (isClass && !type.Name.Equals(str))
         {
             Type fieldType = fieldInfo.FieldType;

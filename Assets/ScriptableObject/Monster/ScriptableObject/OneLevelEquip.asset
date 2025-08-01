@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EquipList:
   - name: Armor
-    Part: 0
+    Part: 7
     EquipDatas:
     - Extensions.Legendary.Armor.ArcArmor
   - name: "\u6B66\u56681"

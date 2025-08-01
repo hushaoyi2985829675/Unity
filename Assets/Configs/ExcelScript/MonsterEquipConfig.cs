@@ -4,28 +4,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Equip
+namespace MonsterEquipConfig
 {
 
 	[System.Serializable]
 	public class EquipType
 	{
 		public string equipType;
-	public string Id;
-	public int Num;
-	public Has has;
+		public Name name;
 	}
-
-
 
 
 	[System.Serializable]
-	public class Has
+	public class Name
 	{
-		public string has;
+		public string name;
+		public string id;
 	}
 
-	class Equip : ScriptableObject
+
+	public class MonsterEquip : ScriptableObject
 	{
 		public List<EquipType> data = new List<EquipType>();
 	}
