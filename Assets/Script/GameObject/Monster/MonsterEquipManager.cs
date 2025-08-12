@@ -101,9 +101,12 @@ public class MonsterEquipManager : MonoBehaviour
             Instantiate(item);
         }
     }
-
+#if UNITY_EDITOR
     private void OnGUI()
     {
-        Parts = (MonsterPart)EditorGUILayout.EnumMaskField("Selected Parts", (MonsterPart)Parts);
+        Parts = (MonsterPart)EditorGUILayout.EnumFlagsField("Selected Parts", Parts);
     }
+#else
+
+#endif
 }

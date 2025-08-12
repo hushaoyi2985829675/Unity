@@ -12,7 +12,7 @@ public class EquipItemScript : MonoBehaviour
     public IconCollection IconCollection;
     public BagData BagData;
     
-    private PolygonCollider2D collider;
+    private PolygonCollider2D polygonCollider;
     private SpriteRenderer spriteRenderer;
         
     private string id;
@@ -60,7 +60,7 @@ public class EquipItemScript : MonoBehaviour
         {
             Debug.Log("√ª’“µΩŒ‰∆˜" +id);
         }
-        collider.SetPath(0,spriteRenderer.sprite.vertices);
+        polygonCollider.SetPath(0,spriteRenderer.sprite.vertices);
     }
 
     void Update()
@@ -72,7 +72,7 @@ public class EquipItemScript : MonoBehaviour
     {
         this.id = id;
         this.part = part;
-        collider = GetComponent<PolygonCollider2D>();
+        polygonCollider = GetComponent<PolygonCollider2D>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         Refresh();
     }

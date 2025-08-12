@@ -2728,7 +2728,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 76.17, y: 2.2300003, z: -10}
+  m_LocalPosition: {x: 37.68, y: 2.2300003, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3137,7 +3137,7 @@ Transform:
   m_GameObject: {fileID: 652778542}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 76.17, y: 2.2300003, z: -10}
+  m_LocalPosition: {x: 37.68, y: 2.2300003, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -24951,7 +24951,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 844013469898748973, guid: c8291d9ce03510c45ba4d5d0a9973b6f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 76.17
+      value: 37.68
       objectReference: {fileID: 0}
     - target: {fileID: 844013469898748973, guid: c8291d9ce03510c45ba4d5d0a9973b6f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -75997,6 +75997,14 @@ PrefabInstance:
       propertyPath: m_Tiles.Array.data[123].second.m_TileObjectToInstantiateIndex
       value: 65535
       objectReference: {fileID: 0}
+    - target: {fileID: 8918634371811620840, guid: 550b0225e77b26045a3c662b5dad5672, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8918634371811620840, guid: 550b0225e77b26045a3c662b5dad5672, type: 3}
+      propertyPath: m_UsedByEffector
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 2436669452465619309, guid: 550b0225e77b26045a3c662b5dad5672, type: 3}
@@ -76019,13 +76027,36 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3163179289417777715, guid: 550b0225e77b26045a3c662b5dad5672, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1423440254}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7875253628892589986, guid: 550b0225e77b26045a3c662b5dad5672, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6203916837193604060}
   m_SourcePrefab: {fileID: 100100000, guid: 550b0225e77b26045a3c662b5dad5672, type: 3}
 --- !u!4 &6203916837193604052 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3163179289417777715, guid: 550b0225e77b26045a3c662b5dad5672, type: 3}
   m_PrefabInstance: {fileID: 6203916837193604051}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6203916837193604053 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7875253628892589986, guid: 550b0225e77b26045a3c662b5dad5672, type: 3}
+  m_PrefabInstance: {fileID: 6203916837193604051}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6203916837193604060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6203916837193604053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 206f26182b7ef444680a17b8326446af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcLayer: {fileID: 0}
+  isPlayer: 0
+  npcId: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

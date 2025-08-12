@@ -11,8 +11,8 @@ public class CameraScript : MonoBehaviour
     public string ToCamera;
     void Start()
     {
-        CinemachineBlenderSettings = AssetDatabase.LoadAssetAtPath<CinemachineBlenderSettings>("Assets/Editor/CameraBlends/CameraBlends.asset");
-        CinemachineBlendDefinition = CinemachineBlenderSettings.GetBlendForVirtualCameras(gameObject.name, ToCamera, new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.EaseInOut, 0.5f));
+        //CinemachineBlenderSettings = AssetDatabase.LoadAssetAtPath<CinemachineBlenderSettings>("Assets/Editor/CameraBlends/CameraBlends.asset");
+      //  CinemachineBlendDefinition = CinemachineBlenderSettings.GetBlendForVirtualCameras(gameObject.name, ToCamera, new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.EaseInOut, 0.5f));
     }
 
     public void HideCamera(Action callback)

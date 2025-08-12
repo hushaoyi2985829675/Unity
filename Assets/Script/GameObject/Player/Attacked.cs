@@ -45,7 +45,6 @@ public class Attacked : MonoBehaviour
                 {
                     isNpc = false;
                    // Talk(npcObj);
-                   Debug.Log("Talk");
                 }
                 break;
         }

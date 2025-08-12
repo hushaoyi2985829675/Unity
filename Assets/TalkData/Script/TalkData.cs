@@ -16,7 +16,7 @@ public class TalkData : ScriptableObject
 public class TalkObject
 {
     public string name;
-    public List<TalkInfo> talkList;
+    public List<TalkInfo> talkLists;
 }
 [System.Serializable]
 public class TalkInfo

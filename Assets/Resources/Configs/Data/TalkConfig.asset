@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db4701ed6c8d69e4d8e431b3644dfe5b, type: 3}
+  m_Name: TalkConfig
+  m_EditorClassIdentifier: 
+  idInfoList:
+  - id: 1
+    text: 1
+  - id: 2
+    text: 2
+  - id: 3
+    text: 3
+  - id: 4
+    text: 4
+  - id: 5
+    text: 5
+  - id: 6
+    text: 6
+  - id: 7
+    text: 7
+  - id: 8
+    text: "\u6709\u4EC0\u4E48\u80FD\u5E2E\u5230\u4F60\u5417?"

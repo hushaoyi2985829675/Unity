@@ -1,0 +1,10 @@
+ManifestFileVersion: 0
+CRC: 3061279442
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: head
+      Dependencies: {}
+    Info_1:
+      Name: configdata
+      Dependencies: {}

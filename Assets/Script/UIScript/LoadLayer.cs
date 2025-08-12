@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class LoadLayer : PanelBase
 {
@@ -37,7 +36,7 @@ public class LoadLayer : PanelBase
     {
         if (!gameObject.activeSelf)
         {
-            gameObject.SetActive(true);  // ¼¤»îµ±Ç°µÄÓÎÏ·¶ÔÏó
+            gameObject.SetActive(true);  // ï¿½ï¿½ï¿½îµ±Ç°ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
         }
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
         operation.allowSceneActivation = false;

@@ -7,7 +7,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public enum LayerAction
 {
@@ -42,7 +41,7 @@ public class UIManager
     {
         LayerList = new Dictionary<string, PanelBase>();
         MapList = new Dictionary<string, GameObject>();
-        CinemachineBlenderSettings = AssetDatabase.LoadAssetAtPath<CinemachineBlenderSettings>("Assets/CameraBlends/CameraBlends.asset");
+        //CinemachineBlenderSettings = AssetDatabase.LoadAssetAtPath<CinemachineBlenderSettings>("Assets/CameraBlends/CameraBlends.asset");
         LayerStack = new Stack<PanelBase>();
         NpcCamera = GameObject.FindWithTag("NpcCamera");
         PlayerCamera = GameObject.FindWithTag("PlayerCamera");

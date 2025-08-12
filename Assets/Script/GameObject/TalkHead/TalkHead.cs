@@ -20,13 +20,13 @@ public class TalkHead : MonoBehaviour
     }
     public void Enter()
     {
-        sprList = new List<Sprite>();
-        SpriteCollection = AssetDatabase.LoadAssetAtPath<ScriptableObject>("Assets/HeroEditor/Megapack/Resources/SpriteCollection.asset") as SpriteCollection;
-        mouth = playerHead.transform.Find("Mouth").gameObject;
-        sprList.Add(mouth.GetComponent<SpriteRenderer>().sprite);
-        sprList.Add(SpriteCollection.Mouth.Find(info => info.Name == "WTF").Sprite);
-        sprList.Add(SpriteCollection.Mouth.Find(info => info.Name == "XD").Sprite);
-        DontDestroyOnLoad(gameObject);
+        // sprList = new List<Sprite>();
+        // SpriteCollection = AssetDatabase.LoadAssetAtPath<ScriptableObject>("Assets/HeroEditor/Megapack/Resources/SpriteCollection.asset") as SpriteCollection;
+        // mouth = playerHead.transform.Find("Mouth").gameObject;
+        // sprList.Add(mouth.GetComponent<SpriteRenderer>().sprite);
+        // sprList.Add(SpriteCollection.Mouth.Find(info => info.Name == "WTF").Sprite);
+        // sprList.Add(SpriteCollection.Mouth.Find(info => info.Name == "XD").Sprite);
+        // DontDestroyOnLoad(gameObject);
     }
     IEnumerator ShowMouth()
     {

@@ -1,0 +1,33 @@
+ManifestFileVersion: 0
+CRC: 376649928
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 8b994019384f9d710724725184a55f34
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: f655835c9d532924b4d4d9a347b19c3e
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 8b994019384f9d710724725184a55f34
+HashAppended: 0
+ClassTypes:
+- Class: 114
+  Script: {fileID: 11500000, guid: 06085317c5fef4542a79772fc56a9f4c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ecd890dabe742f142a19abc9bdfbf14e, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: Npc.NpcIdInfo
+- AssemblyName: Assembly-CSharp
+  ClassName: NpcTalkTask.ChoiceInfo
+- AssemblyName: Assembly-CSharp
+  ClassName: NpcTalkTask.NpcIdInfo
+- AssemblyName: Assembly-CSharp
+  ClassName: NpcTalkTask.PlayerLvInfo
+Assets:
+- Assets/Configs/Data/NpcDialogueTaskConfig.asset
+- Assets/Configs/Data/NpcConfig.asset
+Dependencies: []

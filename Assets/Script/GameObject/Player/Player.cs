@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Threading;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.WSA;
 
 public enum ButtonState
 {
@@ -180,7 +179,6 @@ public partial class Player : MonoBehaviour
             slopeDirection = Vector2.Perpendicular(normal).normalized;
             Debug.DrawRay(stairsHit.point, normal, Color.blue);
             Debug.DrawRay(stairsHit.point, slopeDirection * 50, Color.magenta);
-            Debug.Log(-velocityX * slopeDirection.y);
             if (-velocityX * slopeDirection.y < 0)
             {
                 isStairs = true;

@@ -1,0 +1,26 @@
+ManifestFileVersion: 0
+CRC: 171393722
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d2f316aaa1035e6b2811de3cbf8de90c
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2d8df09e698f722ada1caa03d3413830
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: d2f316aaa1035e6b2811de3cbf8de90c
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Resources/UI/UI/Role/zhujiemian_13.png
+- Assets/Resources/UI/UI/Role/zhujiemian_25.png
+- Assets/Resources/UI/UI/Role/25_11300003.png
+- Assets/Resources/UI/UI/Role/24_11200002.png
+- Assets/Resources/UI/UI/Role/23_11100001.png
+Dependencies: []
