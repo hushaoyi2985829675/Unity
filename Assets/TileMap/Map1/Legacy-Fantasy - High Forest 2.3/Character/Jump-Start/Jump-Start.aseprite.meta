@@ -210,7 +210,7 @@ ScriptedImporter:
     layerType: 0
     blendMode: 0
     cells:
-    - name: Jump-Start_Frame_0
+    - name: Frame_0
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
@@ -219,7 +219,7 @@ ScriptedImporter:
         width: 35
         height: 34
       spriteId: 721d5da266cf4854fb70bb639c95f0ac
-    - name: Jump-Start_Frame_1
+    - name: Frame_1
       frameIndex: 1
       additiveSortOrder: 0
       cellRect:
@@ -228,7 +228,7 @@ ScriptedImporter:
         width: 35
         height: 40
       spriteId: d3c907b7b6c8730409a4d72ffa0a679f
-    - name: Jump-Start_Frame_2
+    - name: Frame_2
       frameIndex: 2
       additiveSortOrder: 0
       cellRect:
@@ -237,7 +237,7 @@ ScriptedImporter:
         width: 23
         height: 57
       spriteId: 7b99128f4b154204ea8b1e96d21d31ff
-    - name: Jump-Start_Frame_3
+    - name: Frame_3
       frameIndex: 3
       additiveSortOrder: 0
       cellRect:

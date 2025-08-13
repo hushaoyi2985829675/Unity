@@ -52,12 +52,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trigger: {fileID: 6836317008120704172}
   NpcTalkTaskConfig: {fileID: 0}
+  PlayerTaskData: {fileID: 11400000, guid: 6558877bd28ab5f4bbd8da90b87c93b8, type: 2}
   TalkConfig: {fileID: 0}
   NpcConfig: {fileID: 0}
+  TaskLayer: {fileID: 7385927099196805874, guid: 7ea51cb80771e87478d455b949a7631e, type: 3}
   talkText: {fileID: 3131990986210965311}
   playerLv: 1
-  inTask: 0
   isTasking: 0
+  isTaskComplete: 0
   operatorRef: {fileID: 8179528945838637113, guid: 75059c1a999687547850822a3bb81178, type: 3}
 --- !u!1 &559678756681374935
 GameObject:

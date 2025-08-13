@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -75511,7 +75510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8914514589377420393, guid: 550b0225e77b26045a3c662b5dad5672, type: 3}
       propertyPath: m_AnimatedTiles.Array.data[0].second.m_AnimationSpeed
-      value: 5
+      value: 5.0000005
       objectReference: {fileID: 0}
     - target: {fileID: 8914514589377420393, guid: 550b0225e77b26045a3c662b5dad5672, type: 3}
       propertyPath: m_AnimatedTiles.Array.data[1].second.m_AnimationSpeed
@@ -75519,7 +75518,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8914514589377420393, guid: 550b0225e77b26045a3c662b5dad5672, type: 3}
       propertyPath: m_AnimatedTiles.Array.data[2].second.m_AnimationSpeed
-      value: 5
+      value: 5.0000005
       objectReference: {fileID: 0}
     - target: {fileID: 8914514589377420393, guid: 550b0225e77b26045a3c662b5dad5672, type: 3}
       propertyPath: m_AnimatedTiles.Array.data[3].second.m_AnimationSpeed
@@ -75527,7 +75526,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8914514589377420393, guid: 550b0225e77b26045a3c662b5dad5672, type: 3}
       propertyPath: m_AnimatedTiles.Array.data[4].second.m_AnimationSpeed
-      value: 5
+      value: 5.0000005
       objectReference: {fileID: 0}
     - target: {fileID: 8914514589377420393, guid: 550b0225e77b26045a3c662b5dad5672, type: 3}
       propertyPath: m_AnimatedTiles.Array.data[5].second.m_AnimationSpeed

@@ -136,27 +136,33 @@ Shader "Hero Editor/Gray Paint URP2D Lit"
 
             #include "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/CombinedShapeLightShared.hlsl"
 
-            half4 CombinedShapeLightFragment(Varyings i) : SV_Target
-            {
-                half4 main = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
-                half4 mask = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, i.uv);
+   half4 CombinedShapeLightFragment(Varyings i) : SV_Target
+{
+    half4 main = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
+    half4 mask = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, i.uv);
 
-                // From Hippo GrayPaint.shader
-                float4 node_3046_k = float4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
-                float4 node_3046_p = lerp(float4(float4(main.rgb,0.0).zy, node_3046_k.wz), float4(float4(main.rgb,0.0).yz, node_3046_k.xy), step(float4(main.rgb,0.0).z, float4(main.rgb,0.0).y));
-                float4 node_3046_q = lerp(float4(node_3046_p.xyw, float4(main.rgb,0.0).x), float4(float4(main.rgb,0.0).x, node_3046_p.yzx), step(node_3046_p.x, float4(main.rgb,0.0).x));
-                float node_3046_d = node_3046_q.x - min(node_3046_q.w, node_3046_q.y);
-                float node_3046_e = 1.0e-10;
-                float3 node_3046 = float3(abs(node_3046_q.z + (node_3046_q.w - node_3046_q.y) / (6.0 * node_3046_d + node_3046_e)), node_3046_d / (node_3046_q.x + node_3046_e), node_3046_q.x);;
-                float3 node_9613 = ToGrayscale( main.rgb , i.color.rgb , node_3046.g , _SaturationBound , _ColorMultiplier , _Inverse );
-                float3 emissive = node_9613;
-                float3 finalColor = emissive;
-				main.a -= 1 - i.color.a;
+    // 计算饱和度（来自Hippo GrayPaint.shader）
+    float4 node_3046_k = float4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+    float4 node_3046_p = lerp(float4(float4(main.rgb,0.0).zy, node_3046_k.wz), float4(float4(main.rgb,0.0).yz, node_3046_k.xy), step(float4(main.rgb,0.0).z, float4(main.rgb,0.0).y));
+    float4 node_3046_q = lerp(float4(node_3046_p.xyw, float4(main.rgb,0.0).x), float4(float4(main.rgb,0.0).x, node_3046_p.yzx), step(node_3046_p.x, float4(main.rgb,0.0).x));
+    float node_3046_d = node_3046_q.x - min(node_3046_q.w, node_3046_q.y);
+    float node_3046_e = 1.0e-10;
+    float3 node_3046 = float3(abs(node_3046_q.z + (node_3046_q.w - node_3046_q.y) / (6.0 * node_3046_d + node_3046_e)), node_3046_d / (node_3046_q.x + node_3046_e), node_3046_q.x);;
+    
+    // 灰度转换
+    float3 node_9613 = ToGrayscale(main.rgb, i.color.rgb, node_3046.g, _SaturationBound, _ColorMultiplier, _Inverse);
+    float3 finalColor = node_9613;
+    
+    // 透明度调整
+    main.a -= 1 - i.color.a;
+    main.rgb = finalColor.rgb;
 
-                main.rgb = finalColor.rgb;
-
-                return CombinedShapeLightShared(main, mask, i.lightingUV);
-            }
+    // 修复参数类型不匹配问题
+    SurfaceData2D surfaceData;
+    surfaceData.color = main;
+    surfaceData.mask = mask;
+    return CombinedShapeLightShared(surfaceData, i.lightingUV);
+}
             ENDHLSL
         }
 

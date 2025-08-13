@@ -54,6 +54,7 @@ public class UIManager
     
     private PanelBase AddLayer(ref Dictionary<string,PanelBase> layerList,GameObject layerRef, params object[] data)
     {
+        Debug.Log(layerRef.name);
         if (layerList.ContainsKey(layerRef.name))
         {
             PanelBase layer = layerList[layerRef.name];

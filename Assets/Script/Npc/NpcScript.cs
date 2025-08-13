@@ -10,7 +10,9 @@ public class NpcScript : NpcBase
     void Start()
     {
         talkLayer = Resources.Load<GameObject>("Ref/LayerRef/UIRef/TalkLayer");
+        Debug.Log(talkLayer);
         boxCollider =  GetComponent<BoxCollider2D>();
+
     }
 
     // Update is called once per frame

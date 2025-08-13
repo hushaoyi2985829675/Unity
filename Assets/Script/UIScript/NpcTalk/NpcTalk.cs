@@ -31,14 +31,16 @@ public class NpcTalk : PanelBase
 {
     public EventTrigger trigger;
     public NpcTalkTaskConfig NpcTalkTaskConfig;
+    public PlayerTaskData PlayerTaskData;
     public TalkConfig TalkConfig;
     public NpcConfig  NpcConfig;
+    public GameObject TaskLayer;
     public Text talkText;
     public int playerLv = 1;
     //是否接取任务
-    public bool inTask = false;
-    //是否完成任务
     public bool isTasking = false;
+    //是否完成任务
+    public bool isTaskComplete = false;
     private int npcId = 1;
     private NpcCfgInfo npcCfgInfo;
     private NpcTalkInfo npcInfo;
@@ -58,48 +60,61 @@ public class NpcTalk : PanelBase
         entry.eventID = EventTriggerType.PointerClick;
         entry.callback.AddListener(TouchClick);
         trigger.triggers.Add(entry);
+        TaskLayer = Resources.Load<GameObject>("Ref/LayerRef/UIRef/TaskLayer");
         NpcTalkTaskConfig = Resources.Load<NpcTalkTaskConfig>("Configs/Data/NpcTalkTaskConfig");
         TalkConfig = Resources.Load<TalkConfig>("Configs/Data/TalkConfig");
         NpcConfig =  Resources.Load<NpcConfig>("Configs/Data/NpcConfig");
         npcInfo = NpcTalkTaskConfig.npcIdInfoList.Find((obj) => obj.npcId == npcId);
         npcCfgInfo = NpcConfig.npcIdInfoList.Find((obj) => obj.npcId == npcId);
         playerLvInfo = npcInfo.playerLvInfoList.Find((obj)=>obj.playerLv == playerLv);
-        isTask = playerLvInfo.taskId != 0;
+        InitTaskState();
         InitTalkList();
         InitBaseOperator();
         Talk();
     }
 
+    void InitTaskState()
+    {
+        if (playerLvInfo.taskId != 0)
+        {
+            isTask = true;
+            TaskInfo taskInfo = PlayerTaskData.TaskList.Find((taskInfo) => taskInfo.taskId == playerLvInfo.taskId);
+            if (taskInfo != null)
+            {
+                isTasking = true;
+                isTaskComplete = taskInfo.isComplete;
+            }
+        }
+    }
     public override void onExit()
     {
         
     }
     void InitTalkList()
     {
-        //处理对话
-        if (isTask && !inTask && !isTasking)
+        string[] idstr;
+        //处理任务对话
+        if (isTask && !isTasking && !isTaskComplete)
         {
-            string[] idstr = playerLvInfo.beforeTaskcompletion.Split(",");
+            idstr = playerLvInfo.beforeTaskcompletion.Split(",");
             foreach (string id in idstr)
             {
                 tasktalkIdList.Add(int.Parse(id));
             }
         }
-        //普通对话
-        if (!inTask)
+       
+        idstr = playerLvInfo.ordinaryTaskLst.Split(",");
+        foreach (string id in idstr)
         {
-            string[] idstr = playerLvInfo.ordinaryTaskLst.Split(",");
-            foreach (string id in idstr)
-            {
-                talkIdList.Add(int.Parse(id));
-            }
+            talkIdList.Add(int.Parse(id));
         }
+    
     }
 
     //处理基础选项
     void InitBaseOperator()
     {
-        if (isTask && !isTasking)
+        if (isTask && !isTaskComplete)
         {
             operatorList.Add(new BaseOperator("任务", operatorList.Count + 1));
         }
@@ -125,7 +140,7 @@ public class NpcTalk : PanelBase
     void Talk()
     {
         //有任务
-        if (isTask && !isTasking)
+        if (isTask && !isTaskComplete)
         {
             
             if (isPlayTaskTalk) //触发
@@ -138,27 +153,36 @@ public class NpcTalk : PanelBase
             }
             else
             {
+                Debug.Log(talkIdList.Count);
                 //未接取状态
                 if (idx >= talkIdList.Count)
                 { 
                     createOption();
                     return;
                 }
-              
-                int id = talkIdList[idx] - 1; 
+                int id = talkIdList[idx] - 1;
+                Debug.Log(TalkConfig.idInfoList[id].text);
                 talkText.DOText(TalkConfig.idInfoList[id].text,TalkConfig.idInfoList[id].text.Length * 0.15f);
                 idx += 1;
             }
         }
         else
-        {
-            
+        {  
+            if (idx >= talkIdList.Count)
+            {
+                createOption();
+                return;
+            }
+
+            int id = talkIdList[idx] - 1;
+            talkText.DOText(TalkConfig.idInfoList[id].text, TalkConfig.idInfoList[id].text.Length * 0.15f);
+            idx += 1;
         }
     }
 
     void OpenTaskLayer()
     {
-       
+        UIManager.Instance.OpenLayer(TaskLayer);
     }
 
     void createOption()
