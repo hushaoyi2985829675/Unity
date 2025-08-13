@@ -3,6 +3,7 @@ using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -30,8 +31,7 @@ public class UIManager
         }
     }
     private Dictionary<string,PanelBase> LayerList;
-    private Stack<PanelBase> LayerStack;
-    private PanelBase CurLayer;
+    private Dictionary<string,PanelBase> UINodeList;
     private Dictionary<string,GameObject> MapList;
     private GameObject CurMap;
     GameObject NpcCamera;
@@ -42,41 +42,29 @@ public class UIManager
         LayerList = new Dictionary<string, PanelBase>();
         MapList = new Dictionary<string, GameObject>();
         //CinemachineBlenderSettings = AssetDatabase.LoadAssetAtPath<CinemachineBlenderSettings>("Assets/CameraBlends/CameraBlends.asset");
-        LayerStack = new Stack<PanelBase>();
+        UINodeList =  new Dictionary<string,PanelBase>();
         NpcCamera = GameObject.FindWithTag("NpcCamera");
         PlayerCamera = GameObject.FindWithTag("PlayerCamera");
     }
-    // public GameObject openLayer(string name)
-    // {
-    //     var layerRef = Resources.Load("Panle/" + name) as GameObject;
-    //     Debug.Log(layerRef);
-    //     if (layerRef != null)
-    //     {
-    //         var layer = GameObject.Instantiate(layerRef, GameObject.Find("LayerCanvas").transform);
-    //         PanelBase layerScript = layer.GetComponent<PanelBase>();
-    //         //if (layerStack == null)
-    //         //{
-    //         //    layerStack = new Stack<PanelBase>();
-    //         //}
-    //         layerScript.onEnter();
-    //         layerScript.StartCoroutine(CallOnEnter(layerScript));
-    //         LayerList[layerRef] = layerScript;
-    //     }
-    //     else
-    //     {
-    //         Debug.Log("������" + name);
-    //     }
-    //     return layerRef;
-    // }
     public PanelBase OpenLayer(GameObject layerRef, params object[] data)
     {
-        if (LayerList.ContainsKey(layerRef.name))
+        PanelBase layer = AddLayer(ref LayerList, layerRef,data);
+        return layer;
+    }
+    
+    private PanelBase AddLayer(ref Dictionary<string,PanelBase> layerList,GameObject layerRef, params object[] data)
+    {
+        if (layerList.ContainsKey(layerRef.name))
         {
-            LayerList[layerRef.name].SetActive(true);
-            LayerList[layerRef.name].onEnter(data);
-            LayerStack.Push(LayerList[layerRef.name]);
-            CurLayer = LayerList[layerRef.name];
-            return LayerList[layerRef.name];
+            PanelBase layer = layerList[layerRef.name];
+            if (layer.gameObject.activeSelf)
+            {
+                layer.onExit();
+            }
+            layer.SetActive(true);
+            layer.transform.SetAsLastSibling();
+            layer.onEnter(data);
+            return layer;
         }
         else
         {
@@ -94,10 +82,9 @@ public class UIManager
             var layer = GameObject.Instantiate(layerRef, LayerCanvas.transform);
             PanelBase layerScript = layer.GetComponent<PanelBase>();
             layerScript.transform.localPosition = new Vector3(0, 0, 0);
+            layerScript.transform.SetAsLastSibling();
             layerScript.onEnter(data);
-            LayerList[layerRef.name] = layerScript;
-            LayerStack.Push(layerScript);
-            CurLayer = layerScript;
+            layerList[layerRef.name] = layerScript;
             return layerScript;
         }
     }
@@ -107,21 +94,17 @@ public class UIManager
         {
             LayerList[layerRef.name].SetActive(true);
             LayerList[layerRef.name].onEnter(data);
-            LayerStack.Push(LayerList[layerRef.name]);
-            CurLayer = LayerList[layerRef.name];
             return LayerList[layerRef.name];
         }
         else
         {
             if (layerRef == null)
             {
-                Debug.Log("���ص�layerΪ��");
                 return null;
             }
             var LayerCanvas = GameObject.FindWithTag("LayerCanvas");
             if (LayerCanvas == null)
             {
-                Debug.Log("������û��TagΪLayerCanvas������");
                 return null;
             }
             var layer = GameObject.Instantiate(layerRef, LayerCanvas.transform);
@@ -129,10 +112,26 @@ public class UIManager
             layerScript.transform.localPosition = new Vector3(0, 0, 0);
             layerScript.onEnter(data);
             LayerList[layerRef.name] = layerScript;
-            LayerStack.Push(layerScript);
-            CurLayer = layerScript;
             return layerScript;
         }
+    }
+    public void CloseLayer(String name)
+    {
+        PanelBase curLayer = LayerList[name];
+        curLayer.SetActive(false);
+        curLayer.onExit();
+    }
+    public PanelBase AddUINode(GameObject layerRef, Vector2 pos,params object[] data)
+    {
+        PanelBase layer = AddLayer(ref UINodeList, layerRef,data);
+        layer.transform.localPosition = pos;
+        return layer; 
+    }
+    public void CloseUINode(string name)
+    {
+        PanelBase curLayer = UINodeList[name];
+        curLayer.SetActive(false);
+        curLayer.onExit();
     }
     public void AddMap(GameObject mapLayer,Vector2 position)
     {
@@ -168,29 +167,7 @@ public class UIManager
         var player = GameObjectManager.instance.GetPlayer();
         player.SetPlayerPos(new Vector2(pos.x,pos.y));
     }
-    private IEnumerator CallOnEnter(PanelBase layer)
-    {
-        yield return null;
-        layer.onEnter();
-    }
-    public void OpenTalkLayer(GameObject Npc)
-    {
-        GameObject layer = Resources.Load<GameObject>("LayerRef/TalkLayer");
-        //��������ɶ�����Ϣ           
-        NpcCamera.GetComponent<CameraScript>().SetFollowTarget(Npc.transform);
-        PlayerCamera.GetComponent<CameraScript>().HideCamera(() =>
-        {
-            OpenLayer(layer,Npc.name);
-        });
-    }
-   
-    public void CloseLayer()
-    {
-        LayerStack.Pop();
-        CurLayer.SetActive(false);
-        CurLayer.GetComponent<PanelBase>().onExit();
-        CurLayer = null;
-    }
+    
     public Transform getCanvas()
     {
         return GameObject.Find("InTurnCanvas").transform;

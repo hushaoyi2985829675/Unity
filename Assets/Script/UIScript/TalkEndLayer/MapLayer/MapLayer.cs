@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class MapLayer : PanelBase
 {
-    public HorizontalView scrollView;
+    public TableView scrollView;
     public MapConfig config;
     private Player player;
     private MapData curData;
@@ -29,7 +29,7 @@ public class MapLayer : PanelBase
             btn.GetComponent<Button>().onClick.AddListener(() =>
             {
                 curData = data;
-                UIManager.Instance.CloseLayer();
+                UIManager.Instance.CloseLayer(gameObject.name);
                 UIManager.Instance.LoadScene("FightScene",InitMap);
             });
         }

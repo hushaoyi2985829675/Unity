@@ -6,32 +6,35 @@ using UnityEngine.UI;
 
 public class FlutterWindowsLayer : PanelBase
 {
-    public Text Text;
+    public Text text;
+    public Transform node;
     private float time = 1.5f;
     private float aniTime = 1.0f;
+    private Tween aniTween;
     public override void onEnter(params object[] data)
     {
-        Text.text = data[0].ToString();
-        transform.localPosition = new Vector3(0, 600, 0);
+        text.text = data[0].ToString();
+        node.transform.localPosition = new Vector3(0, 540, 0);
         Move();
     }
 
     void Move()
     {
-        transform.DOLocalMove(new Vector3(0, 400, 0), aniTime).SetEase(Ease.OutBack);
-        DOVirtual.DelayedCall(time, () =>
+        node.transform.DOLocalMove(new Vector3(0, 340, 0), aniTime).SetEase(Ease.OutBack);
+        aniTween = DOVirtual.DelayedCall(time, () =>
         {
-            transform.DOLocalMove(new Vector3(0, 600, 0), aniTime).SetEase(Ease.InBack).OnComplete(callback);
+            node.transform.DOLocalMove(new Vector3(0, 540, 0), aniTime).SetEase(Ease.InBack).OnComplete(callback);
         });
     }
 
     void callback()
     {
-        UIManager.Instance.CloseLayer();
+        UIManager.Instance.CloseUINode(gameObject.name);
     }
 
     public override void onExit()
     {
-        
+        node.transform.DOKill();
+        aniTween.Kill();
     }
 }

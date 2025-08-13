@@ -525,6 +525,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HorizontalScrollView
       objectReference: {fileID: 0}
+    - target: {fileID: 1463606913320220596, guid: 18d20319886380441946e3b71dd62b86, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.22894287
+      objectReference: {fileID: 0}
     - target: {fileID: 6876756537174224150, guid: 18d20319886380441946e3b71dd62b86, type: 3}
       propertyPath: temp
       value: 

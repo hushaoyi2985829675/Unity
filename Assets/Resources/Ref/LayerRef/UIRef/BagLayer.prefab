@@ -3554,7 +3554,6 @@ GameObject:
   - component: {fileID: 7392845385140341514}
   - component: {fileID: 68604724826999436}
   - component: {fileID: 2183359198482752519}
-  - component: {fileID: 8795763248561657850}
   m_Layer: 5
   m_Name: CloseBtn
   m_TagString: Untagged
@@ -3663,18 +3662,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8795763248561657850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6942474113259184613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f99fe3551b7eba49b7613cb47f88ef3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7010618822569562569
 GameObject:
   m_ObjectHideFlags: 0

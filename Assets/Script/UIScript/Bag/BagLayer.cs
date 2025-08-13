@@ -41,6 +41,11 @@ public class BagLayer : PanelBase
 
     public override void onEnter(object[] data)
     {
+        Button closeBtn = transform.Find("CloseBtn").GetComponent<Button>();
+        closeBtn.onClick.AddListener(() =>
+        {
+            UIManager.Instance.CloseLayer(gameObject.name);
+        });
         BagDataInfo = BagData.Equipments.Select((vale, index) => new { Index = index, EquipmentInfo = vale }).ToDictionary(x => x.Index, x => x.EquipmentInfo);
         Player = GameObject.FindWithTag("Player");
         if (Player == null)

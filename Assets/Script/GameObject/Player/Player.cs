@@ -316,8 +316,7 @@ public partial class Player : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Stairs"))
         {
-            Stairs stairs = other.gameObject.GetComponent<Stairs>();
-            // ´¦ÀíÂ¥ÌÝ½»»¥
+            
         }
     }
     

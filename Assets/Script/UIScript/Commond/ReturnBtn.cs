@@ -10,7 +10,7 @@ public class ReturnBtn : MonoBehaviour
     {
         btn = GetComponent<Button>();
         btn.onClick.AddListener(() => {
-            UIManager.Instance.CloseLayer();
+            UIManager.Instance.CloseLayer(gameObject.name);
         });
     }
 }

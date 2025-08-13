@@ -14,7 +14,7 @@ public class SkeletonScript : Monster
         {
             if (!talking)
             {
-                StartCoroutine(createTalkUI("?????????"));
+               // StartCoroutine(createTalkUI("?????????"));
                 talking = true;
                 talkTime = 5;
             }                  
@@ -29,22 +29,22 @@ public class SkeletonScript : Monster
         }
     }
 
-    public IEnumerator createTalkUI(string talk)
-    {
-        Debug.Log(talk);
-        GameObject tablkRef = Resources.Load<GameObject>("UIRef/TalkRef");
-        talkUI = Instantiate(tablkRef, UIManager.Instance.getCanvas().transform);
-        string str = "";
-        talkUI.GetComponent<TalkUI>().text.text = str;
-        for (int i = 0; i < talk.Length; i++)
-        {
-            str += talk[i];
-            talkUI.GetComponent<TalkUI>().text.text = str;
-            yield return new WaitForSeconds(0.2f);
-        }
-        yield return new WaitForSeconds(5f);
-        talkUI.GetComponent<RectTransform>().SetParent(null, false);
-    }
+    // public IEnumerator createTalkUI(string talk)
+    // {
+    //     Debug.Log(talk);
+    //     GameObject tablkRef = Resources.Load<GameObject>("UIRef/TalkRef");
+    //     talkUI = Instantiate(tablkRef, UIManager.Instance.getCanvas().transform);
+    //     string str = "";
+    //     talkUI.GetComponent<TalkUI>().text.text = str;
+    //     for (int i = 0; i < talk.Length; i++)
+    //     {
+    //         str += talk[i];
+    //         talkUI.GetComponent<TalkUI>().text.text = str;
+    //         yield return new WaitForSeconds(0.2f);
+    //     }
+    //     yield return new WaitForSeconds(5f);
+    //     talkUI.GetComponent<RectTransform>().SetParent(null, false);
+    // }
     public new IEnumerator MonsterDeathEff()
     {
         yield return new WaitForEndOfFrame();

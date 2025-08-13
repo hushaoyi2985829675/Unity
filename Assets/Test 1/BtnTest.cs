@@ -6,12 +6,14 @@ using UnityEngine.UI;
 public class BtnTest : MonoBehaviour
 {
     public GameObject LayerPrefab;
+    public TableView tabView;
     void Start()
     {
-        GetComponent<Button>().onClick.AddListener(() =>
+        tabView.AddRefreshEvent((idx,item) =>
         {
-            UIManager.Instance.OpenLayer(LayerPrefab,new object[] {"少时诵诗书少时诵诗书"});
+            
         });
+        tabView.SetNum(30);
     }
 
     // Update is called once per frame

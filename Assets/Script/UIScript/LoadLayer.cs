@@ -52,6 +52,6 @@ public class LoadLayer : PanelBase
             yield return null; 
         }
         yield return StartCoroutine(loadData.Invoke(slider));
-        UIManager.Instance.CloseLayer();
+        UIManager.Instance.CloseLayer(gameObject.name);
     }
 }

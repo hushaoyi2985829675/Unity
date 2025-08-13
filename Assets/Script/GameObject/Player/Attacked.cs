@@ -142,7 +142,7 @@ public class Attacked : MonoBehaviour
     }
     void Talk(GameObject npc)
     {
-         UIManager.Instance.OpenTalkLayer(npc);
+        // UIManager.Instance.OpenTalkLayer(npc);
     }
 
     void InitAttackState()
