@@ -8,16 +8,17 @@ namespace Task
 {
 
 	[System.Serializable]
-	public class TaskId
+	public class TaskInfo
 	{
-		public int taskId;
+		public int task;
 		public string name;
 		public string des;
-		public int need;
+		public int taskType;
+		public int targetType;
 	}
 
 	public class TaskConfig: ScriptableObject
 	{
-		public List<TaskId> taskIdList = new List<TaskId>();
+		public List<TaskInfo> taskInfoList = new List<TaskInfo>();
 	}
 }

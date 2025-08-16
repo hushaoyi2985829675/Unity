@@ -18,11 +18,10 @@ public class OptionScript : MonoBehaviour
         btn.onClick.AddListener(BtnClick);
     }
 
-    public void InitData(BaseOperator operatorInfo,Action<int> callback)
+    public void InitData(BaseOperator operatorInfo, Action<int> callback)
     {
         this.operatorInfo = operatorInfo;
         this.callback = callback;
-        transform.localPosition = new Vector3(0, (operatorInfo.id - 1) * 120, 0);
         refreshUI();
     }
 

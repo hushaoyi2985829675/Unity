@@ -5,15 +5,13 @@ using UnityEngine.UI;
 
 public class BtnTest : MonoBehaviour
 {
-    public GameObject LayerPrefab;
-    public TableView tabView;
+    public GameObject TalkLayerPrefab;
     void Start()
     {
-        tabView.AddRefreshEvent((idx,item) =>
-        {
-            
-        });
-        tabView.SetNum(30);
+      GetComponent<Button>().onClick.AddListener(() =>
+      {
+          UIManager.Instance.OpenLayer(TalkLayerPrefab,new object[]{1});
+      });
     }
 
     // Update is called once per frame

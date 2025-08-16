@@ -18,11 +18,14 @@ namespace NpcTalkTask
 	public class PlayerLvInfo
 	{
 		public int playerLv;
-		public string ordinaryTaskLst;
-		public string beforeTaskcompletion;
 		public int taskId;
-		public string inTaskTalkList;
-		public string taskcompletionList;
+		public int taskLocation;
+		public int taskRequirement;
+		public string taskReward;
+		public int ordinaryTask;
+		public int beforeTaskCompletion;
+		public int inTaskTalk;
+		public int taskCompletion;
 		public List<ChoiceInfo> choiceInfoList;
 	}
 
@@ -31,6 +34,7 @@ namespace NpcTalkTask
 	{
 		public int choice;
 		public string title;
+		public int answer;
 	}
 
 	public class NpcTalkTaskConfig: ScriptableObject

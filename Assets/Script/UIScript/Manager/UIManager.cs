@@ -54,7 +54,6 @@ public class UIManager
     
     private PanelBase AddLayer(ref Dictionary<string,PanelBase> layerList,GameObject layerRef, params object[] data)
     {
-        Debug.Log(layerRef.name);
         if (layerList.ContainsKey(layerRef.name))
         {
             PanelBase layer = layerList[layerRef.name];
@@ -81,6 +80,7 @@ public class UIManager
                 return null;
             }
             var layer = GameObject.Instantiate(layerRef, LayerCanvas.transform);
+            layer.name = layerRef.name;
             PanelBase layerScript = layer.GetComponent<PanelBase>();
             layerScript.transform.localPosition = new Vector3(0, 0, 0);
             layerScript.transform.SetAsLastSibling();

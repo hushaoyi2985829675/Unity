@@ -12,12 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81f541f388d33b945b3bb5288fc398b4, type: 3}
   m_Name: TaskConfig
   m_EditorClassIdentifier: 
-  taskIdList:
-  - taskId: 1
+  taskInfoList:
+  - task: 1
+    name: "\u51FB\u6740\u72FC\u7FA4"
+    des: "\u5728{0}\u51FB\u6740{1}\u5934\u72FC"
+    taskType: 1
+    targetType: 1
+  - task: 2
     name: "\u91C7\u679C\u5B50"
-    des: "\u91C7%s\u4E2A\u679C\u5B50"
-    need: 1
-  - taskId: 2
-    name: "\u51FB\u6740\u654C\u4EBA"
-    des: "\u51FB\u6740%s\u4E2A\u654C\u4EBA"
-    need: 0
+    des: "\u91C7{0}\u679C\u5B50"
+    taskType: 2
+    targetType: 1
+  - task: 3
+    name: "\u91C7\u53F6\u5B50"
+    des: "\u91C7{0}\u4E2A\u53F6\u5B50"
+    taskType: 2
+    targetType: 3

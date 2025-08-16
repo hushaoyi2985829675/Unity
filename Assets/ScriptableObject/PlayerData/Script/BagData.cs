@@ -4,11 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-enum GoodType
-{ 
-    Good,
-    Equip
-}
 [CreateAssetMenu(fileName = "New Data", menuName = "Character Data/BagData")]
 public class BagData : ScriptableObject,ScriptableBase
 {

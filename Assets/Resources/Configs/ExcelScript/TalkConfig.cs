@@ -8,14 +8,14 @@ namespace Talk
 {
 
 	[System.Serializable]
-	public class IdInfo
+	public class TalkInfo
 	{
-		public int id;
+		public int talk;
 		public string text;
 	}
 
 	public class TalkConfig: ScriptableObject
 	{
-		public List<IdInfo> idInfoList = new List<IdInfo>();
+		public List<TalkInfo> talkInfoList = new List<TalkInfo>();
 	}
 }

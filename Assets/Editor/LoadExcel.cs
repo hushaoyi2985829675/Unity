@@ -74,8 +74,9 @@ public class LoadExcel
                 if (!File.Exists(filePath)) 
                 {
                     FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
-                fileStream.Close();
+                    fileStream.Close();
                 }
+                AssetDatabase.Refresh();
                 File.WriteAllText(filePath, scriptFIle.ToString());
                 string fullTypeName = string.Format("{0}.{1}, Assembly-CSharp", worksheet.Name, worksheet.Name + "Config");
                 Type t = Type.GetType(fullTypeName);
@@ -89,6 +90,7 @@ public class LoadExcel
                     // 创建并保存ScriptableObject
                     ScriptableObject script = ScriptableObject.CreateInstance(t);
                     AssetDatabase.CreateAsset(script, dataPath);
+                    AssetDatabase.Refresh();
                     RefreshData(script);
                     EditorUtility.SetDirty(script);
                     AssetDatabase.SaveAssets();
