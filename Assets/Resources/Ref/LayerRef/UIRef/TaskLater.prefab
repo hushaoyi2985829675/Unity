@@ -129,7 +129,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9153546542761482884}
-  - component: {fileID: 2488004635367187624}
+  - component: {fileID: 55307249269183362}
   m_Layer: 5
   m_Name: TaskLater
   m_TagString: Untagged
@@ -159,7 +159,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2488004635367187624
+--- !u!114 &55307249269183362
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,11 +168,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7385927099196805874}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f850d4caf18284d41a2bd386f163b618, type: 3}
+  m_Script: {fileID: 11500000, guid: cce063dcdb7fb8644b30af54a70e0683, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LayerPrefab: {fileID: 0}
+  closeBtn: {fileID: 5351744613195836391}
   tabView: {fileID: 8135638916472483235}
+  PlayerTaskData: {fileID: 11400000, guid: 6558877bd28ab5f4bbd8da90b87c93b8, type: 2}
 --- !u!1 &7647394369218031315
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,7 +259,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 841934686168641018, guid: 18d20319886380441946e3b71dd62b86, type: 3}
       propertyPath: m_Name
-      value: TableViewView
+      value: TableView
       objectReference: {fileID: 0}
     - target: {fileID: 1463606913320220596, guid: 18d20319886380441946e3b71dd62b86, type: 3}
       propertyPath: m_Pivot.y

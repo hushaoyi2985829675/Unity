@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System;
 using UnityEngine.UI;
 
 public class TaskLayer : PanelBase
@@ -10,7 +12,8 @@ public class TaskLayer : PanelBase
     public override void onEnter(params object[] data)
     {
         closeBtn.onClick.AddListener(CloseClick);
-        tabView.SetNum(20);
+     
+        tabView.SetNum(PlayerTaskData.TaskList.Count);
     }
 
     private void CloseClick()

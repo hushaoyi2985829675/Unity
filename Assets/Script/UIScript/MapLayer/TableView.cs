@@ -34,10 +34,10 @@ public class TableView : MonoBehaviour
     private int num;
     private ScrollRect scrollView;
     Dictionary<int, GameObject> itemList = new Dictionary<int, GameObject>();
-    int minIndx = 0;
-    int maxIndx = 0;
-    int oldMinIndx = 0;
-    int oldMaxIndx = 0;
+    int minIdx = 0;
+    int maxIdx = 0;
+    int oldMinIdx = 0;
+    int oldMaxIdx = 0;
     Stack<GameObject> stack = new Stack<GameObject>();
     private int count;
     private Vector2 size;
@@ -45,6 +45,13 @@ public class TableView : MonoBehaviour
     
     public void SetNum(int num)
     {
+        if (num <= 0)
+        {
+            Debug.Log("TableView个数为0");
+            return;
+        }
+        oldMinIdx = 0;
+        oldMaxIdx = 0;
         scrollView = GetComponent<ScrollRect>();
         scrollView.horizontal = false;
         scrollView.vertical = false;
@@ -73,31 +80,48 @@ public class TableView : MonoBehaviour
     }
     public void onUpdate(Vector2 v)
     {
-        int minNum = 0;
+    
         if (direction == Direction.Horizontal)
         {
-            count = (int)Mathf.Ceil(scrollView.GetComponent<RectTransform>().sizeDelta.x / size.x); 
-            minNum = Mathf.Max((int)((-content.GetComponent<RectTransform>().anchoredPosition.x - leftTopSpace) / size.x) , 0);
+            count = (int)Mathf.Ceil(scrollView.GetComponent<RectTransform>().sizeDelta.x / size.x + tempSpace);
+            minIdx = Mathf.Max((int)((-content.GetComponent<RectTransform>().anchoredPosition.x - leftTopSpace) / size.x) , 0);         
         }
         else
         {
-            count = (int)Mathf.Ceil(scrollView.GetComponent<RectTransform>().sizeDelta.y / size.y);
-            minNum = Mathf.Max((int)((content.GetComponent<RectTransform>().anchoredPosition.y - leftTopSpace) / size.y) , 0);
+            count = (int)Mathf.Ceil(scrollView.GetComponent<RectTransform>().sizeDelta.y / (size.y + tempSpace));
+            minIdx = Mathf.Max((int)((content.GetComponent<RectTransform>().anchoredPosition.y - leftTopSpace) / (size.y + tempSpace)) , 0);
         }
-         
-        var maxNum = Mathf.Min(minNum + count,num - 1);
-        for (int i = minNum; i <= maxNum; i++)
+        maxIdx = Mathf.Min(minIdx + count, num - 1);
+        for (int i = oldMinIdx; i < minIdx; i++)
+        {
+            Debug.Log(i);
+            stack.Push(itemList[i]);
+            itemList.Remove(i);
+        }
+        for (int i = maxIdx + 1; i <= oldMaxIdx; i++)
+        {
+            stack.Push(itemList[i]);
+            itemList.Remove(i);
+        }
+        oldMinIdx = minIdx;
+        oldMaxIdx = maxIdx;
+        for (int i = minIdx; i <= maxIdx; i++)
         {
             GameObject item ;
             if (! itemList.ContainsKey(i))
             {
-                item = Instantiate(temp, content.transform);
+                if (stack.Count > 0)
+                {
+                    item = stack.Pop();
+                }
+                else
+                {
+                    item = Instantiate(temp, content.transform);             
+                }
                 itemList[i] = item;
             }
-            else
-            {
-                item = itemList[i];
-            }
+       
+            item = itemList[i];
             item.SetActive(true);
             if (direction == Direction.Horizontal)
             {

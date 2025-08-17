@@ -283,6 +283,7 @@ public class NpcTalk : PanelBase
                     OpenNpcLayer();
                 }
             });
+            return;
         }
 
         var text = talkStrList[idx];
