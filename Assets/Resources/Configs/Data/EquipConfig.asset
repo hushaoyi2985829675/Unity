@@ -16,24 +16,24 @@ MonoBehaviour:
   - equip: 1
     name: "\u6728\u8D28\u72FC\u7259\u68D2"
     id: Extensions.AbandonedWorkshop.MeleeWeapon1H.BarbedClub
-    type: 7
+    part: 7
     synthesisRoute: 1*2||2*3||2*1
     desc: "\u786C\u6728\u5236\u6210\u68CD\u8EAB\uFF0C\u9576\u5D4C\u72FC\u7259\u589E\u52A0\u6740\u4F24\u529B\uFF0C\u9EBB\u7EF3\u7F20\u7ED5\u9632\u6ED1\uFF0C\u8FD1\u6218\u5A01\u529B\u5927\u4F46\u653B\u901F\u6162\u3002"
   - equip: 2
     name: "\u666E\u901A\u77ED\u5251"
     id: FantasyHeroes.Basic.MeleeWeapon1H.AssassinDagger [Paint]
-    type: 7
+    part: 7
     synthesisRoute: 1*2||2*4
     desc: 
   - equip: 3
     name: "\u666E\u901A\u94C1\u5251"
     id: FantasyHeroes.Knights.MeleeWeapon1H.BalancedSword [Paint]
-    type: 7
+    part: 7
     synthesisRoute: 1*2
     desc: "\u6700\u57FA\u7840\u7684\u91D1\u5C5E\u5251\uFF0C\u94C1\u5757\u953B\u9020\u5251\u8EAB\uFF0C\u6728\u6750\u5236\u4F5C\u5251\u67C4\uFF0C\u9002\u5408\u65B0\u624B\u4F7F\u7528"
   - equip: 4
     name: "\u666E\u901A\u914D\u5251"
     id: FantasyHeroes.Basic.MeleeWeapon1H.Bilbo
-    type: 7
+    part: 7
     synthesisRoute: 1*2||2*6
     desc: 

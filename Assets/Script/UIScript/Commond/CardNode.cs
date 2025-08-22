@@ -17,7 +17,12 @@ public class CardNode : MonoBehaviour
         icon.sprite = sprite;
         if (num != -1)
         {
+            numText.gameObject.SetActive(true);
             numText.text = num.ToString();
+        }
+        else
+        {
+            numText.gameObject.SetActive(false);
         }
     }
 

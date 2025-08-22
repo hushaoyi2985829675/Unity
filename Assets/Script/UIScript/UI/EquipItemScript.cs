@@ -34,15 +34,7 @@ public class EquipItemScript : MonoBehaviour
 
     void Refresh()
     {
-        switch (part)
-        {
-            case EquipmentPart.MeleeWeapon1H:
-                Weapon = SpriteCollection.MeleeWeapon1H.Find(data => data.Id ==id );
-                break;
-            case EquipmentPart.Armor:
-                Weapon = SpriteCollection.Armor.Find(data => data.Id ==id);
-                break;
-        }
+        Weapon = Ui.Instance.GetEquipEntry(part, id);
         //’“Icon
         if (Weapon != null)
         {

@@ -31,6 +31,7 @@ public class Ui : MonoBehaviour
 
     private Dictionary<int, GoodInfo> goodGoodList;
 
+    private SpriteCollection SpriteCollection;
     //装备图标缓存
     private Dictionary<string, Sprite> equipIconList;
     private Dictionary<int, Sprite> goodIconList; 
@@ -52,6 +53,7 @@ public class Ui : MonoBehaviour
         GoodsConfig = Resources.Load<GoodsConfig>("Configs/Data/GoodsConfig");
         EquipConfig = Resources.Load<EquipConfig>("Configs/Data/EquipConfig");
         IconCollection = Resources.Load<IconCollection>("Configs/Data/IconCollection");
+        SpriteCollection = Resources.Load<SpriteCollection>("Configs/Data/SpriteCollection");
         equipGoodList = EquipConfig.equipInfoList.ToDictionary(key => key.equip, value => value);
         goodGoodList = GoodsConfig.goodInfoList.ToDictionary(key => key.good, value => value);
         goodIconList = new Dictionary<int, Sprite>();
@@ -273,4 +275,26 @@ public class Ui : MonoBehaviour
         return null;
     }
 
+    //获取装备词条
+    public SpriteGroupEntry GetEquipEntry(EquipmentPart part, string id)
+    {
+        SpriteGroupEntry entry;
+        switch (part)
+        {
+            case EquipmentPart.MeleeWeapon1H:
+                entry = SpriteCollection.MeleeWeapon1H.Find(data => data.Id == id);
+                break;
+            case EquipmentPart.Armor:
+                entry = SpriteCollection.Armor.Find(data => data.Id == id);
+                break;
+            case EquipmentPart.Shield:
+                entry = SpriteCollection.Shield.Find(data => data.Id == id);
+                break;
+            default:
+                entry = null;
+                break;
+        }
+
+        return entry;
+    }
 }

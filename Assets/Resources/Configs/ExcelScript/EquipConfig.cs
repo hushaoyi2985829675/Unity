@@ -13,7 +13,7 @@ namespace Equip
 		public int equip;
 		public string name;
 		public string id;
-		public int type;
+		public int part;
 		public string synthesisRoute;
 		public string desc;
 	}

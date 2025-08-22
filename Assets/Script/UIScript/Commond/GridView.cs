@@ -33,7 +33,7 @@ public class GridView : MonoBehaviour
         SpaceY = spaceY;
         ScrollView.GetComponent<ScrollRect>().onValueChanged.AddListener(onUpdate);
         Content.anchoredPosition = new Vector2(0, Content.anchoredPosition.x);
-        Content.sizeDelta = new Vector2(Content.sizeDelta.x, (VerticalNum - 1) * (SpaceY + ItemSize.y));
+        Content.sizeDelta = new Vector2(Content.sizeDelta.x, VerticalNum * (SpaceY + ItemSize.y));
         viewCount = (int) Mathf.Ceil(ScrollView.rect.height / (ItemSize.y + SpaceY) * 1f) * HorizontalNum;
         oldMinIndex = 0;
         oldMaxIndex = 0;
@@ -48,8 +48,9 @@ public class GridView : MonoBehaviour
     public void RefreshItem(bool isRefreshAll = false)
     {
         int minIdx = Math.Max((int) (Content.anchoredPosition.y / (ItemSize.y + SpaceY)) * HorizontalNum, 0);
-        minIdx = (int) Math.Min(minIdx, Mathf.Ceil((float) cellNum / HorizontalNum) - 1);
+        minIdx = Math.Min(minIdx, cellNum - HorizontalNum);
         int maxIdx = Math.Min(minIdx + viewCount, cellNum - 1);
+        Debug.Log(maxIdx);
         for (int i = oldMinIndex; i < minIdx; i++)
         {
             Stack.Push(Items[i]);
@@ -98,7 +99,10 @@ public class GridView : MonoBehaviour
         Ui.Instance.RemoveAllChildren(Content);
         Items.Clear();
         Stack.Clear();
-        RefreshItem(true);
+        if (cellNum > 0)
+        {
+            RefreshItem(true);
+        }
     }
 
     public void AddRefreshEvent(Action<int, GameObject> action)
