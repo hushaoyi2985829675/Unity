@@ -136,7 +136,6 @@ public class NpcTalk : PanelBase
 
     private void InitTalkList()
     {
-        string[] idstr;
         Talk.TalkInfo talkInfo;
         string[] strList;
         //处理任务对话
@@ -159,10 +158,10 @@ public class NpcTalk : PanelBase
             talkInfo = TalkConfig.talkInfoList.Find(obj => obj.talk == playerLvInfo.beforeTaskCompletion);
             //奖励
             var rewardInfo = playerLvInfo.taskReward.Split(",");
-            var goodInfo = Ui.Instance.GetGoodInfo(int.Parse(rewardInfo[0]), int.Parse(rewardInfo[1]));
+            string goodName = Ui.Instance.GetGoodName(int.Parse(rewardInfo[0]), int.Parse(rewardInfo[1]));
             parms[i] = rewardInfo[2];
             i++;
-            parms[i] = goodInfo.name;
+            parms[i] = goodName;
             strList = string.Format(talkInfo.text, parms).Split("-");
             foreach (var str in strList) taskTalkStrList.Add(str);
         }
@@ -191,8 +190,6 @@ public class NpcTalk : PanelBase
         }
 
         operatorList.Add(new BaseOperator(npcCfgInfo.name, (int) OperatorType.NpcLayer));
-        Debug.Log(operatorList[0].title);
-        Debug.Log(operatorList[1].title);
     }
 
     private List<string> GetTalkText(int id)

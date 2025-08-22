@@ -8,25 +8,17 @@ namespace Goods
 {
 
 	[System.Serializable]
-	public class GoodTypeInfo
-	{
-		public int goodType;
-		public List<GoodInfo> goodInfoList;
-	}
-
-	[System.Serializable]
 	public class GoodInfo
 	{
 		public int good;
 		public string name;
-		public string id;
-		public int type;
 		public string icon;
 		public string image;
+		public string desc;
 	}
 
 	public class GoodsConfig: ScriptableObject
 	{
-		public List<GoodTypeInfo> goodTypeInfoList = new List<GoodTypeInfo>();
+		public List<GoodInfo> goodInfoList = new List<GoodInfo>();
 	}
 }

@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class BtnTest : MonoBehaviour
 {
     public GameObject TalkLayerPrefab;
-    public GameObject TaskLayerRef;
+    private int i = 1;
     void Start()
     {
       GetComponent<Button>().onClick.AddListener(() =>
       {
-          UIManager.Instance.OpenLayer(TaskLayerRef);
+          UIManager.Instance.OpenLayer(TalkLayerPrefab, new object[] {2});
       });
     }
 

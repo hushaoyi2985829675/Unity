@@ -29,7 +29,7 @@ public class FlutterWindowsLayer : PanelBase
 
     void callback()
     {
-        UIManager.Instance.CloseUINode(gameObject.name);
+        UIManager.Instance.ClosePopLayer(gameObject.name);
     }
 
     public override void onExit()

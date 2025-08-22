@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class TabView : MonoBehaviour
 {
-    [Header("Ä£°å")]
+    [Header("???")]
     public GameObject Item;
     Action<int, GameObject> RefreshItemEvent;
     Dictionary<int,GameObject> ItemList = new Dictionary<int, GameObject>();

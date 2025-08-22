@@ -591,7 +591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: d924d7cb2ee4b3a43a23f1a3e36d79bd, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -599,7 +599,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: da33c1b3e231cc548b54a30d9a2e89cb, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -629,8 +629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f850d4caf18284d41a2bd386f163b618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TalkLayerPrefab: {fileID: 381745446641304547, guid: 893c047ab62a9a34c87395540deeb6ee, type: 3}
-  TaskLayerRef: {fileID: 7385927099196805874, guid: bc630965231c82d4b925cc8190cabec8, type: 3}
+  TalkLayerPrefab: {fileID: 7722944447074447923, guid: 1a39e4525594b484f98b8a5cd2810dd1, type: 3}
 --- !u!1 &1539171460
 GameObject:
   m_ObjectHideFlags: 0
@@ -780,7 +779,7 @@ GameObject:
   - component: {fileID: 1892029464}
   - component: {fileID: 1892029463}
   - component: {fileID: 1892029462}
-  - component: {fileID: 1892029461}
+  - component: {fileID: 1892029465}
   m_Layer: 5
   m_Name: Button (Legacy)
   m_TagString: Untagged
@@ -808,20 +807,6 @@ RectTransform:
   m_AnchoredPosition: {x: 520, y: -23}
   m_SizeDelta: {x: 290.5754, y: 60.984}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1892029461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1892029459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f850d4caf18284d41a2bd386f163b618, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TalkLayerPrefab: {fileID: 381745446641304547, guid: 893c047ab62a9a34c87395540deeb6ee, type: 3}
-  TaskLayerRef: {fileID: 7385927099196805874, guid: bc630965231c82d4b925cc8190cabec8, type: 3}
 --- !u!114 &1892029462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -878,7 +863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: d924d7cb2ee4b3a43a23f1a3e36d79bd, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -904,6 +889,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1892029459}
   m_CullTransparentMesh: 1
+--- !u!114 &1892029465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892029459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9c2649c23ac51749bb89ff90e0e97c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  talkLayerRef: {fileID: 2230050869780322209, guid: 491e11692c76d1c498bf7d8a3683412b, type: 3}
+  npcId: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

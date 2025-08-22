@@ -31,9 +31,11 @@ public class UIManager
         }
     }
     private Dictionary<string,PanelBase> LayerList;
-    private Dictionary<string,PanelBase> UINodeList;
+    private Dictionary<string, PanelBase> PopLayerList;
+    private Dictionary<string, PanelBase> UINodeList;
     private Dictionary<string,GameObject> MapList;
     private GameObject CurMap;
+    private Transform layerCanvas;
     GameObject NpcCamera;
     GameObject PlayerCamera;
     CinemachineBlenderSettings CinemachineBlenderSettings;
@@ -42,17 +44,20 @@ public class UIManager
         LayerList = new Dictionary<string, PanelBase>();
         MapList = new Dictionary<string, GameObject>();
         //CinemachineBlenderSettings = AssetDatabase.LoadAssetAtPath<CinemachineBlenderSettings>("Assets/CameraBlends/CameraBlends.asset");
-        UINodeList =  new Dictionary<string,PanelBase>();
+        PopLayerList = new Dictionary<string, PanelBase>();
+        UINodeList = new Dictionary<string, PanelBase>();
         NpcCamera = GameObject.FindWithTag("NpcCamera");
         PlayerCamera = GameObject.FindWithTag("PlayerCamera");
+        layerCanvas = GameObject.FindWithTag("LayerCanvas").transform;
     }
     public PanelBase OpenLayer(GameObject layerRef, params object[] data)
     {
-        PanelBase layer = AddLayer(ref LayerList, layerRef,data);
+        PanelBase layer = AddLayer(ref LayerList, layerRef, layerCanvas.transform, data);
         return layer;
     }
-    
-    private PanelBase AddLayer(ref Dictionary<string,PanelBase> layerList,GameObject layerRef, params object[] data)
+
+    private PanelBase AddLayer(ref Dictionary<string, PanelBase> layerList, GameObject layerRef,
+        Transform parent = null, params object[] data)
     {
         if (layerList.ContainsKey(layerRef.name))
         {
@@ -62,6 +67,7 @@ public class UIManager
                 layer.onExit();
             }
             layer.SetActive(true);
+            //调整排序位置
             layer.transform.SetAsLastSibling();
             layer.onEnter(data);
             return layer;
@@ -70,16 +76,11 @@ public class UIManager
         {
             if (layerRef == null)
             {
-                Debug.Log("���ص�layerΪ��");
+                Debug.Log("界面预制体是空");
                 return null;
             }
-            var LayerCanvas = GameObject.FindWithTag("LayerCanvas");
-            if (LayerCanvas == null)
-            {
-                Debug.Log("������û��TagΪLayerCanvas������");
-                return null;
-            }
-            var layer = GameObject.Instantiate(layerRef, LayerCanvas.transform);
+
+            var layer = GameObject.Instantiate(layerRef, parent);
             layer.name = layerRef.name;
             PanelBase layerScript = layer.GetComponent<PanelBase>();
             layerScript.transform.localPosition = new Vector3(0, 0, 0);
@@ -103,12 +104,8 @@ public class UIManager
             {
                 return null;
             }
-            var LayerCanvas = GameObject.FindWithTag("LayerCanvas");
-            if (LayerCanvas == null)
-            {
-                return null;
-            }
-            var layer = GameObject.Instantiate(layerRef, LayerCanvas.transform);
+
+            var layer = GameObject.Instantiate(layerRef, layerCanvas);
             PanelBase layerScript = layer.GetComponent<PanelBase>();
             layerScript.transform.localPosition = new Vector3(0, 0, 0);
             layerScript.onEnter(data);
@@ -122,18 +119,33 @@ public class UIManager
         curLayer.SetActive(false);
         curLayer.onExit();
     }
-    public PanelBase AddUINode(GameObject layerRef, Vector2 pos,params object[] data)
+
+    public PanelBase AddPopLayer(GameObject layerRef, Vector2 pos, params object[] data)
     {
-        PanelBase layer = AddLayer(ref UINodeList, layerRef,data);
+        PanelBase layer = AddLayer(ref PopLayerList, layerRef, layerCanvas, data);
         layer.transform.localPosition = pos;
         return layer; 
     }
+
+    public PanelBase AddUINode(GameObject layerRef, Transform parent, params object[] data)
+    {
+        PanelBase layer = AddLayer(ref UINodeList, layerRef, parent, data);
+        return layer;
+    }
+
+    public void ClosePopLayer(string name)
+    {
+        PanelBase curLayer = PopLayerList[name];
+        curLayer.SetActive(false);
+        curLayer.onExit();
+    }
+
     public void CloseUINode(string name)
     {
         PanelBase curLayer = UINodeList[name];
         curLayer.SetActive(false);
         curLayer.onExit();
-    }
+    } 
     public void AddMap(GameObject mapLayer,Vector2 position)
     {
         CameraManager.Instance.ChangeMapAction(() =>

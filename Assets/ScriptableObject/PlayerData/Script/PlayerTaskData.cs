@@ -21,6 +21,11 @@ public class PlayerTaskData : ScriptableObject
         taskInfo.rewardInfo = playerLvInfo.taskReward;
         TaskList.Add(taskInfo);
     }
+
+    public void RemoveTask(int taskId)
+    {
+        TaskList.Remove(TaskList.Find((obj) => obj.taskId == taskId));
+    }
 }
 
 [System.Serializable]

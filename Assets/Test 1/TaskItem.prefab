@@ -88,6 +88,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7093449285313627331}
+  - component: {fileID: 1981493579168250804}
   m_Layer: 5
   m_Name: TaskItem
   m_TagString: Untagged
@@ -115,6 +116,20 @@ RectTransform:
   m_AnchoredPosition: {x: -2206.593, y: 256.64807}
   m_SizeDelta: {x: 210.771, y: 67.2962}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1981493579168250804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2447646358849448600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84c5897000701e142a9eba0cbc862f72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 3973799098990535551}
+  button: {fileID: 2427386051986104828}
 --- !u!1 &5511635377796139793
 GameObject:
   m_ObjectHideFlags: 0

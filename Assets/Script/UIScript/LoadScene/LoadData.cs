@@ -16,12 +16,14 @@ public class LoadData : MonoBehaviour
 
     IEnumerator loadData(Slider slider)
     {
-        var num = 50 / 3;
+        var num = 50 / 4;
         LoadPlayerData("BagData",BagData);
         slider.value += num;
         LoadPlayerData("PlayerEquipData", PlayerEquipData);
         slider.value += num;
         LoadPlayerData("PlayerValueData", PlayerValueData);
+        slider.value += num;
+        LoadPlayerData("PlayerTaskData", PlayerValueData);
         slider.value += num;
         yield return null;
     }

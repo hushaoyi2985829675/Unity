@@ -4,6 +4,7 @@
     <file url="file://$PROJECT_DIR$/Assets/Script/Data/SaveData.cs" charset="GBK" />
     <file url="file://$PROJECT_DIR$/Assets/Script/GameObject/Player/Player.cs" charset="GBK" />
     <file url="file://$PROJECT_DIR$/Assets/Script/GameObject/SkeletonScript.cs" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/Assets/Script/UIScript/Bag/TabView.cs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Assets/Script/UIScript/Manager/UIManager.cs" charset="GBK" />
     <file url="file://$PROJECT_DIR$/Assets/Script/UIScript/UI/EquipItemScript.cs" charset="GBK" />
     <file url="file://$PROJECT_DIR$/Assets/ScriptableObject/PlayerData/Script/MonsterValue.cs" charset="GBK" />

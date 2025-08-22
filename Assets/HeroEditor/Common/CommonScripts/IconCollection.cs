@@ -23,7 +23,7 @@ namespace Assets.HeroEditor.Common.CommonScripts
         [RuntimeInitializeOnLoadMethod]
         public static void Initialize()
         {
-            Instances = Resources.LoadAll<IconCollection>("").ToDictionary(i => i.Id, i => i);
+            // Instances = Resources.LoadAll<IconCollection>("").ToDictionary(i => i.Id, i => i);
         }
 
         public string Id;

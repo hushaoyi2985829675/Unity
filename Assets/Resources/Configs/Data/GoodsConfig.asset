@@ -12,30 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3ece16a0941eb41b61c24e32756dcf, type: 3}
   m_Name: GoodsConfig
   m_EditorClassIdentifier: 
-  goodTypeInfoList:
-  - goodType: 1
-    goodInfoList:
-    - good: 1
-      name: "\u6728\u8D28\u72FC\u7259\u68D2"
-      id: Extensions.AbandonedWorkshop.MeleeWeapon1H.BarbedClub
-      type: 7
-      icon: 
-      image: 
-    - good: 2
-      name: "\u666E\u901A\u77ED\u5251"
-      id: FantasyHeroes.Basic.MeleeWeapon1H.AssassinDagger [Paint]
-      type: 7
-      icon: 
-      image: 
-    - good: 3
-      name: "\u666E\u901A\u94C1\u5251"
-      id: FantasyHeroes.Knights.MeleeWeapon1H.BalancedSword [Paint]
-      type: 7
-      icon: 
-      image: 
-    - good: 4
-      name: "\u666E\u901A\u914D\u5251"
-      id: FantasyHeroes.Basic.MeleeWeapon1H.Bilbo
-      type: 7
-      icon: 
-      image: 
+  goodInfoList:
+  - good: 1
+    name: "\u679C\u5B50"
+    icon: 
+    image: 
+    desc: "\u679C\u5B50\u7B80\u4ECB"

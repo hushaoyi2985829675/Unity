@@ -15,3 +15,5 @@ MonoBehaviour:
   npcIdInfoList:
   - npcId: 1
     name: "\u5546\u5E97\u8001\u677F"
+  - npcId: 2
+    name: "\u94C1\u5320"

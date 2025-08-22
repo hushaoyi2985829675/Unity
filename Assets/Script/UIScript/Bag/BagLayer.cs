@@ -132,9 +132,7 @@ public class BagLayer : PanelBase
         if (Tag == 0)
         {
             GridView.AddRefreshEvent(onRefreshItem);
-            GridView.SetItemNumAndSpace(HorizontalNum, VerticalNum, Space.x, Space.y);
-            GridView.LoadGridViewData();
-            GridView.RefreshAllItem();
+            GridView.SetItemNumAndSpace(20, HorizontalNum, Space.x, Space.y);
         }
     }
     public void RefreshPlayer()
