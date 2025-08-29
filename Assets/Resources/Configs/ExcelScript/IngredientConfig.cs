@@ -12,6 +12,7 @@ namespace Ingredient
 	{
 		public int material;
 		public string name;
+		public string icon;
 	}
 
 	public class IngredientConfig: ScriptableObject

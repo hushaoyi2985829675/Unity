@@ -16,20 +16,9 @@ public enum LayerAction
     AllAction,
 }
 
-public class UIManager 
+public class UIManager : Singleton<UIManager>
 {
-   private static UIManager _instance;
-    public static UIManager Instance
-    {
-        get
-        {
-            if ( _instance == null)
-            {
-                _instance = new UIManager();
-            }          
-            return _instance;
-        }
-    }
+    public GameObject ResourceNode;
     private Dictionary<string,PanelBase> LayerList;
     private Dictionary<string, PanelBase> PopLayerList;
     private Dictionary<string, PanelBase> UINodeList;
@@ -39,7 +28,8 @@ public class UIManager
     GameObject NpcCamera;
     GameObject PlayerCamera;
     CinemachineBlenderSettings CinemachineBlenderSettings;
-    UIManager()
+
+    private void Awake()
     {
         LayerList = new Dictionary<string, PanelBase>();
         MapList = new Dictionary<string, GameObject>();
@@ -49,6 +39,11 @@ public class UIManager
         NpcCamera = GameObject.FindWithTag("NpcCamera");
         PlayerCamera = GameObject.FindWithTag("PlayerCamera");
         layerCanvas = GameObject.FindWithTag("LayerCanvas").transform;
+    }
+
+    private void Start()
+    {
+        AddUINode(ResourceNode, layerCanvas);
     }
     public PanelBase OpenLayer(GameObject layerRef, params object[] data)
     {
@@ -81,10 +76,10 @@ public class UIManager
             }
 
             var layer = GameObject.Instantiate(layerRef, parent);
+            layer.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
             layer.name = layerRef.name;
             PanelBase layerScript = layer.GetComponent<PanelBase>();
-            layerScript.transform.localPosition = new Vector3(0, 0, 0);
-            layerScript.transform.SetAsLastSibling();
+            layerScript.transform.SetSiblingIndex(parent.childCount - 2);
             layerScript.onEnter(data);
             layerList[layerRef.name] = layerScript;
             return layerScript;
@@ -106,6 +101,7 @@ public class UIManager
             }
 
             var layer = GameObject.Instantiate(layerRef, layerCanvas);
+            layer.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
             PanelBase layerScript = layer.GetComponent<PanelBase>();
             layerScript.transform.localPosition = new Vector3(0, 0, 0);
             layerScript.onEnter(data);
@@ -116,6 +112,7 @@ public class UIManager
     public void CloseLayer(String name)
     {
         PanelBase curLayer = LayerList[name];
+        curLayer.transform.SetSiblingIndex(0);
         curLayer.SetActive(false);
         curLayer.onExit();
     }
@@ -136,6 +133,7 @@ public class UIManager
     public void ClosePopLayer(string name)
     {
         PanelBase curLayer = PopLayerList[name];
+        curLayer.transform.SetSiblingIndex(0);
         curLayer.SetActive(false);
         curLayer.onExit();
     }
@@ -143,6 +141,7 @@ public class UIManager
     public void CloseUINode(string name)
     {
         PanelBase curLayer = UINodeList[name];
+        curLayer.transform.SetSiblingIndex(0);
         curLayer.SetActive(false);
         curLayer.onExit();
     } 

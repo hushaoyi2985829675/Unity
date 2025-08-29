@@ -8,52 +8,49 @@ public class BlacksmithLayer : PanelBase
     public Transform toggleGroup;
     public Transform parentNode;
     public GameObject foundryNode;
+    public GameObject sellNode;
     public Button closeButton;
+    public ToggleTableView toggleTableView;
+    private int selTag = 0;
+    private PanelBase oldLayer;
 
     public override void onEnter(params object[] data)
     {
+        toggleTableView.AddChangeEvent(TabChange);
+        toggleTableView.InitData(0);
         //处理标签
-        InitTab();
-        TabChange(true, 0);
         closeButton.onClick.AddListener(() => { UIManager.Instance.CloseLayer(gameObject.name); });
     }
 
-    public void InitTab()
+    public void TabChange(int i)
     {
-        for (int i = 0; i < toggleGroup.childCount; i++)
-        {
-            Toggle toggle = toggleGroup.GetChild(i).GetComponent<Toggle>();
-            int idx = i;
-            toggle.isOn = i == 0;
-            toggle.onValueChanged.AddListener((isOn) => { TabChange(isOn, idx); });
-        }
-    }
-
-    public void TabChange(bool isOn, int i)
-    {
+        GameObject layer;
+        selTag = i;
         //铸造
         if (i == 0)
         {
-            FoundryClick(isOn);
+            layer = sellNode;
         }
         else if (i == 1)
         {
+            layer = foundryNode;
         }
         else
         {
+            layer = foundryNode;
         }
+
+        AddLayerNode(layer);
     }
 
-    void FoundryClick(bool isOn)
+    void AddLayerNode(GameObject layer)
     {
-        if (isOn)
+        if (oldLayer != null)
         {
-            UIManager.Instance.AddUINode(foundryNode, parentNode);
+            UIManager.Instance.CloseUINode(oldLayer.name);
         }
-        else
-        {
-            UIManager.Instance.CloseUINode(foundryNode.name);
-        }
+
+        oldLayer = UIManager.Instance.AddUINode(layer, parentNode);
     }
 
     public override void onExit()

@@ -15,17 +15,25 @@ MonoBehaviour:
   materialInfoList:
   - material: 1
     name: "\u94C1\u5757"
+    icon: i_1
   - material: 2
     name: "\u6728\u6750"
+    icon: i_1
   - material: 3
     name: "\u786C\u6728"
+    icon: i_1
   - material: 4
     name: "\u9EBB\u7EF3"
+    icon: i_1
   - material: 5
     name: " \u72FC\u7259"
+    icon: i_1
   - material: 6
     name: "\u517D\u76AE"
+    icon: i_1
   - material: 7
     name: "\u7EC6\u6728\u679D"
+    icon: i_1
   - material: 8
     name: "\u94DC\u5757"
+    icon: i_1

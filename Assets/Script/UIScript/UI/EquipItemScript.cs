@@ -16,6 +16,7 @@ public class EquipItemScript : MonoBehaviour
     private SpriteRenderer spriteRenderer;
         
     private string id;
+    private int equipId;
     private EquipmentPart part;
     SpriteGroupEntry Weapon;
     ItemIcon WeaponIcon;
@@ -59,11 +60,12 @@ public class EquipItemScript : MonoBehaviour
     {
         
     }
-    
-    public void InitData(string id, EquipmentPart part)
+
+    public void InitData(string id, int equipId)
     {
         this.id = id;
-        this.part = part;
+        this.equipId = equipId;
+        part = (EquipmentPart) Ui.Instance.GetEquipInfo(equipId).part;
         polygonCollider = GetComponent<PolygonCollider2D>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         Refresh();
@@ -75,7 +77,7 @@ public class EquipItemScript : MonoBehaviour
         {           
             collision.gameObject.GetComponent<Player>().CheckoutEquip(Weapon,part);
             //·ÅÈë±³°ü
-            BagData.AddEquip(Weapon, part);
+            BagData.AddEquip(Weapon, equipId);
             Destroy(gameObject);
         }
     }

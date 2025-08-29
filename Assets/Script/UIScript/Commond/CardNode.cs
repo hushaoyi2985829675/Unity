@@ -13,7 +13,7 @@ public class CardNode : MonoBehaviour
 
     public void SetCardData(GoodsType goodsType, int id, int num = -1)
     {
-        Sprite sprite = Ui.Instance.GetEquipIcon(goodsType, id);
+        Sprite sprite = Ui.Instance.GetGoodIcon(goodsType, id);
         icon.sprite = sprite;
         if (num != -1)
         {

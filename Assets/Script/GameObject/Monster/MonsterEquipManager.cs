@@ -97,7 +97,7 @@ public class MonsterEquipManager : MonoBehaviour
         {
             GameObject item = Resources.Load<GameObject>("GameObjectRef/EquipItemRef");
             item.transform.localPosition = monster.transform.localPosition;
-            item.GetComponent<EquipItemScript>().InitData(equipData.Id,equipData.Part);
+            //item.GetComponent<EquipItemScript>().InitData(equipData.Id,equipData.Part);
             Instantiate(item);
         }
     }

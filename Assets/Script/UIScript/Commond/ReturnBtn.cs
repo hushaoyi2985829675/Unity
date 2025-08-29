@@ -6,11 +6,12 @@ using UnityEngine.UI;
 public class ReturnBtn : MonoBehaviour
 {
     private Button btn;
+    public GameObject parent;
     void Start()
     {
         btn = GetComponent<Button>();
         btn.onClick.AddListener(() => {
-            UIManager.Instance.CloseLayer(gameObject.name);
+            UIManager.Instance.CloseLayer(parent.name);
         });
     }
 }

@@ -13,6 +13,6 @@ public class Stairs : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Input.GetKeyDown(KeyCode.W);
+       
     }
 }

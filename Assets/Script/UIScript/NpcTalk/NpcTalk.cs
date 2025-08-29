@@ -40,7 +40,7 @@ public class NpcTalk : PanelBase
 {
     public EventTrigger trigger;
     public PlayerTaskData PlayerTaskData;
-    public GoodsConfig GoodsConfig;
+    private GoodsConfig GoodsConfig;
     public Text talkText;
 
     public int playerLv = 1;
@@ -70,7 +70,8 @@ public class NpcTalk : PanelBase
     private int npcId = 1;
     private NpcTalkInfo npcInfo;
 
-    [Header("配置")] private NpcTalkTaskConfig NpcTalkTaskConfig;
+    //配置
+    private NpcTalkTaskConfig NpcTalkTaskConfig;
     private OptionConfig OptionConfig;
     private PlayerLvInfo playerLvInfo;
     private TalkConfig TalkConfig;
@@ -80,36 +81,31 @@ public class NpcTalk : PanelBase
     private ConfigTaskInfo taskInfo;
     private List<string> taskingTalkStrList = new();
 
-    [Header("任务页面")] private GameObject TaskLayer;
+    //任务页面
+    private GameObject TaskLayer;
+    private GameObject NpcLayer;
     private List<string> taskRefusetTalkList = new();
     private string[] taskStrList;
     private Tween textTween;
-
-    private void Awake()
-    {
-    }
-
-    private void Update()
-    {
-    }
-
+    
     public override void onEnter(params object[] data)
     {
         npcId = (int) data[0];
+        NpcLayer = (GameObject) data[1];
         var entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerClick;
         entry.callback.AddListener(TouchClick);
         trigger.triggers.Add(entry);
         taskStrList = new string[2];
         isTriggerTaskSel = false;
-        operatorNode = GameObject.Find("OptionNode").transform;
-        TaskLayer = Resources.Load<GameObject>("Ref/LayerRef/UIRef/TaskLayer/TaskLayer");
+        operatorNode = transform.Find("OptionNode").transform;
         NpcTalkTaskConfig = Resources.Load<NpcTalkTaskConfig>("Configs/Data/NpcTalkTaskConfig");
         TaskConfig = Resources.Load<TaskConfig>("Configs/Data/TaskConfig");
         TalkConfig = Resources.Load<TalkConfig>("Configs/Data/TalkConfig");
         NpcConfig = Resources.Load<NpcConfig>("Configs/Data/NpcConfig");
         OptionConfig = Resources.Load<OptionConfig>("Configs/Data/OptionConfig");
         MapConfig = Resources.Load<Map.MapConfig>("Configs/Data/MapConfig");
+        TaskLayer = Resources.Load<GameObject>("Ref/LayerRef/UIRef/TaskLayer/TaskLayer");
         npcInfo = NpcTalkTaskConfig.npcIdInfoList.Find(obj => obj.npcId == npcId);
         npcCfgInfo = NpcConfig.npcIdInfoList.Find(obj => obj.npcId == npcId);
         playerLvInfo = npcInfo.playerLvInfoList.Find(obj => obj.playerLv == playerLv);
@@ -303,6 +299,10 @@ public class NpcTalk : PanelBase
                 {
                     OpenNpcLayer();
                 }
+                else if (id == (int) OperatorType.Task)
+                {
+                    OpenTaskLayer();
+                }
             });
             return;
         }
@@ -373,7 +373,14 @@ public class NpcTalk : PanelBase
 
     private void OpenNpcLayer()
     {
-        //UIManager.Instance.OpenLayer(TaskLayer);
+        UIManager.Instance.OpenLayer(NpcLayer);
+        CloseClick();
+    }
+
+    private void OpenTaskLayer()
+    {
+        UIManager.Instance.OpenLayer(TaskLayer);
+        CloseClick();
     }
 
     private void CloseClick()

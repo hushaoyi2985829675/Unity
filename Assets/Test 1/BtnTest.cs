@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class BtnTest : MonoBehaviour
 {
     public GameObject TalkLayerPrefab;
-    private int i = 1;
+    public PlayerResData resData;
+
     void Start()
     {
       GetComponent<Button>().onClick.AddListener(() =>

@@ -9,7 +9,7 @@ public class NpcScript : NpcBase
     GameObject talkLayer;
     void Start()
     {
-        talkLayer = Resources.Load<GameObject>("Ref/LayerRef/UIRef/TalkLayer");
+        talkLayer = Resources.Load<GameObject>("Ref/LayerRef/UIRef/TalkLayer/TalkLayer");
         Debug.Log(talkLayer);
         boxCollider =  GetComponent<BoxCollider2D>();
 
@@ -26,7 +26,7 @@ public class NpcScript : NpcBase
 
     void Talk()
     {
-        UIManager.Instance.OpenLayer(talkLayer,new object[] {this.npcId});
+        UIManager.Instance.OpenLayer(talkLayer, new object[] {this.npcId, npcLayer});
     }
     
     private void OnTriggerEnter2D(Collider2D other)

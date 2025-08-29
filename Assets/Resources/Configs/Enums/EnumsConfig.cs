@@ -6,6 +6,8 @@ public enum GoodsType
 {
     Equip = 1,
     Good = 2,
+    Ingredient = 3,
+    Resource = 4,
 }
 
 public enum TaskType

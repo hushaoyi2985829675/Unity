@@ -282,7 +282,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6812064433033076893, guid: d52614053ec6644418934baf653e5a27, type: 3}
       propertyPath: m_Name
-      value: CardNode (1)
+      value: CardNode
       objectReference: {fileID: 0}
     - target: {fileID: 6812064433033076893, guid: d52614053ec6644418934baf653e5a27, type: 3}
       propertyPath: m_IsActive

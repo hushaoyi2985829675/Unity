@@ -51,7 +51,7 @@ public class foundryNode : PanelBase
     private void InitData()
     {
         selId = 0;
-        selTag = -1;
+        selTag = 0;
         FoundConfigList = Resources.Load<FoundryConfig>("Configs/Data/FoundryConfig").foundryInfoList;
         equipInfoList = Resources.Load<EquipConfig>("Configs/Data/EquipConfig").equipInfoList
             .ToDictionary(key => key.equip, value => value);
@@ -103,44 +103,36 @@ public class foundryNode : PanelBase
             int n = i;
             toggle.onValueChanged.AddListener((isOn) =>
             {
-                Debug.Log(n);
+                if (selTag == n)
+                {
+                    return;
+                }
+
                 ChangeTag(isOn, n);
             });
         }
+
+        ChangeTag(true, selTag);
     }
 
     private void ChangeTag(bool isOn, int tag)
     {
-        if (selTag == tag || !isOn)
+        if (!isOn)
         {
             return;
         }
-
-        Debug.Log(tag);
         selTag = tag;
-        // if (!FoundryClassifyList.ContainsKey(tag))
-        // {
-        //     FoundryClassifyList[tag] = GetClassifyList(tag);
-        //     Equip.EquipInfo equipInfo = equipInfoList[tag];
-        // }
-
         FoundryList = FoundryClassifyList.ContainsKey(tag) ? FoundryClassifyList[tag] : null;
         if (FoundryList == null)
         {
-            gridView.SetItemNumAndSpace(0, 4, 30, 30);
+            gridView.SetItemAndRefresh(0);
         }
         else
         {
-            gridView.SetItemNumAndSpace(FoundryList.Count, 4, 30, 30);
+            gridView.SetItemAndRefresh(FoundryList.Count);
         }
     }
-
-    private void GetClassifyList(int tag)
-    {
-        // FoundryInfo foundryInfo = FoundConfigList[index];
-        // Equip.EquipInfo equip = equipInfoList.Find((obj) => foundryInfo.foundry == obj.equip);
-    }
-
+    
     private void CreateItem(int index, GameObject item)
     {
         FoundryInfo foundryInfo = FoundryList[index];
@@ -148,6 +140,10 @@ public class foundryNode : PanelBase
         CardNode cardNode = item.GetComponent<CardNode>();
         cardNode.SetCardData(GoodsType.Equip, foundryInfo.foundry);
         cardNode.SetSelState(selId == foundryInfo.foundry);
+        if (selId == foundryInfo.foundry)
+        {
+            oldCardNode = cardNode;
+        }
         cardNode.SetClick(() =>
         {
             if (selId == foundryInfo.foundry)
@@ -187,13 +183,16 @@ public class foundryNode : PanelBase
         List<ResClass> resList = Ui.Instance.FormatStr(equip.synthesisRoute);
         for (int i = 0; i < resList.Count; i++)
         {
-            ResClass res = resList[i];
-            GameObject cardNode = Instantiate(materialCardNode, materialNode);
+            ResClass resClass = resList[i];
+            GameObject temp = Instantiate(materialCardNode, materialNode);
             float x = -(resList.Count - 1) * 150 / 2 + i * 150;
-            cardNode.transform.localPosition = new Vector3(x, 0, 0);
+            temp.transform.localPosition = new Vector3(x, 0, 0);
+            CardNode cardNode = temp.transform.Find("CardNode").GetComponent<CardNode>();
+            cardNode.SetSelState(false);
+            cardNode.SetCardData(GoodsType.Ingredient, resClass.resourceId, resClass.num);
             if (i == resList.Count - 1)
             {
-                GameObject horizontalLine = Ui.Instance.GetChild(cardNode.transform, "HorizontalLine");
+                GameObject horizontalLine = Ui.Instance.GetChild(temp.transform, "HorizontalLine");
                 horizontalLine.SetActive(false);
             }
         }
@@ -207,8 +206,7 @@ public class foundryNode : PanelBase
         }
 
         Equip.EquipInfo equipInfo = Ui.Instance.GetEquipInfo(selId);
-        SpriteGroupEntry entry = Ui.Instance.GetEquipEntry((EquipmentPart) equipInfo.part, equipInfo.id);
-        GameDataManager.Instance.AddEquip(entry, (EquipmentPart) equipInfo.part);
+        GameDataManager.Instance.AddEquip(selId);
         Ui.Instance.ShowFlutterView("获得" + equipInfo.name);
     }
 

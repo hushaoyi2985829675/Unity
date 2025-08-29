@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using HeroEditor.Common.Enums;
 using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
@@ -23,11 +24,6 @@ public class BagLayer : PanelBase
     [Header("����Ԥ����")]
     public GameObject PlayerRef;
     GameObject BagPlayer;
-    [Header("������������")]
-    public int HorizontalNum;
-    public int VerticalNum;
-    [Header("ÿ�����Ӽ��")]
-    public Vector2 Space;
     [Header("��ͼ�ڵ�")]
     public GridView GridView;
     public TabView TabView;
@@ -132,7 +128,7 @@ public class BagLayer : PanelBase
         if (Tag == 0)
         {
             GridView.AddRefreshEvent(onRefreshItem);
-            GridView.SetItemNumAndSpace(20, HorizontalNum, Space.x, Space.y);
+            GridView.SetItemAndRefresh(20);
         }
     }
     public void RefreshPlayer()
@@ -159,8 +155,10 @@ public class BagLayer : PanelBase
             return;
         }
         var info = BagDataInfo[SelectIdx];
-        BagPlayer.transform.Find("Player").GetComponent<Character>().Equip(info.SpriteGroupEntry, info.Part);
-        Player.GetComponent<Player>().CheckoutEquip(info.SpriteGroupEntry, info.Part);
+        Equip.EquipInfo equipInfo = Ui.Instance.GetEquipInfo(info.id);
+        EquipmentPart part = (EquipmentPart) equipInfo.part;
+        BagPlayer.transform.Find("Player").GetComponent<Character>().Equip(info.SpriteGroupEntry, part);
+        Player.GetComponent<Player>().CheckoutEquip(info.SpriteGroupEntry, part);
         //更新
         PlayerEquipSlot.RefreshAllEquip();
     }

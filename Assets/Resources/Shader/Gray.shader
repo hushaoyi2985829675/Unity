@@ -4,6 +4,15 @@ Shader "Custom/Gray"
     {
         _MainTex ("Texture", 2D) = "white" {}
         _Grayscale ("Grayscale", Float) = 1.0 // 灰度强度（0=原色，1=全灰）
+        
+        // 新增Stencil相关属性（与Unity UI默认 shader 保持一致）
+        _StencilComp ("Stencil Comparison", Float) = 8
+        _Stencil ("Stencil ID", Float) = 0
+        _StencilOp ("Stencil Operation", Float) = 0
+        _StencilWriteMask ("Stencil Write Mask", Float) = 255
+        _StencilReadMask ("Stencil Read Mask", Float) = 255
+
+        _ColorMask ("Color Mask", Float) = 15
     }
 
     SubShader
@@ -11,10 +20,24 @@ Shader "Custom/Gray"
         // 标签：支持 UI 和 2D/3D 物体
         Tags
         {
-            "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjector"="True"
+            "Queue"="Transparent" 
+            "RenderType"="Transparent" 
+            "IgnoreProjector"="True"
+            "PreviewType"="Plane" // 预览类型为平面（适合UI）
         }
         LOD 100
         Blend SrcAlpha OneMinusSrcAlpha // 支持透明通道
+        
+        // 新增Stencil测试配置
+        Stencil
+        {
+            Ref [_Stencil]
+            Comp [_StencilComp]
+            Pass [_StencilOp]
+            ReadMask [_StencilReadMask]
+            WriteMask [_StencilWriteMask]
+        }
+        ColorMask [_ColorMask] // 颜色遮罩
 
         Pass
         {
@@ -67,5 +90,6 @@ Shader "Custom/Gray"
             ENDCG
         }
     }
-    FallBack "Diffuse" // 降级渲染器
+    FallBack "UI/Default" // 降级为UI默认着色器（而非Diffuse，更适合UI）
 }
+    

@@ -2103,9 +2103,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bca396bdf7c7a64eb5d54684a00360b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  equipCharate: {fileID: 11400000, guid: 67df0055f086ea54ab4c4c686088fbc4, type: 2}
-  spriteCollection: {fileID: 11400000, guid: 7cbc94d24ff94bfbb7cdb873a884501b, type: 2}
-  parent: {fileID: 382766830}
 --- !u!1 &397345471
 GameObject:
   m_ObjectHideFlags: 0
@@ -25953,6 +25950,7 @@ MonoBehaviour:
   BagData: {fileID: 11400000, guid: 27536095a5500a24183e7d0a6032793e, type: 2}
   PlayerEquipData: {fileID: 11400000, guid: f51f756be4a1ffe44978194e3dfa7893, type: 2}
   PlayerValueData: {fileID: 0}
+  PlayerTaskData: {fileID: 0}
 --- !u!114 &1703127658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26882,6 +26880,7 @@ MonoBehaviour:
   BagData: {fileID: 11400000, guid: 27536095a5500a24183e7d0a6032793e, type: 2}
   PlayerEquipData: {fileID: 11400000, guid: f51f756be4a1ffe44978194e3dfa7893, type: 2}
   PlayerValueData: {fileID: 11400000, guid: 1c1ca10943772664d86470047883a9b3, type: 2}
+  PlayerTaskData: {fileID: 0}
 --- !u!1 &2112537871
 GameObject:
   m_ObjectHideFlags: 0
@@ -76004,7 +76003,8 @@ PrefabInstance:
       propertyPath: m_UsedByEffector
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1672263436269374510, guid: 550b0225e77b26045a3c662b5dad5672, type: 3}
     m_RemovedGameObjects:
     - {fileID: 2436669452465619309, guid: 550b0225e77b26045a3c662b5dad5672, type: 3}
     m_AddedGameObjects:
@@ -76053,7 +76053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206f26182b7ef444680a17b8326446af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcLayer: {fileID: 0}
+  npcLayer: {fileID: 7722944447074447923, guid: 1a39e4525594b484f98b8a5cd2810dd1, type: 3}
   isPlayer: 0
   npcId: 1
 --- !u!1660057539 &9223372036854775807

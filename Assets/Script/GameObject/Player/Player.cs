@@ -191,9 +191,7 @@ public partial class Player : MonoBehaviour
             rd.gravityScale = 1;
         }
     }
-    #endregion
     
-    #region 移动控制
     void MoveAction()
     {
         if (isStairs)
@@ -241,9 +239,7 @@ public partial class Player : MonoBehaviour
         
         velocityY = rd.velocity.y;
     }
-    #endregion
     
-    #region 伤害处理
     void DeathState(Vector2 attackerPosition)
     {
         isDeath = true;
@@ -273,7 +269,6 @@ public partial class Player : MonoBehaviour
     }
     #endregion
     
-    #region 动画事件处理
     void AttackEvent(string eventName)
     {
         switch (eventName)
@@ -289,9 +284,7 @@ public partial class Player : MonoBehaviour
                 break;
         }
     }
-    #endregion
     
-    #region 公共方法
     public void RefreshUI()
     {
         playerUI.InitUI();
@@ -301,9 +294,7 @@ public partial class Player : MonoBehaviour
     {
         transform.localPosition = position;
     }
-    #endregion
     
-    #region 碰撞检测
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Equip"))
@@ -327,7 +318,6 @@ public partial class Player : MonoBehaviour
             // 处理装备碰撞
         }
     }
-    #endregion
     
     // 其他方法
     // private void UpdateEquip()

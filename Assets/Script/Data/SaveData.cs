@@ -12,7 +12,7 @@ public class SaveData : MonoBehaviour
 
     void Start()
     {
-        SvaeDataClick();
+        //SvaeDataClick();
     }
 
     public void SvaeDataClick()
@@ -21,8 +21,6 @@ public class SaveData : MonoBehaviour
         ToJosn("PlayerEquipData", PlayerEquipData);
         ToJosn("PlayerValueData", PlayerValueData);
         ToJosn("PlayerTaskData", PlayerTaskData);
-        Debug.Log(Application.persistentDataPath);
-        Debug.Log("保存数据成功");
     }
 
     public void DeleteDataClick()

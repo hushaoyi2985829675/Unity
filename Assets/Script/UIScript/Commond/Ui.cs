@@ -9,6 +9,8 @@ using Goods;
 using UnityEngine;
 using HeroEditor.Common;
 using HeroEditor.Common.Enums;
+using Ingredient;
+using Resource;
 using GoodInfo = Goods.GoodInfo;
 
 enum GoodType
@@ -17,47 +19,51 @@ enum GoodType
 
 public class ResClass
 {
-    public int resourcdId;
+    public int resourceId;
     public int num;
 }
 
-public class Ui : MonoBehaviour
+public class Ui : Singleton<Ui>
 {
-    private static Ui _instance;
-    private GoodsConfig GoodsConfig;
-    private EquipConfig EquipConfig;
     private IconCollection IconCollection;
-    private Dictionary<int, Equip.EquipInfo> equipGoodList;
 
-    private Dictionary<int, GoodInfo> goodGoodList;
-
+    //道具表
+    private Dictionary<int, GoodInfo> GoodConfig;
+    private Dictionary<int, Equip.EquipInfo> EquipConfig;
+    private Dictionary<int, MaterialInfo> IngredientConfig;
+    private Dictionary<int, ResourceInfo> ResourceConfig;
+    
     private SpriteCollection SpriteCollection;
-    //装备图标缓存
+
+    //图标缓存
     private Dictionary<string, Sprite> equipIconList;
-    private Dictionary<int, Sprite> goodIconList; 
-    public static Ui Instance
-    {
-        get
-        {
-            if ( _instance == null)
-            {
-                _instance = FindObjectOfType<Ui>();
-            }          
-            return _instance;
-        }
-    }
+    private Dictionary<int, Sprite> goodIconList;
+    private Dictionary<int, Sprite> ingredientIconList;
+    private Dictionary<int, Sprite> resourceIconList;
     private GameObject flutteViewRef;
-    void Start()
+
+    private void Awake()
     {
-        flutteViewRef = Resources.Load<GameObject>("Ref/LayerRef/UIRef/FlutterWindowsLayer");
-        GoodsConfig = Resources.Load<GoodsConfig>("Configs/Data/GoodsConfig");
-        EquipConfig = Resources.Load<EquipConfig>("Configs/Data/EquipConfig");
+        EquipConfig = Resources.Load<EquipConfig>("Configs/Data/EquipConfig").equipInfoList
+            .ToDictionary(key => key.equip, value => value);
+        GoodConfig = Resources.Load<GoodsConfig>("Configs/Data/GoodsConfig").goodInfoList
+            .ToDictionary(key => key.good, value => value);
+        IngredientConfig = Resources.Load<IngredientConfig>("Configs/Data/IngredientConfig").materialInfoList
+            .ToDictionary(key => key.material, value => value);
+        ResourceConfig = Resources.Load<ResourceConfig>("Configs/Data/ResourceConfig").resourceInfoList
+            .ToDictionary(key => key.resource, value => value);
+        flutteViewRef = Resources.Load<GameObject>("Ref/LayerRef/UIRef/Commond/FlutterWindowsLayer");
         IconCollection = Resources.Load<IconCollection>("Configs/Data/IconCollection");
         SpriteCollection = Resources.Load<SpriteCollection>("Configs/Data/SpriteCollection");
-        equipGoodList = EquipConfig.equipInfoList.ToDictionary(key => key.equip, value => value);
-        goodGoodList = GoodsConfig.goodInfoList.ToDictionary(key => key.good, value => value);
         goodIconList = new Dictionary<int, Sprite>();
         equipIconList = new Dictionary<string, Sprite>();
+        ingredientIconList = new Dictionary<int, Sprite>();
+        resourceIconList = new Dictionary<int, Sprite>();
+    }
+
+    void Start()
+    {
+      
     }
 
     // Update is called once per frame
@@ -74,15 +80,26 @@ public class Ui : MonoBehaviour
     //获取装备配置信息
     public Equip.EquipInfo GetEquipInfo(int id)
     {
-        return equipGoodList[id];
+        return EquipConfig[id];
     }
 
     //获取道具配置信息
     public GoodInfo GetGoodInfo(int id)
     {
-        return goodGoodList[id];
+        return GoodConfig[id];
     }
 
+    //获取材料配置信息
+    public MaterialInfo GetIngredientInfo(int id)
+    {
+        return IngredientConfig[id];
+    }
+
+    //获取资源配置信息
+    public ResourceInfo GetResourceInfo(int id)
+    {
+        return ResourceConfig[id];
+    }
     //获取道具名字
     public string GetGoodName(int type, int id)
     {
@@ -91,11 +108,15 @@ public class Ui : MonoBehaviour
             case GoodsType.Equip:
                 Equip.EquipInfo equipInfo = GetEquipInfo(id);
                 return equipInfo.name;
-                break;
             case GoodsType.Good:
                 GoodInfo goodInfo = GetGoodInfo(id);
                 return goodInfo.name;
-                break;
+            case GoodsType.Ingredient:
+                MaterialInfo materialInfo = GetIngredientInfo(id);
+                return materialInfo.name;
+            case GoodsType.Resource:
+                ResourceInfo resourceInfo = GetResourceInfo(id);
+                return resourceInfo.name;
             default:
                 return "";
         }
@@ -109,11 +130,15 @@ public class Ui : MonoBehaviour
             case GoodsType.Equip:
                 Equip.EquipInfo equipInfo = GetEquipInfo(id);
                 return equipInfo.desc;
-                break;
             case GoodsType.Good:
                 GoodInfo goodInfo = GetGoodInfo(id);
                 return goodInfo.desc;
-                break;
+            // case GoodsType.Ingredient:
+            //     MaterialInfo materialInfo = GetIngredientInfo(id);
+            //     return materialInfo.desc;
+            // case GoodsType.Resource:
+            //     ResourceInfo resourceInfo = GetResourceInfo(id);
+            //     return resourceInfo.desc;
             default:
                 return "";
         }
@@ -184,7 +209,7 @@ public class Ui : MonoBehaviour
         }
         else
         {
-            return goodGoodList[id].name;
+            return GoodConfig[id].name;
         }
     }
 
@@ -198,13 +223,13 @@ public class Ui : MonoBehaviour
     }
 
     //获取道具Icon
-    public Sprite GetEquipIcon(GoodsType type, int id)
+    public Sprite GetGoodIcon(GoodsType type, int id)
     {
         Sprite sprite;
         switch (type)
         {
             case GoodsType.Equip:
-                string eId = equipGoodList[id].id;
+                string eId = EquipConfig[id].id;
                 if (equipIconList.ContainsKey(eId))
                 {
                     return equipIconList[eId];
@@ -215,18 +240,34 @@ public class Ui : MonoBehaviour
                     equipIconList[eId] = sprite;
                     return sprite;
                 }
-
-                break;
+            
             case GoodsType.Good:
                 if (goodIconList.ContainsKey(id))
                 {
                     return goodIconList[id];
                 }
 
-                sprite = LoadSprite(goodGoodList[id].icon);
+                sprite = LoadSprite(GoodConfig[id].icon);
                 goodIconList[id] = sprite;
                 return sprite;
-                break;
+            case GoodsType.Ingredient:
+                if (ingredientIconList.ContainsKey(id))
+                {
+                    return ingredientIconList[id];
+                }
+
+                sprite = LoadSprite(IngredientConfig[id].icon);
+                ingredientIconList[id] = sprite;
+                return sprite;
+            case GoodsType.Resource:
+                if (resourceIconList.ContainsKey(id))
+                {
+                    return resourceIconList[id];
+                }
+
+                sprite = LoadSprite(ResourceConfig[id].icon);
+                resourceIconList[id] = sprite;
+                return sprite;
             default:
                 return null;
         }
@@ -235,7 +276,26 @@ public class Ui : MonoBehaviour
     //加載图片
     public Sprite LoadSprite(string name)
     {
-        return Resources.Load<Sprite>("img/UI" + name);
+        string path = "";
+        string str = name.Split("_")[0];
+        if (str.Equals("i"))
+        {
+            path = "Ingredient";
+        }
+        else if (str.Equals("g"))
+        {
+            path = "Good";
+        }
+        else if (str.Equals("r"))
+        {
+            path = "Resource";
+        }
+        else
+        {
+            Debug.Log("图片名字有误");
+        }
+
+        return Resources.Load<Sprite>("img/" + path + "/" + name);
     }
 
     //格式化字符串 1*3||1*3
@@ -247,7 +307,7 @@ public class Ui : MonoBehaviour
         {
             string[] s = strs[i].Split('*');
             ResClass res = new ResClass();
-            res.resourcdId = int.Parse(s[0]);
+            res.resourceId = int.Parse(s[0]);
             res.num = int.Parse(s[1]);
             resList.Add(res);
         }
