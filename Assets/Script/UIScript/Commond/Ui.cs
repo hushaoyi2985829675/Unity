@@ -2,11 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using Assets.HeroEditor.Common.CommonScripts;
 using Equip;
 using Goods;
 using UnityEngine;
+using UnityEngine.UI;
 using HeroEditor.Common;
 using HeroEditor.Common.Enums;
 using Ingredient;
@@ -21,6 +21,16 @@ public class ResClass
 {
     public int resourceId;
     public int num;
+
+    public ResClass()
+    {
+    }
+
+    public ResClass(int resourceId, int num)
+    {
+        this.resourceId = resourceId;
+        this.num = num;
+    }
 }
 
 public class Ui : Singleton<Ui>
@@ -40,7 +50,10 @@ public class Ui : Singleton<Ui>
     private Dictionary<int, Sprite> goodIconList;
     private Dictionary<int, Sprite> ingredientIconList;
     private Dictionary<int, Sprite> resourceIconList;
-    private GameObject flutteViewRef;
+
+    //打开的页面
+    public GameObject flutteViewRef;
+    public GameObject showRewardRef;
 
     private void Awake()
     {
@@ -52,7 +65,6 @@ public class Ui : Singleton<Ui>
             .ToDictionary(key => key.material, value => value);
         ResourceConfig = Resources.Load<ResourceConfig>("Configs/Data/ResourceConfig").resourceInfoList
             .ToDictionary(key => key.resource, value => value);
-        flutteViewRef = Resources.Load<GameObject>("Ref/LayerRef/UIRef/Commond/FlutterWindowsLayer");
         IconCollection = Resources.Load<IconCollection>("Configs/Data/IconCollection");
         SpriteCollection = Resources.Load<SpriteCollection>("Configs/Data/SpriteCollection");
         goodIconList = new Dictionary<int, Sprite>();
@@ -274,7 +286,7 @@ public class Ui : Singleton<Ui>
     }
 
     //加載图片
-    public Sprite LoadSprite(string name)
+    private Sprite LoadSprite(string name)
     {
         string path = "";
         string str = name.Split("_")[0];
@@ -356,5 +368,18 @@ public class Ui : Singleton<Ui>
         }
 
         return entry;
+    }
+
+    //打开恭喜获得页面
+    public void ShowReward(List<ResClass> resList, GoodsType goodsType)
+    {
+        UIManager.Instance.OpenLayer(showRewardRef, new object[] {resList, goodsType});
+    }
+
+    //设置置灰
+    public void SetGray(Button button, bool isGray)
+    {
+        Gray gray = button.GetComponent<Gray>();
+        gray.SetsGray(isGray);
     }
 }

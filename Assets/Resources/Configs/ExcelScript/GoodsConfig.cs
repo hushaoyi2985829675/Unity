@@ -15,6 +15,7 @@ namespace Goods
 		public string icon;
 		public string image;
 		public string desc;
+		public bool isUse;
 	}
 
 	public class GoodsConfig: ScriptableObject

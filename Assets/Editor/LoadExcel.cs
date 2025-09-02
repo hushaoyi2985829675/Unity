@@ -15,7 +15,6 @@ using Object = System.Object;
 
 public class LoadExcel
 {
-    private static string path;
     private static string headType;
     private static ExcelWorksheet worksheet;
     [MenuItem("Tools/导表")]
@@ -28,15 +27,22 @@ public class LoadExcel
         }
         
         var file = Selection.objects[0];
-        path = AssetDatabase.GetAssetPath(file);
+        string path = AssetDatabase.GetAssetPath(file);
         if (!string.Equals(Path.GetExtension(path), ".xlsx"))
         {
             Debug.LogError("请选择一个表");
             return;
         }
-        ReadConfig();
+
+        ReadConfig(path);
     }
-    private static void ReadConfig()
+
+    [MenuItem("Tools/导全部表")]
+    private static void importAllExcel()
+    {
+    }
+
+    private static void ReadConfig(string path)
     {
         FileInfo fileInfo = new FileInfo(path);
         using (ExcelPackage excelPackage = new ExcelPackage(fileInfo))

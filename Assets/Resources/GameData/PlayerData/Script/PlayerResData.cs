@@ -46,7 +46,7 @@ public class PlayerResData : ScriptableBase
             return;
         }
 
-        resBase.num -= num;
+        resBase.num = Mathf.Max(resBase.num - num, 0);
     }
 
     public int GetResNum(int id)

@@ -15,25 +15,58 @@ MonoBehaviour:
   materialInfoList:
   - material: 1
     name: "\u94C1\u5757"
-    icon: i_1
+    icon: i_2
   - material: 2
-    name: "\u6728\u6750"
-    icon: i_1
-  - material: 3
     name: "\u786C\u6728"
-    icon: i_1
-  - material: 4
+    icon: i_3
+  - material: 3
     name: "\u9EBB\u7EF3"
+    icon: i_4
+  - material: 4
+    name: "\u72FC\u7259"
     icon: i_1
   - material: 5
-    name: " \u72FC\u7259"
-    icon: i_1
-  - material: 6
     name: "\u517D\u76AE"
-    icon: i_1
-  - material: 7
+    icon: i_5
+  - material: 6
     name: "\u7EC6\u6728\u679D"
     icon: i_1
-  - material: 8
+  - material: 7
     name: "\u94DC\u5757"
     icon: i_1
+  - material: 8
+    name: "\u7EC6\u94C1"
+    icon: i_6
+  - material: 9
+    name: "\u7ED2\u5E03"
+    icon: i_7
+  - material: 10
+    name: "\u76AE\u9769"
+    icon: i_8
+  - material: 11
+    name: "\u6C34\u6676"
+    icon: i_9
+  - material: 12
+    name: "\u79D8\u80FD\u6C34\u6676"
+    icon: 
+  - material: 13
+    name: "\u706B\u5C71\u77F3"
+    icon: 
+  - material: 14
+    name: "\u88C1\u51B3\u6C34\u6676"
+    icon: 
+  - material: 15
+    name: "\u8F89\u5149\u6C34\u6676"
+    icon: 
+  - material: 16
+    name: "\u7CBE\u91D1\u952D"
+    icon: 
+  - material: 17
+    name: "\u5723\u7FBD\u4E1D\u7EBF"
+    icon: 
+  - material: 18
+    name: "\u9C7C\u9CDE"
+    icon: 
+  - material: 19
+    name: "\u517D\u9AA8"
+    icon: 

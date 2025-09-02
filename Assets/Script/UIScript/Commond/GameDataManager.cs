@@ -15,6 +15,7 @@ public class GameDataManager : Singleton<GameDataManager>
     public PlayerLvData PlayerLvData;
     public PlayerValueData PlayerValueData;
     public PlayerResData PlayerResData;
+    public ShopBuyData ShopBuyData;
 
     public void Awake()
     {
@@ -22,7 +23,8 @@ public class GameDataManager : Singleton<GameDataManager>
         PlayerLvData = Resources.Load<PlayerLvData>(path + "PlayerLvData");
         PlayerValueData = Resources.Load<PlayerValueData>(path + "PlayerValueData");
         PlayerResData = Resources.Load<PlayerResData>(path + "PlayerResData");
-        LoadPlayerData("PlayerResData", PlayerResData);
+        ShopBuyData = Resources.Load<ShopBuyData>(path + "ShopBuyData");
+        //LoadPlayerData("PlayerResData", PlayerResData);
     }
 
     public void Start()
@@ -64,6 +66,12 @@ public class GameDataManager : Singleton<GameDataManager>
         BagData.AddEquip(entry, id);
     }
 
+    //设置道具
+    public void AddGood(int id, int num)
+    {
+        BagData.AddGood(id, num);
+    }
+
     //增加资源
     public void AddRes(int id, int num)
     {
@@ -82,5 +90,27 @@ public class GameDataManager : Singleton<GameDataManager>
     public int GetResNum(int id)
     {
         return PlayerResData.GetResNum(id);
+    }
+
+    //获取商店购买数据
+    public List<ShopBuyInfo> GetShopBuyList()
+    {
+        return ShopBuyData.shopBuyList;
+    }
+
+    //增加购买数据
+    public void AddBuyInfoData(int type, int id, int costId, int costNum)
+    {
+        ShopBuyData.AddBuyInfo(type, id);
+        DecreaseRes(costId, costNum);
+        switch ((GoodsType) type)
+        {
+            case GoodsType.Equip:
+                AddEquip(id);
+                break;
+            case GoodsType.Good:
+                AddGood(id, 1);
+                break;
+        }
     }
 }

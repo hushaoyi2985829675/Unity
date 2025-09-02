@@ -42,7 +42,8 @@ public class BagLayer : PanelBase
         {
             UIManager.Instance.CloseLayer(gameObject.name);
         });
-        BagDataInfo = BagData.Equipments.Select((vale, index) => new { Index = index, EquipmentInfo = vale }).ToDictionary(x => x.Index, x => x.EquipmentInfo);
+        BagDataInfo = BagData.EquipmentList.Select((vale, index) => new {Index = index, EquipmentInfo = vale})
+            .ToDictionary(x => x.Index, x => x.EquipmentInfo);
         Player = GameObject.FindWithTag("Player");
         if (Player == null)
         {

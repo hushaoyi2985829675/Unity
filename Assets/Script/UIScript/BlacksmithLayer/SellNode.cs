@@ -99,13 +99,13 @@ public class SellNode : PanelBase
             switch ((EquipClassif) selTag)
             {
                 case EquipClassif.Weapon:
-                    EquipClassifyList[tag] = BagData.Weapon;
+                    EquipClassifyList[tag] = BagData.WeaponList;
                     break;
                 case EquipClassif.Armor:
-                    EquipClassifyList[tag] = BagData.Armor;
+                    EquipClassifyList[tag] = BagData.ArmorList;
                     break;
                 case EquipClassif.Helmet:
-                    EquipClassifyList[tag] = BagData.Helmet;
+                    EquipClassifyList[tag] = BagData.HelmetList;
                     break;
                 default:
                     break;

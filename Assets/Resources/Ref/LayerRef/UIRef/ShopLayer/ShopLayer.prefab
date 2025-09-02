@@ -100,8 +100,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 94d643015ec8a4e42a72966e3e739678, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: a535041561454c7448db4be766d9bc85, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -356,6 +356,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlacksmithLayer
       objectReference: {fileID: 0}
+    - target: {fileID: 7996984095001602690, guid: 1a39e4525594b484f98b8a5cd2810dd1, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996984095001602690, guid: 1a39e4525594b484f98b8a5cd2810dd1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4eb192296eb88a2409891de826f046f0, type: 3}
     - target: {fileID: 8221584147735312293, guid: 1a39e4525594b484f98b8a5cd2810dd1, type: 3}
       propertyPath: m_Sprite
       value: 

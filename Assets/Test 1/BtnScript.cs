@@ -14,9 +14,7 @@ public class BtnScript : MonoBehaviour
         btn = GetComponent<Button>();
         btn.onClick.AddListener(() =>
         {
-            //UIManager.Instance.OpenLayer(talkLayerRef, new object[] {1, foundryNode});
-            GameDataManager.Instance.AddRes(1, 10);
-            GameDataManager.Instance.AddRes(2, 10);
+            UIManager.Instance.OpenLayer(talkLayerRef, new object[] { });
         });
     }
 
