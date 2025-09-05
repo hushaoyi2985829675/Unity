@@ -8,17 +8,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-// 定义枚举（选项列表）
-public enum Direction
-{
-    Horizontal,
-    Vertical
-}
 public class TableView : MonoBehaviour
 {
     [Header("方向")]
     [SerializeField]
-    public Direction  direction =  Direction.Horizontal;
+    public DirectionType direction = DirectionType.Horizontal;
     [Header("是否中心缩放")]
     public bool isScale = false;
     [Header("节点")]
@@ -61,7 +55,7 @@ public class TableView : MonoBehaviour
         scrollView.GetComponent<ScrollRect>().onValueChanged.AddListener(OnUpdate);
         size = temp.GetComponent<RectTransform>().sizeDelta ;
         Ui.Instance.RemoveAllChildren(content);
-        if (direction == Direction.Horizontal)
+        if (direction == DirectionType.Horizontal)
         {
             scrollView.horizontal = true;
             content.anchorMin = new Vector2(0,0);
@@ -92,7 +86,7 @@ public class TableView : MonoBehaviour
 
     private void RefreshData(bool isRefreshAll = false)
     {
-        if (direction == Direction.Horizontal)
+        if (direction == DirectionType.Horizontal)
         {
             minIdx = Mathf.Max(
                 (int) ((-content.GetComponent<RectTransform>().anchoredPosition.x - leftTopSpace) / size.x), 0);
@@ -144,7 +138,7 @@ public class TableView : MonoBehaviour
 
             item = itemList[i];
             item.SetActive(true);
-            if (direction == Direction.Horizontal)
+            if (direction == DirectionType.Horizontal)
             {
                 item.transform.localPosition = new Vector3((size.x + tempSpace) * i + leftTopSpace + size.x / 2, 0, 0);
             }

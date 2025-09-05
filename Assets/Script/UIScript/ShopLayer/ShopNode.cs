@@ -1,25 +1,57 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using HeroEditor.Common.Enums;
 using Shop;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopNode : PanelBase
 {
     public GridView gridView;
-    private List<ShopInfo> ShopConfig;
     public List<ShopBuyInfo> ShopBuyData;
+    public EquipTabView tabView;
+    private Dictionary<int, List<ShopInfo>> ShopConfigDic;
+    private List<ShopInfo> shopList;
     public override void onEnter(params object[] data)
     {
+        ShopConfigDic = new Dictionary<int, List<ShopInfo>>();
         ShopBuyData = GameDataManager.Instance.GetShopBuyList();
-        ShopConfig = (List<ShopInfo>) data[0];
         gridView.AddRefreshEvent(CreateItem);
-        gridView.SetItemAndRefresh(ShopConfig.Count);
+        InitData((List<ShopInfo>) data[0]);
+        tabView.InitTabView(ChangeTag);
     }
 
-    public void CreateItem(int index, GameObject item)
+    public override void onShow(object[] data)
     {
-        ShopInfo info = ShopConfig[index];
+        tabView.SetSelTag(EquipmentPart.MeleeWeapon1H);
+    }
+
+    public void InitData(List<ShopInfo> ShopConfig)
+    {
+        foreach (ShopInfo shopInfo in ShopConfig)
+        {
+            Equip.EquipInfo equipInfo = Ui.Instance.GetEquipInfo(shopInfo.id);
+            if (ShopConfigDic.ContainsKey(equipInfo.part))
+            {
+                ShopConfigDic[equipInfo.part].Add(shopInfo);
+            }
+            else
+            {
+                ShopConfigDic.Add(equipInfo.part, new List<ShopInfo>() {shopInfo});
+            }
+        }
+    }
+
+    private void ChangeTag(int part)
+    {
+        shopList = ShopConfigDic[part];
+        gridView.SetItemAndRefresh(shopList.Count);
+    }
+
+    private void CreateItem(int index, GameObject item)
+    {
+        ShopInfo info = shopList[index];
         int? curBuyNum = ShopBuyData.Find((obj) => obj.type == info.goodType && obj.id == info.id)?.buyNum;
         if (curBuyNum == null)
         {
@@ -29,31 +61,30 @@ public class ShopNode : PanelBase
         ShopItem shopItem = item.GetComponent<ShopItem>();
         shopItem.InitData(info, curBuyNum.Value, () =>
         {
-            Debug.Log(info.id);
+            BuyClick(info, shopItem);
         });
     }
 
-    public void BuyClick(ShopInfo shopInfo, ShopItem shopItem, ShopInfo info)
+    private void BuyClick(ShopInfo shopInfo, ShopItem shopItem)
     {
-        Debug.Log(shopInfo.id);
-        // ResClass resClass = Ui.Instance.FormatStr(shopInfo.price)[0];
-        // int resNum = GameDataManager.Instance.GetResNum(resClass.resourceId);
-        // if (resNum < resClass.num)
-        // {
-        //     Ui.Instance.ShowFlutterView(Ui.Instance.GetGoodName((int) GoodsType.Resource, resClass.resourceId) + "不足!");
-        //     return;
-        // }
-        //
-        // GameDataManager.Instance.AddBuyInfoData(shopInfo.goodType, shopInfo.id, resClass.resourceId, resClass.num);
-        // int curBuyNum = ShopBuyData.Find((obj) => obj.type == info.goodType && obj.id == info.id).buyNum;
-        // shopItem.RefreshItem(curBuyNum);
-        // List<ResClass> resList = new List<ResClass>()
-        // {
-        //     new ResClass(shopInfo.id, shopInfo.num)
-        // };
-        // Ui.Instance.ShowReward(resList, (GoodsType) shopInfo.goodType);
-    }
+        ResClass resClass = Ui.Instance.FormatStr(shopInfo.price)[0];
+        int resNum = GameDataManager.Instance.GetResNum(resClass.resourceId);
+        if (resNum < resClass.num)
+        {
+            Ui.Instance.ShowFlutterView(Ui.Instance.GetGoodName((int) GoodsType.Resource, resClass.resourceId) + "不足!");
+            return;
+        }
 
+        GameDataManager.Instance.AddBuyInfoData(shopInfo.goodType, shopInfo.id, resClass.resourceId, resClass.num);
+        int curBuyNum = ShopBuyData.Find((obj) => obj.type == shopInfo.goodType && obj.id == shopInfo.id).buyNum;
+        shopItem.RefreshItem(curBuyNum);
+        List<ResClass> resList = new List<ResClass>()
+        {
+            new ResClass(shopInfo.id, shopInfo.num)
+        };
+        Ui.Instance.ShowReward(resList, (GoodsType) shopInfo.goodType);
+    }
+    
     public override void onExit()
     {
     }

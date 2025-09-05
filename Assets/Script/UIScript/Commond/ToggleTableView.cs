@@ -9,9 +9,11 @@ public class ToggleTableView : MonoBehaviour
     public int selTag = 0;
     private ToggleGroup toggleGroup;
     private Action<int> action;
+    private Dictionary<int, Toggle> itemDic = new Dictionary<int, Toggle>();
 
-    private void Start()
+    public void InitTabView(Action<int> callback)
     {
+        action = callback;
         for (int i = 0; i < transform.childCount; i++)
         {
             Toggle toggle = transform.GetChild(i).GetComponent<Toggle>();
@@ -28,17 +30,16 @@ public class ToggleTableView : MonoBehaviour
                 selTag = n;
                 action?.Invoke(idx);
             });
+            itemDic.Add(i, toggle);
         }
-    }
 
-    public void InitData(int tag)
-    {
-        selTag = tag;
         action?.Invoke(selTag);
     }
 
-    public void AddChangeEvent(Action<int> action)
+    public void SetSelTag(int tag)
     {
-        this.action = action;
+        selTag = tag;
+        itemDic[tag].isOn = true;
+        action?.Invoke(selTag);
     }
 }

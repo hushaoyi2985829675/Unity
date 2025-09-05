@@ -59,6 +59,10 @@ public class BagLayer : PanelBase
         PlayerEquipSlot.RefreshAllEquip();
         RefreshPlayer();
     }
+
+    public override void onShow(object[] data)
+    {
+    }
     public void onRefreshItem(int index, GameObject item)
     {
         if (Tag == 0)

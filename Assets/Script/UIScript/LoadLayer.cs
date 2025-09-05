@@ -19,6 +19,9 @@ public class LoadLayer : PanelBase
        
     }
 
+    public override void onShow(object[] data)
+    {
+    }
     public override void onExit()
     {      
         Destroy(gameObject);

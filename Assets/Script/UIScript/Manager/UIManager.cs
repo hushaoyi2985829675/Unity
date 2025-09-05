@@ -54,18 +54,11 @@ public class UIManager : Singleton<UIManager>
     private PanelBase AddLayer(ref Dictionary<string, PanelBase> layerList, GameObject layerRef,
         Transform parent = null, params object[] data)
     {
+        PanelBase layerScript;
         if (layerList.ContainsKey(layerRef.name))
         {
-            PanelBase layer = layerList[layerRef.name];
-            if (layer.gameObject.activeSelf)
-            {
-                layer.onExit();
-            }
-            layer.SetActive(true);
-            //调整排序位置
-            layer.transform.SetAsLastSibling();
-            layer.onEnter(data);
-            return layer;
+            layerScript = layerList[layerRef.name];
+            layerScript.SetActive(true);
         }
         else
         {
@@ -75,22 +68,24 @@ public class UIManager : Singleton<UIManager>
                 return null;
             }
 
-            var layer = GameObject.Instantiate(layerRef, parent);
+            var layer = Instantiate(layerRef, parent);
             layer.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
             layer.name = layerRef.name;
-            PanelBase layerScript = layer.GetComponent<PanelBase>();
-            layerScript.transform.SetSiblingIndex(parent.childCount - 2);
+            layerScript = layer.GetComponent<PanelBase>();
             layerScript.onEnter(data);
             layerList[layerRef.name] = layerScript;
-            return layerScript;
         }
+
+        layerScript.transform.SetSiblingIndex(parent.childCount - 2);
+        layerScript.onShow(data);
+        return layerScript;
     }
     public PanelBase OpenLayer(GameObject layerRef, LayerAction action = 0, params object[] data)
     {
         if (LayerList.ContainsKey(layerRef.name))
         {
             LayerList[layerRef.name].SetActive(true);
-            LayerList[layerRef.name].onEnter(data);
+            LayerList[layerRef.name].onShow(data);
             return LayerList[layerRef.name];
         }
         else

@@ -19,6 +19,9 @@ public class ResourceNode : PanelBase
         refreshUI();
     }
 
+    public override void onShow(object[] data)
+    {
+    }
     void refreshUI()
     {
         foreach (var resource in ResourceConfig)

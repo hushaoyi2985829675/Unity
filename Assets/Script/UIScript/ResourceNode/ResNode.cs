@@ -19,7 +19,7 @@ public class ResNode : MonoBehaviour
     public void InitData(int id)
     {
         this.id = id;
-        image.sprite = Ui.Instance.GetGoodIcon(GoodsType.Resource, id);
+        image.sprite = Ui.Instance.GetGoodIcon((int) GoodsType.Resource, id);
         RefreshResNum();
         EventManager.Instance.AddResEvent(id, RefreshResNum);
     }

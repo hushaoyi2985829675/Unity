@@ -12,4 +12,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbaedb3243e8fe42a9118b3841c919a, type: 3}
   m_Name: ShopBuyData
   m_EditorClassIdentifier: 
-  shopBuyList: []
+  shopBuyList:
+  - buyNum: 0
+    type: 1
+    id: 13
+  - buyNum: 0
+    type: 1
+    id: 12
+  - buyNum: 0
+    type: 1
+    id: 11
+  - buyNum: 0
+    type: 1
+    id: 19
+  - buyNum: 0
+    type: 1
+    id: 16
+  - buyNum: 0
+    type: 1
+    id: 21
+  - buyNum: 0
+    type: 1
+    id: 15
+  - buyNum: 0
+    type: 1
+    id: 14
+  - buyNum: 0
+    type: 1
+    id: 10
+  - buyNum: 0
+    type: 1
+    id: 18
+  - buyNum: 0
+    type: 1
+    id: 17
+  - buyNum: 0
+    type: 1
+    id: 40

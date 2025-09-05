@@ -29,7 +29,7 @@ public class GameDataManager : Singleton<GameDataManager>
 
     public void Start()
     {
-       
+
     }
 
     void SavePlayerData<T>(string fileName, T data)
@@ -58,6 +58,8 @@ public class GameDataManager : Singleton<GameDataManager>
         JsonUtility.FromJsonOverwrite(json, data);
     }
 
+    #region 背包方法
+
     //设置装备
     public void AddEquip(int id)
     {
@@ -72,11 +74,25 @@ public class GameDataManager : Singleton<GameDataManager>
         BagData.AddGood(id, num);
     }
 
-    //增加资源
-    public void AddRes(int id, int num)
+    //获取背包数据
+    public List<EquipmentInfo> GetBagData(EquipmentPart part)
     {
-        PlayerResData.AddResNum(id, num);
-        EventManager.Instance.PostResEvent(id);
+        return BagData.GetEquipListData(part);
+    }
+
+    //移除装备
+    public void RemoveEquipData(int id, int num)
+    {
+        BagData.RemoveEquip(id, num);
+    }
+
+    #endregion
+   
+    //增加资源
+    public void AddRes(ResClass res)
+    {
+        PlayerResData.AddResNum(res.resourceId, res.num);
+        EventManager.Instance.PostResEvent(res.resourceId);
     }
 
     //减少资源
@@ -113,4 +129,5 @@ public class GameDataManager : Singleton<GameDataManager>
                 break;
         }
     }
+    
 }

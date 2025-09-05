@@ -12,7 +12,655 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f5c5906093a3cb4fa3abe819ff23f53, type: 3}
   m_Name: BagData
   m_EditorClassIdentifier: 
-  Weapon: []
-  Armor: []
-  Helmet: []
-  Equipments: []
+  MeleeWeapon1HList:
+  - SpriteGroupEntry:
+      Name: BrokenSwordTypeB
+      Collection: AbandonedWorkshop
+      Edition: Extensions
+      Id: Extensions.AbandonedWorkshop.MeleeWeapon1H.BrokenSwordTypeB
+      Path: Assets/HeroEditor/Extensions/AbandonedWorkshop/Sprites/Equipment/MeleeWeapon1H/AbandonedWorkshop/Sword/BrokenSwordTypeB.png
+      Sprite: {fileID: 21300000, guid: 78c862c8a88c4b7c81479f39fb68380f, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 78c862c8a88c4b7c81479f39fb68380f, type: 3}
+      Multiple: 1
+      Hash: 0899e95f2553fb543bee4cdc07b3f1b4
+      Meta: 
+      Tags: []
+    id: 2
+    num: 1
+  - SpriteGroupEntry:
+      Name: BrokenSwordTypeB
+      Collection: AbandonedWorkshop
+      Edition: Extensions
+      Id: Extensions.AbandonedWorkshop.MeleeWeapon1H.BrokenSwordTypeB
+      Path: Assets/HeroEditor/Extensions/AbandonedWorkshop/Sprites/Equipment/MeleeWeapon1H/AbandonedWorkshop/Sword/BrokenSwordTypeB.png
+      Sprite: {fileID: 21300000, guid: 78c862c8a88c4b7c81479f39fb68380f, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 78c862c8a88c4b7c81479f39fb68380f, type: 3}
+      Multiple: 1
+      Hash: 0899e95f2553fb543bee4cdc07b3f1b4
+      Meta: 
+      Tags: []
+    id: 3
+    num: 2
+  - SpriteGroupEntry:
+      Name: BrokenSwordTypeB
+      Collection: AbandonedWorkshop
+      Edition: Extensions
+      Id: Extensions.AbandonedWorkshop.MeleeWeapon1H.BrokenSwordTypeB
+      Path: Assets/HeroEditor/Extensions/AbandonedWorkshop/Sprites/Equipment/MeleeWeapon1H/AbandonedWorkshop/Sword/BrokenSwordTypeB.png
+      Sprite: {fileID: 21300000, guid: 78c862c8a88c4b7c81479f39fb68380f, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 78c862c8a88c4b7c81479f39fb68380f, type: 3}
+      Multiple: 1
+      Hash: 0899e95f2553fb543bee4cdc07b3f1b4
+      Meta: 
+      Tags: []
+    id: 1
+    num: 2
+  ArmorList:
+  - SpriteGroupEntry:
+      Name: Militiaman
+      Collection: Basic
+      Edition: FantasyHeroes
+      Id: FantasyHeroes.Basic.Armor.Militiaman
+      Path: Assets/HeroEditor/FantasyHeroes/Sprites/Equipment/Armor/Basic/Militiaman.png
+      Sprite: {fileID: 21300004, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      Sprites:
+      - {fileID: 21300004, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300002, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300022, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300010, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300008, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300016, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300018, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300012, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300006, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300014, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300020, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300000, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      Multiple: 1
+      Hash: edb66513a5d98748f4de0521b39651bb
+      Meta: 
+      Tags: []
+    id: 13
+    num: 3
+  - SpriteGroupEntry:
+      Name: LeatherLightArmor
+      Collection: Basic
+      Edition: FantasyHeroes
+      Id: FantasyHeroes.Basic.Armor.LeatherLightArmor
+      Path: Assets/HeroEditor/FantasyHeroes/Sprites/Equipment/Armor/Basic/LeatherLightArmor.png
+      Sprite: {fileID: 21300024, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      Sprites:
+      - {fileID: 21300024, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300022, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300040, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300028, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300026, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300034, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300036, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300030, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300006, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300032, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300038, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300000, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      Multiple: 1
+      Hash: edb66513a5d98748f4de0521b39651bb
+      Meta: 
+      Tags: []
+    id: 12
+    num: 2
+  - SpriteGroupEntry:
+      Name: ArmorOfFadedHeavens
+      Collection: Epic
+      Edition: Extensions
+      Id: Extensions.Epic.Armor.ArmorOfFadedHeavens
+      Path: Assets/HeroEditor/Extensions/EpicHeroes/Sprites/Equipment/Armor/Epic/ArmorOfFadedHeavens.png
+      Sprite: {fileID: 21300024, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      Sprites:
+      - {fileID: 21300024, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300022, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300040, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300028, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300026, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300034, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300036, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300030, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300006, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300032, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300038, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300000, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      Multiple: 1
+      Hash: 89ae329ddfa9ae9bf992e84f37c6c021
+      Meta: 
+      Tags: []
+    id: 11
+    num: 3
+  - SpriteGroupEntry:
+      Name: PlatinumUnicornArmor
+      Collection: Legendary
+      Edition: Extensions
+      Id: Extensions.Legendary.Armor.PlatinumUnicornArmor
+      Path: Assets/HeroEditor/Extensions/EpicHeroes/Sprites/Equipment/Armor/Legendary/PlatinumUnicornArmor.png
+      Sprite: {fileID: -4550084578846169200, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      Sprites:
+      - {fileID: -4550084578846169200, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: 624974917677838921, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: 878777441990743753, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: 8477010410430503746, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: 9212712091511837395, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: 6787936197531259123, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: 9055856234324719921, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: -524195514793821918, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: -5036632884329809443, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: 5278265719106483438, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: -5895514436886505396, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: -2912605832241475739, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      Multiple: 1
+      Hash: 89ae329ddfa9ae9bf992e84f37c6c021
+      Meta: 
+      Tags: []
+    id: 15
+    num: 2
+  - SpriteGroupEntry:
+      Name: Rags2
+      Collection: Basic
+      Edition: FantasyHeroes
+      Id: FantasyHeroes.Basic.Armor.Rags2
+      Path: Assets/HeroEditor/FantasyHeroes/Sprites/Equipment/Armor/Basic/Rags2.png
+      Sprite: {fileID: 21300004, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      Sprites:
+      - {fileID: 21300004, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300002, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300022, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300010, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300008, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300016, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300018, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300012, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300006, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300014, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300020, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300000, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      Multiple: 1
+      Hash: edb66513a5d98748f4de0521b39651bb
+      Meta: 
+      Tags: []
+    id: 14
+    num: 3
+  - SpriteGroupEntry:
+      Name: ArmorOfAjero
+      Collection: Legendary
+      Edition: Extensions
+      Id: Extensions.Legendary.Armor.ArmorOfAjero
+      Path: Assets/HeroEditor/Extensions/EpicHeroes/Sprites/Equipment/Armor/Legendary/ArmorOfAjero.png
+      Sprite: {fileID: -4550084578846169200, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      Sprites:
+      - {fileID: -4550084578846169200, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: 624974917677838921, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: 878777441990743753, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: 8477010410430503746, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: 9212712091511837395, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: 6787936197531259123, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: 9055856234324719921, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: -524195514793821918, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: -5036632884329809443, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: 5278265719106483438, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: -5895514436886505396, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: -2912605832241475739, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      Multiple: 1
+      Hash: 89ae329ddfa9ae9bf992e84f37c6c021
+      Meta: 
+      Tags: []
+    id: 10
+    num: 2
+  - SpriteGroupEntry:
+      Name: ArcArmor
+      Collection: Legendary
+      Edition: Extensions
+      Id: Extensions.Legendary.Armor.ArcArmor
+      Path: Assets/HeroEditor/Extensions/EpicHeroes/Sprites/Equipment/Armor/Legendary/ArcArmor.png
+      Sprite: {fileID: -4550084578846169200, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      Sprites:
+      - {fileID: -4550084578846169200, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: 624974917677838921, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: 878777441990743753, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: 8477010410430503746, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: 9212712091511837395, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: 6787936197531259123, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: 9055856234324719921, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: -524195514793821918, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: -5036632884329809443, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: 5278265719106483438, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: -5895514436886505396, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: -2912605832241475739, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      Multiple: 1
+      Hash: 89ae329ddfa9ae9bf992e84f37c6c021
+      Meta: 
+      Tags: []
+    id: 18
+    num: 2
+  - SpriteGroupEntry:
+      Name: AizenHeavyArmor
+      Collection: Legendary
+      Edition: Extensions
+      Id: Extensions.Legendary.Armor.AizenHeavyArmor
+      Path: Assets/HeroEditor/Extensions/EpicHeroes/Sprites/Equipment/Armor/Legendary/AizenHeavyArmor.png
+      Sprite: {fileID: 21300024, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      Sprites:
+      - {fileID: 21300024, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300022, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300040, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300028, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300026, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300034, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300036, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300030, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300006, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300032, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300038, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300000, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      Multiple: 1
+      Hash: 89ae329ddfa9ae9bf992e84f37c6c021
+      Meta: 
+      Tags: []
+    id: 17
+    num: 2
+  HelmetList:
+  - SpriteGroupEntry:
+      Name: AdvancedDipperHat
+      Collection: Basic
+      Edition: FantasyHeroes
+      Id: FantasyHeroes.Basic.Helmet.AdvancedDipperHat
+      Path: Assets/HeroEditor/FantasyHeroes/Sprites/Equipment/Helmet/Basic/AdvancedDipperHat.png
+      Sprite: {fileID: 21300000, guid: aa418ac77c9d4970b2f60a2d4ef27f73, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: aa418ac77c9d4970b2f60a2d4ef27f73, type: 3}
+      Multiple: 1
+      Hash: dc251ed8d9ff236ee0228fa69ec15072
+      Meta: 
+      Tags: []
+    id: 37
+    num: 2
+  - SpriteGroupEntry:
+      Name: ArcherHat
+      Collection: Basic
+      Edition: FantasyHeroes
+      Id: FantasyHeroes.Basic.Helmet.ArcherHat
+      Path: Assets/HeroEditor/FantasyHeroes/Sprites/Equipment/Helmet/Basic/ArcherHat.png
+      Sprite: {fileID: 21300000, guid: ecbe2b50e9a04e1582684655ffb7d03e, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: ecbe2b50e9a04e1582684655ffb7d03e, type: 3}
+      Multiple: 1
+      Hash: 1697cc5baa1b34aa37c51f83fdbb9797
+      Meta: 
+      Tags: []
+    id: 39
+    num: 2
+  - SpriteGroupEntry:
+      Name: BunnyEarsB1 [Paint] [FullHair]
+      Collection: Style
+      Edition: Extensions
+      Id: Extensions.Style.Helmet.BunnyEarsB1 [Paint] [FullHair]
+      Path: Assets/HeroEditor/Extensions/Style/Sprites/Equipment/Helmet/Style/BunnyEarsB1
+        [Paint] [FullHair].png
+      Sprite: {fileID: 21300000, guid: d77ba76cfd3e46d68e5b220301f121ba, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: d77ba76cfd3e46d68e5b220301f121ba, type: 3}
+      Multiple: 1
+      Hash: c681f3ce39250c98c70c8979c537ed31
+      Meta: 
+      Tags:
+      - Paint
+      - FullHair
+    id: 41
+    num: 1
+  - SpriteGroupEntry:
+      Name: ChampionHelm
+      Collection: Basic
+      Edition: FantasyHeroes
+      Id: FantasyHeroes.Basic.Helmet.ChampionHelm
+      Path: Assets/HeroEditor/FantasyHeroes/Sprites/Equipment/Helmet/Basic/ChampionHelm.png
+      Sprite: {fileID: 21300000, guid: afe0d901c905475898176fe862af3bca, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: afe0d901c905475898176fe862af3bca, type: 3}
+      Multiple: 1
+      Hash: dc251ed8d9ff236ee0228fa69ec15072
+      Meta: 
+      Tags: []
+    id: 32
+    num: 1
+  EquipmentList:
+  - SpriteGroupEntry:
+      Name: ArmorOfAjero
+      Collection: Legendary
+      Edition: Extensions
+      Id: Extensions.Legendary.Armor.ArmorOfAjero
+      Path: Assets/HeroEditor/Extensions/EpicHeroes/Sprites/Equipment/Armor/Legendary/ArmorOfAjero.png
+      Sprite: {fileID: -4550084578846169200, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      Sprites:
+      - {fileID: -4550084578846169200, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: 624974917677838921, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: 878777441990743753, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: 8477010410430503746, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: 9212712091511837395, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: 6787936197531259123, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: 9055856234324719921, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: -524195514793821918, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: -5036632884329809443, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: 5278265719106483438, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: -5895514436886505396, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      - {fileID: -2912605832241475739, guid: c4154f7c316073844a6e921e5e5cb89a, type: 3}
+      Multiple: 1
+      Hash: 89ae329ddfa9ae9bf992e84f37c6c021
+      Meta: 
+      Tags: []
+    id: 10
+    num: 7
+  - SpriteGroupEntry:
+      Name: ArmorOfFadedHeavens
+      Collection: Epic
+      Edition: Extensions
+      Id: Extensions.Epic.Armor.ArmorOfFadedHeavens
+      Path: Assets/HeroEditor/Extensions/EpicHeroes/Sprites/Equipment/Armor/Epic/ArmorOfFadedHeavens.png
+      Sprite: {fileID: 21300024, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      Sprites:
+      - {fileID: 21300024, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300022, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300040, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300028, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300026, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300034, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300036, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300030, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300006, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300032, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300038, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      - {fileID: 21300000, guid: aeaa8a3baec14bab92ea97d83bb8aa84, type: 3}
+      Multiple: 1
+      Hash: 89ae329ddfa9ae9bf992e84f37c6c021
+      Meta: 
+      Tags: []
+    id: 11
+    num: 5
+  - SpriteGroupEntry:
+      Name: AdvancedDipperHat
+      Collection: Basic
+      Edition: FantasyHeroes
+      Id: FantasyHeroes.Basic.Helmet.AdvancedDipperHat
+      Path: Assets/HeroEditor/FantasyHeroes/Sprites/Equipment/Helmet/Basic/AdvancedDipperHat.png
+      Sprite: {fileID: 21300000, guid: aa418ac77c9d4970b2f60a2d4ef27f73, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: aa418ac77c9d4970b2f60a2d4ef27f73, type: 3}
+      Multiple: 1
+      Hash: dc251ed8d9ff236ee0228fa69ec15072
+      Meta: 
+      Tags: []
+    id: 37
+    num: 2
+  - SpriteGroupEntry:
+      Name: CrownOfQitian
+      Collection: Legendary
+      Edition: Extensions
+      Id: Extensions.Legendary.Helmet.CrownOfQitian
+      Path: Assets/HeroEditor/Extensions/EpicHeroes/Sprites/Equipment/Helmet/Legendary/CrownOfQitian.png
+      Sprite: {fileID: 21300000, guid: f172a435bcde3da469d1f7296d80d0a5, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: f172a435bcde3da469d1f7296d80d0a5, type: 3}
+      Multiple: 1
+      Hash: 8628975f91246930f81b58ee5ef41dab
+      Meta: 
+      Tags: []
+    id: 40
+    num: 3
+  - SpriteGroupEntry:
+      Name: ArcherHat
+      Collection: Basic
+      Edition: FantasyHeroes
+      Id: FantasyHeroes.Basic.Helmet.ArcherHat
+      Path: Assets/HeroEditor/FantasyHeroes/Sprites/Equipment/Helmet/Basic/ArcherHat.png
+      Sprite: {fileID: 21300000, guid: ecbe2b50e9a04e1582684655ffb7d03e, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: ecbe2b50e9a04e1582684655ffb7d03e, type: 3}
+      Multiple: 1
+      Hash: 1697cc5baa1b34aa37c51f83fdbb9797
+      Meta: 
+      Tags: []
+    id: 39
+    num: 2
+  - SpriteGroupEntry:
+      Name: BunnyEarsB1 [Paint] [FullHair]
+      Collection: Style
+      Edition: Extensions
+      Id: Extensions.Style.Helmet.BunnyEarsB1 [Paint] [FullHair]
+      Path: Assets/HeroEditor/Extensions/Style/Sprites/Equipment/Helmet/Style/BunnyEarsB1
+        [Paint] [FullHair].png
+      Sprite: {fileID: 21300000, guid: d77ba76cfd3e46d68e5b220301f121ba, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: d77ba76cfd3e46d68e5b220301f121ba, type: 3}
+      Multiple: 1
+      Hash: c681f3ce39250c98c70c8979c537ed31
+      Meta: 
+      Tags:
+      - Paint
+      - FullHair
+    id: 41
+    num: 1
+  - SpriteGroupEntry:
+      Name: ChampionHelm
+      Collection: Basic
+      Edition: FantasyHeroes
+      Id: FantasyHeroes.Basic.Helmet.ChampionHelm
+      Path: Assets/HeroEditor/FantasyHeroes/Sprites/Equipment/Helmet/Basic/ChampionHelm.png
+      Sprite: {fileID: 21300000, guid: afe0d901c905475898176fe862af3bca, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: afe0d901c905475898176fe862af3bca, type: 3}
+      Multiple: 1
+      Hash: dc251ed8d9ff236ee0228fa69ec15072
+      Meta: 
+      Tags: []
+    id: 32
+    num: 1
+  - SpriteGroupEntry:
+      Name: LeatherLightArmor
+      Collection: Basic
+      Edition: FantasyHeroes
+      Id: FantasyHeroes.Basic.Armor.LeatherLightArmor
+      Path: Assets/HeroEditor/FantasyHeroes/Sprites/Equipment/Armor/Basic/LeatherLightArmor.png
+      Sprite: {fileID: 21300024, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      Sprites:
+      - {fileID: 21300024, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300022, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300040, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300028, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300026, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300034, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300036, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300030, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300006, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300032, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300038, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      - {fileID: 21300000, guid: 42aaec58eb8e414ba95c163402c61156, type: 3}
+      Multiple: 1
+      Hash: edb66513a5d98748f4de0521b39651bb
+      Meta: 
+      Tags: []
+    id: 12
+    num: 3
+  - SpriteGroupEntry:
+      Name: BloodiedSpiritSword
+      Collection: Epic
+      Edition: Extensions
+      Id: Extensions.Epic.MeleeWeapon1H.BloodiedSpiritSword
+      Path: Assets/HeroEditor/Extensions/EpicHeroes/Sprites/Equipment/MeleeWeapon1H/Epic/Sword/BloodiedSpiritSword.png
+      Sprite: {fileID: 21300000, guid: 10fb042db2f943a7970f105b6902675b, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 10fb042db2f943a7970f105b6902675b, type: 3}
+      Multiple: 1
+      Hash: 0f5a4feebd91808a21d139d6f5bd0669
+      Meta: 
+      Tags: []
+    id: 16
+    num: 8
+  - SpriteGroupEntry:
+      Name: BrokenSwordTypeB
+      Collection: AbandonedWorkshop
+      Edition: Extensions
+      Id: Extensions.AbandonedWorkshop.MeleeWeapon1H.BrokenSwordTypeB
+      Path: Assets/HeroEditor/Extensions/AbandonedWorkshop/Sprites/Equipment/MeleeWeapon1H/AbandonedWorkshop/Sword/BrokenSwordTypeB.png
+      Sprite: {fileID: 21300000, guid: 78c862c8a88c4b7c81479f39fb68380f, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 78c862c8a88c4b7c81479f39fb68380f, type: 3}
+      Multiple: 1
+      Hash: 0899e95f2553fb543bee4cdc07b3f1b4
+      Meta: 
+      Tags: []
+    id: 19
+    num: 5
+  - SpriteGroupEntry:
+      Name: ElvenSword
+      Collection: AbandonedWorkshop
+      Edition: Extensions
+      Id: Extensions.AbandonedWorkshop.MeleeWeapon1H.ElvenSword
+      Path: Assets/HeroEditor/Extensions/AbandonedWorkshop/Sprites/Equipment/MeleeWeapon1H/AbandonedWorkshop/Sword/ElvenSword.png
+      Sprite: {fileID: 21300000, guid: 7a1b30628e35405592821716f853f357, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 7a1b30628e35405592821716f853f357, type: 3}
+      Multiple: 1
+      Hash: 0899e95f2553fb543bee4cdc07b3f1b4
+      Meta: 
+      Tags: []
+    id: 21
+    num: 4
+  - SpriteGroupEntry:
+      Name: Militiaman
+      Collection: Basic
+      Edition: FantasyHeroes
+      Id: FantasyHeroes.Basic.Armor.Militiaman
+      Path: Assets/HeroEditor/FantasyHeroes/Sprites/Equipment/Armor/Basic/Militiaman.png
+      Sprite: {fileID: 21300004, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      Sprites:
+      - {fileID: 21300004, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300002, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300022, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300010, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300008, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300016, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300018, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300012, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300006, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300014, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300020, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      - {fileID: 21300000, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
+      Multiple: 1
+      Hash: edb66513a5d98748f4de0521b39651bb
+      Meta: 
+      Tags: []
+    id: 13
+    num: 3
+  - SpriteGroupEntry:
+      Name: PlatinumUnicornArmor
+      Collection: Legendary
+      Edition: Extensions
+      Id: Extensions.Legendary.Armor.PlatinumUnicornArmor
+      Path: Assets/HeroEditor/Extensions/EpicHeroes/Sprites/Equipment/Armor/Legendary/PlatinumUnicornArmor.png
+      Sprite: {fileID: -4550084578846169200, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      Sprites:
+      - {fileID: -4550084578846169200, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: 624974917677838921, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: 878777441990743753, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: 8477010410430503746, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: 9212712091511837395, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: 6787936197531259123, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: 9055856234324719921, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: -524195514793821918, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: -5036632884329809443, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: 5278265719106483438, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: -5895514436886505396, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      - {fileID: -2912605832241475739, guid: 0fedeecd88807a24ebe103db6001254b, type: 3}
+      Multiple: 1
+      Hash: 89ae329ddfa9ae9bf992e84f37c6c021
+      Meta: 
+      Tags: []
+    id: 15
+    num: 2
+  - SpriteGroupEntry:
+      Name: Rags2
+      Collection: Basic
+      Edition: FantasyHeroes
+      Id: FantasyHeroes.Basic.Armor.Rags2
+      Path: Assets/HeroEditor/FantasyHeroes/Sprites/Equipment/Armor/Basic/Rags2.png
+      Sprite: {fileID: 21300004, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      Sprites:
+      - {fileID: 21300004, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300002, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300022, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300010, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300008, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300016, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300018, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300012, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300006, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300014, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300020, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      - {fileID: 21300000, guid: 25cd4e93c4ec47738125edbcab54a621, type: 3}
+      Multiple: 1
+      Hash: edb66513a5d98748f4de0521b39651bb
+      Meta: 
+      Tags: []
+    id: 14
+    num: 3
+  - SpriteGroupEntry:
+      Name: ArcArmor
+      Collection: Legendary
+      Edition: Extensions
+      Id: Extensions.Legendary.Armor.ArcArmor
+      Path: Assets/HeroEditor/Extensions/EpicHeroes/Sprites/Equipment/Armor/Legendary/ArcArmor.png
+      Sprite: {fileID: -4550084578846169200, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      Sprites:
+      - {fileID: -4550084578846169200, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: 624974917677838921, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: 878777441990743753, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: 8477010410430503746, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: 9212712091511837395, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: 6787936197531259123, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: 9055856234324719921, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: -524195514793821918, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: -5036632884329809443, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: 5278265719106483438, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: -5895514436886505396, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      - {fileID: -2912605832241475739, guid: dc6bb6438f7a447418ad29b28e3954bb, type: 3}
+      Multiple: 1
+      Hash: 89ae329ddfa9ae9bf992e84f37c6c021
+      Meta: 
+      Tags: []
+    id: 18
+    num: 2
+  - SpriteGroupEntry:
+      Name: AizenHeavyArmor
+      Collection: Legendary
+      Edition: Extensions
+      Id: Extensions.Legendary.Armor.AizenHeavyArmor
+      Path: Assets/HeroEditor/Extensions/EpicHeroes/Sprites/Equipment/Armor/Legendary/AizenHeavyArmor.png
+      Sprite: {fileID: 21300024, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      Sprites:
+      - {fileID: 21300024, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300022, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300040, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300028, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300026, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300034, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300036, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300030, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300006, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300032, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300038, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      - {fileID: 21300000, guid: 81ca3109525ce604c9db0e7629df2b79, type: 3}
+      Multiple: 1
+      Hash: 89ae329ddfa9ae9bf992e84f37c6c021
+      Meta: 
+      Tags: []
+    id: 17
+    num: 2
+  GoodList: []

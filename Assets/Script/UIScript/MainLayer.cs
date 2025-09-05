@@ -14,4 +14,8 @@ public class MainLayer : PanelBase
     {
         
     }
+
+    public override void onShow(object[] data)
+    {
+    }
 }

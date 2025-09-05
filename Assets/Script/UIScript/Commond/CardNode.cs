@@ -6,17 +6,36 @@ using UnityEngine.UI;
 
 public class CardNode : MonoBehaviour
 {
-    public Image icon;
-    public GameObject checkmark;
-    public Text numText;
-    public Text nameText;
-    public Button button;
+    [SerializeField] private Image icon;
+    [SerializeField] private GameObject checkmark;
+    [SerializeField] private Text numText;
+    [SerializeField] private Text nameText;
+    [SerializeField] private Button button;
+    [SerializeField] private GameObject UINode;
+    [SerializeField] private GameObject descLayer;
+    private Action callback;
     private int id;
     private GoodsType type;
 
+    private void Awake()
+    {
+        callback = DefaultClick;
+        button.onClick.AddListener(() => { callback(); });
+    }
+
     public void SetCardData(GoodsType goodsType, int id, int num = -1)
     {
-        Sprite sprite = Ui.Instance.GetGoodIcon(goodsType, id);
+        RefreshUI(goodsType, id, num);
+    }
+
+    public void SetCardData(GoodsType goodsType, ResClass resClass)
+    {
+        RefreshUI(goodsType, resClass.resourceId, resClass.num);
+    }
+
+    private void RefreshUI(GoodsType goodsType, int id, int num = -1)
+    {
+        Sprite sprite = Ui.Instance.GetGoodIcon((int) goodsType, id);
         icon.sprite = sprite;
         if (num > 0)
         {
@@ -31,6 +50,7 @@ public class CardNode : MonoBehaviour
         this.id = id;
         this.type = goodsType;
     }
+    
 
     public void ShowName()
     {
@@ -41,11 +61,25 @@ public class CardNode : MonoBehaviour
 
     public void SetClick(Action action)
     {
-        button.onClick.AddListener(() => { action(); });
+        callback = action;
     }
 
     public void SetSelState(bool isSel)
     {
         checkmark.SetActive(isSel);
+    }
+
+    public void SetIsNull(bool isNull)
+    {
+        UINode.SetActive(isNull);
+        if (!isNull)
+        {
+            button.onClick.RemoveAllListeners();
+        }
+    }
+
+    public void DefaultClick()
+    {
+        UIManager.Instance.OpenLayer(descLayer, new object[] {type, id});
     }
 }

@@ -23,6 +23,7 @@ public class GridView : MonoBehaviour
     int oldMaxIndex;
     Stack<GameObject> Stack = new Stack<GameObject>();
     Action<int, GameObject> RefreshItemEvent;
+    Dictionary<int, GameObject> ItemDic = new Dictionary<int, GameObject>();
 
     public void SetItemAndRefresh(int num)
     {
@@ -39,7 +40,8 @@ public class GridView : MonoBehaviour
         ItemSize = Item.GetComponent<RectTransform>().sizeDelta;
         ScrollView.GetComponent<ScrollRect>().onValueChanged.AddListener(onUpdate);
         Content.anchoredPosition = new Vector2(0, Content.anchoredPosition.x);
-        Content.sizeDelta = new Vector2(Content.sizeDelta.x, verticalNum * (SpaceY + ItemSize.y));
+        Content.sizeDelta = new Vector2(Content.sizeDelta.x,
+            Mathf.Max(verticalNum * (SpaceY + ItemSize.y), ScrollView.rect.height));
         viewCount = (int) Mathf.Ceil(ScrollView.rect.height / (ItemSize.y + SpaceY) * 1f) * horizontalNum;
         oldMinIndex = 0;
         oldMaxIndex = 0;
@@ -54,7 +56,7 @@ public class GridView : MonoBehaviour
         }
     }
 
-    public void RefreshItem(bool isRefreshAll = false)
+    public void RefreshItem()
     {
         int minIdx = Math.Max((int) (Content.anchoredPosition.y / (ItemSize.y + SpaceY)) * horizontalNum, 0);
         minIdx = Math.Min(minIdx, cellNum - horizontalNum);
@@ -108,7 +110,7 @@ public class GridView : MonoBehaviour
         Clear();
         if (cellNum > 0)
         {
-            RefreshItem(true);
+            RefreshItem();
         }
     }
 
@@ -120,6 +122,22 @@ public class GridView : MonoBehaviour
         }
 
         RefreshItemEvent = action;
+    }
+
+    public void RefreshItem(int idx)
+    {
+        if (Items.ContainsKey(idx))
+        {
+            RefreshItemEvent?.Invoke(idx, Items[idx]);
+        }
+    }
+
+    public void RefreshAllAction()
+    {
+        foreach (var item in Items)
+        {
+            RefreshItemEvent?.Invoke(item.Key, item.Value);
+        }
     }
 
     public void Clear()

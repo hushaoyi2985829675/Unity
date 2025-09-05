@@ -18,6 +18,9 @@ public class FlutterWindowsLayer : PanelBase
         Move();
     }
 
+    public override void onShow(object[] data)
+    {
+    }
     void Move()
     {
         node.transform.DOLocalMove(new Vector3(0, 340, 0), aniTime).SetEase(Ease.OutBack);

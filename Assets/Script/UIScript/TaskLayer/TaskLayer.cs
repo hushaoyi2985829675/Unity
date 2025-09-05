@@ -31,6 +31,9 @@ public class TaskLayer : PanelBase
         RefreshTaskInfo(0);
     }
 
+    public override void onShow(object[] data)
+    {
+    }
     private void InitData()
     {
         TaskConfig = Resources.Load<TaskConfig>("Configs/Data/TaskConfig").taskInfoList;

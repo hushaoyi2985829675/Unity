@@ -45,11 +45,12 @@ public class Ui : Singleton<Ui>
     
     private SpriteCollection SpriteCollection;
 
-    //图标缓存
+    //缓存
     private Dictionary<string, Sprite> equipIconList;
     private Dictionary<int, Sprite> goodIconList;
     private Dictionary<int, Sprite> ingredientIconList;
     private Dictionary<int, Sprite> resourceIconList;
+    private Dictionary<string, SpriteGroupEntry> SpriteGroupEntryList;
 
     //打开的页面
     public GameObject flutteViewRef;
@@ -67,6 +68,7 @@ public class Ui : Singleton<Ui>
             .ToDictionary(key => key.resource, value => value);
         IconCollection = Resources.Load<IconCollection>("Configs/Data/IconCollection");
         SpriteCollection = Resources.Load<SpriteCollection>("Configs/Data/SpriteCollection");
+        SpriteGroupEntryList = new Dictionary<string, SpriteGroupEntry>();
         goodIconList = new Dictionary<int, Sprite>();
         equipIconList = new Dictionary<string, Sprite>();
         ingredientIconList = new Dictionary<int, Sprite>();
@@ -233,12 +235,12 @@ public class Ui : Singleton<Ui>
             Destroy(parent.GetChild(i).gameObject);
         }
     }
-
+    
     //获取道具Icon
-    public Sprite GetGoodIcon(GoodsType type, int id)
+    public Sprite GetGoodIcon(int type, int id)
     {
         Sprite sprite;
-        switch (type)
+        switch ((GoodsType) type)
         {
             case GoodsType.Equip:
                 string eId = EquipConfig[id].id;
@@ -350,6 +352,11 @@ public class Ui : Singleton<Ui>
     //获取装备词条
     public SpriteGroupEntry GetEquipEntry(EquipmentPart part, string id)
     {
+        if (SpriteGroupEntryList.ContainsKey(id))
+        {
+            return SpriteGroupEntryList[id];
+        }
+
         SpriteGroupEntry entry;
         switch (part)
         {
@@ -362,9 +369,20 @@ public class Ui : Singleton<Ui>
             case EquipmentPart.Shield:
                 entry = SpriteCollection.Shield.Find(data => data.Id == id);
                 break;
+            case EquipmentPart.Helmet:
+                entry = SpriteCollection.Helmet.Find(data => data.Id == id);
+                break;
+            case EquipmentPart.MeleeWeapon2H:
+                entry = SpriteCollection.MeleeWeapon2H.Find(data => data.Id == id);
+                break;
             default:
                 entry = null;
                 break;
+        }
+
+        if (entry == null)
+        {
+            Debug.Log("部位未实现");
         }
 
         return entry;

@@ -18,7 +18,7 @@ enum EquipClassif
 public class foundryNode : PanelBase
 {
     public GridView gridView;
-    public Transform tabView;
+    public EquipTabView tabView;
     public GameObject materialCardNode;
     public Transform materialNode;
     public Transform UINode;
@@ -33,15 +33,25 @@ public class foundryNode : PanelBase
     
     private CardNode oldCardNode;
     private int selId;
-    private int selTag;
 
     public override void onEnter(params object[] data)
     {
+        FoundConfigList = Resources.Load<FoundryConfig>("Configs/Data/FoundryConfig").foundryInfoList;
+        equipInfoList = Resources.Load<EquipConfig>("Configs/Data/EquipConfig").equipInfoList
+            .ToDictionary(key => key.equip, value => value);
+        FoundryClassifyList = new Dictionary<int, List<FoundryInfo>>();
         AddListener();
         InitData();
+        tabView.InitTabView(ChangeTag);
         refreshUI();
     }
 
+    public override void onShow(object[] data)
+    {
+        selId = 0;
+        refreshUI();
+        tabView.SetSelTag(EquipmentPart.MeleeWeapon1H);
+    }
     private void AddListener()
     {
         gridView.AddRefreshEvent(CreateItem);
@@ -50,78 +60,29 @@ public class foundryNode : PanelBase
 
     private void InitData()
     {
-        selId = 0;
-        selTag = 0;
-        FoundConfigList = Resources.Load<FoundryConfig>("Configs/Data/FoundryConfig").foundryInfoList;
-        equipInfoList = Resources.Load<EquipConfig>("Configs/Data/EquipConfig").equipInfoList
-            .ToDictionary(key => key.equip, value => value);
-        FoundryClassifyList = new Dictionary<int, List<FoundryInfo>>();
         //装备分类
         foreach (var foundryInfo in FoundConfigList)
         {
             Equip.EquipInfo equipInfo = equipInfoList[foundryInfo.foundry];
-            int idx;
-            switch ((EquipmentPart) equipInfo.part)
+            if (!FoundryClassifyList.ContainsKey(equipInfo.part))
             {
-                case EquipmentPart.MeleeWeapon1H:
-                case EquipmentPart.MeleeWeapon2H:
-                case EquipmentPart.MeleeWeaponPaired:
-                    idx = (int) EquipClassif.Weapon;
-                    break;
-                case EquipmentPart.Armor:
-                    idx = (int) EquipClassif.Armor;
-                    break;
-                default:
-                    idx = (int) EquipClassif.Helmet;
-                    break;
+                FoundryClassifyList[equipInfo.part] = new List<FoundryInfo>();
             }
 
-            if (!FoundryClassifyList.ContainsKey(idx))
-            {
-                FoundryClassifyList[idx] = new List<FoundryInfo>();
-            }
-
-            FoundryClassifyList[idx].Add(foundryInfo);
+            FoundryClassifyList[equipInfo.part].Add(foundryInfo);
         }
     }
 
     private void refreshUI()
     {
-        InitTabView();
         if (selId == 0)
         {
             UINode.gameObject.SetActive(false);
         }
     }
 
-    private void InitTabView()
+    private void ChangeTag(int tag)
     {
-        for (int i = 0; i < tabView.childCount; i++)
-        {
-            Toggle toggle = tabView.GetChild(i).GetComponent<Toggle>();
-            toggle.isOn = selTag == i;
-            int n = i;
-            toggle.onValueChanged.AddListener((isOn) =>
-            {
-                if (selTag == n)
-                {
-                    return;
-                }
-
-                ChangeTag(isOn, n);
-            });
-        }
-
-        ChangeTag(true, selTag);
-    }
-
-    private void ChangeTag(bool isOn, int tag)
-    {
-        if (!isOn)
-        {
-            return;
-        }
-        selTag = tag;
         FoundryList = FoundryClassifyList.ContainsKey(tag) ? FoundryClassifyList[tag] : null;
         if (FoundryList == null)
         {

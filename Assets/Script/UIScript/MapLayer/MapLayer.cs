@@ -17,6 +17,9 @@ public class MapLayer : PanelBase
         scrollView.SetNum(config.data.Count);
     }
 
+    public override void onShow(object[] data)
+    {
+    }
     public void RefreshItem(int i,GameObject item)
     { 
         var data = config.data.Find(data => data.Id == i + 1);

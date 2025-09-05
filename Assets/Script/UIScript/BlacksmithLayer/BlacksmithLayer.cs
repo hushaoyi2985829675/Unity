@@ -5,39 +5,47 @@ using UnityEngine.UI;
 
 public class BlacksmithLayer : PanelBase
 {
-    public Transform toggleGroup;
     public Transform parentNode;
+
+    [Header("页面")] [SerializeField]
     public GameObject foundryNode;
-    public GameObject sellNode;
+
+    [SerializeField] private GameObject BreakDownNode;
+    [SerializeField] private GameObject synthesizeNode;
     public Button closeButton;
     public ToggleTableView toggleTableView;
-    private int selTag = 0;
-    private PanelBase oldLayer;
+    private GameObject layer;
 
     public override void onEnter(params object[] data)
     {
-        toggleTableView.AddChangeEvent(TabChange);
-        toggleTableView.InitData(0);
+        toggleTableView.InitTabView(TabChange);
         //处理标签
         closeButton.onClick.AddListener(() => { UIManager.Instance.CloseLayer(gameObject.name); });
     }
 
+    public override void onShow(object[] data)
+    {
+        toggleTableView.SetSelTag(0);
+    }
     public void TabChange(int i)
     {
-        GameObject layer;
-        selTag = i;
+        if (layer != null)
+        {
+            UIManager.Instance.CloseUINode(layer.name);
+            layer = null;
+        }
         //铸造
         if (i == 0)
         {
-            layer = sellNode;
+            layer = foundryNode;
         }
         else if (i == 1)
         {
-            layer = foundryNode;
+            layer = BreakDownNode;
         }
         else
         {
-            layer = foundryNode;
+            layer = synthesizeNode;
         }
 
         AddLayerNode(layer);
@@ -45,12 +53,7 @@ public class BlacksmithLayer : PanelBase
 
     void AddLayerNode(GameObject layer)
     {
-        if (oldLayer != null)
-        {
-            UIManager.Instance.CloseUINode(oldLayer.name);
-        }
-
-        oldLayer = UIManager.Instance.AddUINode(layer, parentNode);
+        UIManager.Instance.AddUINode(layer, parentNode);
     }
 
     public override void onExit()

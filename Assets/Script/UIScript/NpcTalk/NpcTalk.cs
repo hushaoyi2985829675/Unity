@@ -116,6 +116,9 @@ public class NpcTalk : PanelBase
         Talk();
     }
 
+    public override void onShow(object[] data)
+    {
+    }
     private void InitTaskState()
     {
         if (playerLvInfo.taskId != 0)

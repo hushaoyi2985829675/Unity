@@ -22,6 +22,7 @@ public class ShopItem : MonoBehaviour
         shopInfo = info;
         this.buyNum = buyNum;
         resClass = Ui.Instance.FormatStr(shopInfo.price)[0];
+        buyBtn.onClick.RemoveAllListeners();
         buyBtn.onClick.AddListener(() => { callback(); });
         RefreshUI();
     }
@@ -30,7 +31,7 @@ public class ShopItem : MonoBehaviour
     {
         nameText.text = Ui.Instance.GetGoodName(shopInfo.goodType, shopInfo.id);
         cardNode.SetCardData((GoodsType) shopInfo.goodType, shopInfo.id, shopInfo.num);
-        buyImage.sprite = Ui.Instance.GetGoodIcon(GoodsType.Resource, resClass.resourceId);
+        buyImage.sprite = Ui.Instance.GetGoodIcon((int) GoodsType.Resource, resClass.resourceId);
         BuyRefreshUI();
     }
 
