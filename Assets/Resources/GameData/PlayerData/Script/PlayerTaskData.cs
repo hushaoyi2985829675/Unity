@@ -9,7 +9,7 @@ public class PlayerTaskData : ScriptableObject
 {
     public List<TaskInfo> TaskList;
 
-    public void AddTask(int npcId, PlayerLvInfo playerLvInfo)
+    public void AddTask(int npcId, PlayerTaskLvInfo playerLvInfo)
     {
         TaskInfo taskInfo = new TaskInfo();
         taskInfo.npcId = npcId;
@@ -18,13 +18,24 @@ public class PlayerTaskData : ScriptableObject
         taskInfo.isComplete = false;
         taskInfo.needNum = playerLvInfo.taskRequirement;
         taskInfo.taskLocation = playerLvInfo.taskLocation;
-        taskInfo.rewardInfo = playerLvInfo.taskReward;
+        taskInfo.rewardList = Ui.Instance.FormatResStr(playerLvInfo.taskReward);
         TaskList.Add(taskInfo);
     }
 
     public void RemoveTask(int taskId)
     {
         TaskList.Remove(TaskList.Find((obj) => obj.taskId == taskId));
+    }
+
+    public void MarkTaskCompletion(int taskId)
+    {
+        TaskInfo taskInfo = GetTaskInfo(taskId);
+        taskInfo.isComplete = true;
+    }
+
+    private TaskInfo GetTaskInfo(int taskId)
+    {
+        return TaskList.Find((obj) => obj.taskId == taskId);
     }
 }
 
@@ -38,7 +49,7 @@ public class TaskInfo
     public int TaskType;
     public int needNum;
     public int curNum;
-    public string rewardInfo;
+    public List<ResClass> rewardList;
 }
 
 

@@ -14,16 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcIdInfoList:
   - npcId: 1
-    playerLvInfoList:
-    - playerLv: 1
+    name: "\u94C1\u5320"
+    playerTaskLvInfoList:
+    - playerTaskLv: 1
       taskId: 1
       taskLocation: 1
       taskRequirement: 2
-      taskReward: 1,1,1
+      taskReward: 1*1*13
       ordinaryTask: 2
       beforeTaskCompletion: 1
       inTaskTalk: 5
-      taskCompletion: 7
+      taskCompletion: 12
       choiceInfoList:
       - choice: 1
         title: "\u63A5\u53D7\u4EFB\u52A1"
@@ -32,20 +33,21 @@ MonoBehaviour:
         title: "\u8003\u8651\u4E00\u4E0B"
         answer: 4
   - npcId: 2
-    playerLvInfoList:
-    - playerLv: 1
+    name: "\u5546\u5E97\u8001\u677F"
+    playerTaskLvInfoList:
+    - playerTaskLv: 1
       taskId: 2
       taskLocation: 0
-      taskRequirement: 10
-      taskReward: 1,1,1
-      ordinaryTask: 2
-      beforeTaskCompletion: 1
-      inTaskTalk: 5
-      taskCompletion: 7
+      taskRequirement: 2
+      taskReward: 2*2*1||2*1*1
+      ordinaryTask: 11
+      beforeTaskCompletion: 6
+      inTaskTalk: 8
+      taskCompletion: 10
       choiceInfoList:
       - choice: 1
         title: "\u63A5\u53D7\u4EFB\u52A1"
-        answer: 3
+        answer: 7
       - choice: 2
         title: "\u8003\u8651\u4E00\u4E0B"
-        answer: 4
+        answer: 9

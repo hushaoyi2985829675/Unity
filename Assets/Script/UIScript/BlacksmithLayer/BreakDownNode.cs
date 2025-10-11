@@ -20,7 +20,7 @@ public class BreakDownNode : PanelBase
     public Text desText;
     public Button button;
     private Dictionary<int, List<ResClass>> ingredientList;
-    private Dictionary<int, List<EquipmentInfo>> EquipClassifyList;
+    private Dictionary<int, List<EquipmentInfo>> EquipClassifyDict;
     private List<EquipmentInfo> equipList;
     private CardNode oldCardNode;
     private int selId;
@@ -36,7 +36,7 @@ public class BreakDownNode : PanelBase
     public override void onShow(object[] data)
     {
         refreshUI();
-        tabView.SetSelTag(EquipmentPart.MeleeWeapon1H);
+        tabView.SetSelTag((int) EquipmentPart.MeleeWeapon1H);
     }
 
     private void AddListener()
@@ -49,7 +49,7 @@ public class BreakDownNode : PanelBase
     private void InitData()
     {
         ingredientList = new Dictionary<int, List<ResClass>>();
-        EquipClassifyList = new Dictionary<int, List<EquipmentInfo>>();
+        EquipClassifyDict = new Dictionary<int, List<EquipmentInfo>>();
     }
 
     private void refreshUI()
@@ -63,7 +63,20 @@ public class BreakDownNode : PanelBase
 
     private void ChangeTag(int tag)
     {
-        equipList = GameDataManager.Instance.GetBagData((EquipmentPart) tag);
+        if (!EquipClassifyDict.ContainsKey(tag))
+        {
+            EquipClassifyDict[tag] = new List<EquipmentInfo>();
+            foreach (EquipmentInfo equipmentInfo in GameDataManager.Instance.GetBagData((EquipmentPart) tag))
+            {
+                EquipInfo equipInfo = Ui.Instance.GetEquipInfo(equipmentInfo.id);
+                if (!string.IsNullOrEmpty(equipInfo.synthesisRoute))
+                {
+                    EquipClassifyDict[tag].Add(equipmentInfo);
+                }
+            }
+        }
+
+        equipList = EquipClassifyDict[tag];
         gridView.SetItemAndRefresh(equipList.Count);
     }
 
@@ -103,7 +116,7 @@ public class BreakDownNode : PanelBase
         CardNode cardNode = item.GetComponent<CardNode>();
         cardNode.SetSelState(true);
         List<ResClass> ingredient = ingredientList[selId];
-        cardNode.SetCardData(GoodsType.Ingredient, ingredient[index].resourceId, ingredient[index].num);
+        cardNode.SetCardData(GoodsType.Ingredient, ingredient[index].resourceId, (int) ingredient[index].num);
     }
 
     private void RefreshText()
@@ -127,8 +140,8 @@ public class BreakDownNode : PanelBase
         if (!ingredientList.ContainsKey(selId))
         {
             ingredientList[selId] = new List<ResClass>();
-            Equip.EquipInfo equipInfo = Ui.Instance.GetEquipInfo(selId);
-            List<ResClass> resList = Ui.Instance.FormatStr(equipInfo.synthesisRoute);
+            EquipInfo equipInfo = Ui.Instance.GetEquipInfo(selId);
+            List<ResClass> resList = Ui.Instance.FormatResStr(equipInfo.synthesisRoute, GoodsType.Ingredient);
             foreach (var res in resList)
             {
                 ingredientList[selId].Add(res);
@@ -143,7 +156,7 @@ public class BreakDownNode : PanelBase
             return;
         }
 
-        Equip.EquipInfo equipInfo = Ui.Instance.GetEquipInfo(selId);
+        EquipInfo equipInfo = Ui.Instance.GetEquipInfo(selId);
         GameDataManager.Instance.AddEquip(selId);
         Ui.Instance.ShowFlutterView("获得" + equipInfo.name);
     }

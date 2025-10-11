@@ -832,7 +832,7 @@ SortingGroup:
   m_GameObject: {fileID: 1284855320343530088}
   m_Enabled: 1
   m_SortingLayerID: 1018542553
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_SortAtRoot: 0
 --- !u!1 &1393569163218439700
@@ -1538,7 +1538,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb4cff0e09ae77144ac3d4ccab75bcd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MonsterEquipData: {fileID: 11400000, guid: 0ca1af3d0f01a604caeb39161b324084, type: 2}
   SpriteCollection: {fileID: 11400000, guid: 620e7b0c742440a4be6c065493edd0eb, type: 2}
   Parts: 79
   monster: {fileID: 0}

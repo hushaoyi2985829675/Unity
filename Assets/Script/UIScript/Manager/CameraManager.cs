@@ -82,7 +82,7 @@ public class CameraManager : MonoBehaviour
 
     public void ChangeMapAction(Action action)
     {
-        PlayerCamScale(6f, 0.8f, true,() =>
+        PlayerCamScale(6f, 1f, true, () =>
         {
             action?.Invoke();
         });

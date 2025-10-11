@@ -14,19 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MeleeWeapon1HList:
   - SpriteGroupEntry:
-      Name: BrokenSwordTypeB
-      Collection: AbandonedWorkshop
+      Name: BloodiedSpiritSword
+      Collection: Epic
       Edition: Extensions
-      Id: Extensions.AbandonedWorkshop.MeleeWeapon1H.BrokenSwordTypeB
-      Path: Assets/HeroEditor/Extensions/AbandonedWorkshop/Sprites/Equipment/MeleeWeapon1H/AbandonedWorkshop/Sword/BrokenSwordTypeB.png
-      Sprite: {fileID: 21300000, guid: 78c862c8a88c4b7c81479f39fb68380f, type: 3}
+      Id: Extensions.Epic.MeleeWeapon1H.BloodiedSpiritSword
+      Path: Assets/HeroEditor/Extensions/EpicHeroes/Sprites/Equipment/MeleeWeapon1H/Epic/Sword/BloodiedSpiritSword.png
+      Sprite: {fileID: 21300000, guid: 10fb042db2f943a7970f105b6902675b, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 78c862c8a88c4b7c81479f39fb68380f, type: 3}
+      - {fileID: 21300000, guid: 10fb042db2f943a7970f105b6902675b, type: 3}
       Multiple: 1
-      Hash: 0899e95f2553fb543bee4cdc07b3f1b4
+      Hash: 0f5a4feebd91808a21d139d6f5bd0669
       Meta: 
       Tags: []
-    id: 2
+    id: 16
     num: 1
   - SpriteGroupEntry:
       Name: BrokenSwordTypeB
@@ -41,50 +41,24 @@ MonoBehaviour:
       Hash: 0899e95f2553fb543bee4cdc07b3f1b4
       Meta: 
       Tags: []
-    id: 3
-    num: 2
+    id: 19
+    num: 1
   - SpriteGroupEntry:
-      Name: BrokenSwordTypeB
+      Name: ElvenSword
       Collection: AbandonedWorkshop
       Edition: Extensions
-      Id: Extensions.AbandonedWorkshop.MeleeWeapon1H.BrokenSwordTypeB
-      Path: Assets/HeroEditor/Extensions/AbandonedWorkshop/Sprites/Equipment/MeleeWeapon1H/AbandonedWorkshop/Sword/BrokenSwordTypeB.png
-      Sprite: {fileID: 21300000, guid: 78c862c8a88c4b7c81479f39fb68380f, type: 3}
+      Id: Extensions.AbandonedWorkshop.MeleeWeapon1H.ElvenSword
+      Path: Assets/HeroEditor/Extensions/AbandonedWorkshop/Sprites/Equipment/MeleeWeapon1H/AbandonedWorkshop/Sword/ElvenSword.png
+      Sprite: {fileID: 21300000, guid: 7a1b30628e35405592821716f853f357, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 78c862c8a88c4b7c81479f39fb68380f, type: 3}
+      - {fileID: 21300000, guid: 7a1b30628e35405592821716f853f357, type: 3}
       Multiple: 1
       Hash: 0899e95f2553fb543bee4cdc07b3f1b4
       Meta: 
       Tags: []
-    id: 1
-    num: 2
+    id: 21
+    num: 1
   ArmorList:
-  - SpriteGroupEntry:
-      Name: Militiaman
-      Collection: Basic
-      Edition: FantasyHeroes
-      Id: FantasyHeroes.Basic.Armor.Militiaman
-      Path: Assets/HeroEditor/FantasyHeroes/Sprites/Equipment/Armor/Basic/Militiaman.png
-      Sprite: {fileID: 21300004, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
-      Sprites:
-      - {fileID: 21300004, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
-      - {fileID: 21300002, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
-      - {fileID: 21300022, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
-      - {fileID: 21300010, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
-      - {fileID: 21300008, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
-      - {fileID: 21300016, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
-      - {fileID: 21300018, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
-      - {fileID: 21300012, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
-      - {fileID: 21300006, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
-      - {fileID: 21300014, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
-      - {fileID: 21300020, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
-      - {fileID: 21300000, guid: 9d3317b393c246e3bc46b37e9f67ad9f, type: 3}
-      Multiple: 1
-      Hash: edb66513a5d98748f4de0521b39651bb
-      Meta: 
-      Tags: []
-    id: 13
-    num: 3
   - SpriteGroupEntry:
       Name: LeatherLightArmor
       Collection: Basic
@@ -502,7 +476,7 @@ MonoBehaviour:
       Meta: 
       Tags: []
     id: 16
-    num: 8
+    num: 10
   - SpriteGroupEntry:
       Name: BrokenSwordTypeB
       Collection: AbandonedWorkshop
@@ -517,7 +491,7 @@ MonoBehaviour:
       Meta: 
       Tags: []
     id: 19
-    num: 5
+    num: 12
   - SpriteGroupEntry:
       Name: ElvenSword
       Collection: AbandonedWorkshop
@@ -532,7 +506,7 @@ MonoBehaviour:
       Meta: 
       Tags: []
     id: 21
-    num: 4
+    num: 6
   - SpriteGroupEntry:
       Name: Militiaman
       Collection: Basic
@@ -663,4 +637,23 @@ MonoBehaviour:
       Tags: []
     id: 17
     num: 2
-  GoodList: []
+  PotionList:
+  - num: 1
+    id: 1
+  - num: 2
+    id: 2
+  - num: 3
+    id: 3
+  BowList: []
+  FoodList:
+  - num: 2
+    id: 6
+  GoodList:
+  - num: 1
+    id: 1
+  - num: 5
+    id: 2
+  - num: 3
+    id: 3
+  - num: 4
+    id: 4

@@ -12,15 +12,12 @@ public class BlacksmithLayer : PanelBase
 
     [SerializeField] private GameObject BreakDownNode;
     [SerializeField] private GameObject synthesizeNode;
-    public Button closeButton;
     public ToggleTableView toggleTableView;
     private GameObject layer;
 
     public override void onEnter(params object[] data)
     {
         toggleTableView.InitTabView(TabChange);
-        //处理标签
-        closeButton.onClick.AddListener(() => { UIManager.Instance.CloseLayer(gameObject.name); });
     }
 
     public override void onShow(object[] data)
@@ -31,9 +28,10 @@ public class BlacksmithLayer : PanelBase
     {
         if (layer != null)
         {
-            UIManager.Instance.CloseUINode(layer.name);
+            CloseUILayer(layer);
             layer = null;
         }
+
         //铸造
         if (i == 0)
         {
@@ -53,7 +51,7 @@ public class BlacksmithLayer : PanelBase
 
     void AddLayerNode(GameObject layer)
     {
-        UIManager.Instance.AddUINode(layer, parentNode);
+        AddUILayer(layer, parentNode);
     }
 
     public override void onExit()

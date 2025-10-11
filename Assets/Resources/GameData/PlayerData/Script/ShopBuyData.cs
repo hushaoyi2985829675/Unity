@@ -25,7 +25,7 @@ public class ShopBuyInfo
 [CreateAssetMenu(fileName = "ShopBuyData", menuName = "GameData/ShopBuyData")]
 public class ShopBuyData : ScriptableBase
 {
-    public List<ShopBuyInfo> shopBuyList = new List<ShopBuyInfo>();
+    public List<ShopBuyInfo> shopBuyList;
 
     public void AddBuyInfo(int type, int id)
     {
@@ -38,6 +38,11 @@ public class ShopBuyData : ScriptableBase
         {
             shopBuyInfo.buyNum += 1;
         }
+    }
+
+    public override void Create()
+    {
+        shopBuyList = new List<ShopBuyInfo>();
     }
 
     public override void Clear()

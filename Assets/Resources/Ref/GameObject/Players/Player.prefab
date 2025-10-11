@@ -297,7 +297,7 @@ SortingGroup:
   m_GameObject: {fileID: 219341877864732069}
   m_Enabled: 1
   m_SortingLayerID: 1018542553
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 200
   m_SortAtRoot: 0
 --- !u!1 &471320326146069668
@@ -6310,6 +6310,7 @@ GameObject:
   - component: {fileID: 134135362328109169}
   - component: {fileID: 1326593298667521697}
   - component: {fileID: 7215671843790929217}
+  - component: {fileID: -8952109431769246822}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -6346,7 +6347,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerValueData: {fileID: 11400000, guid: 1c1ca10943772664d86470047883a9b3, type: 2}
-  PlayerLvData: {fileID: 0}
   speed: 0
   jumpHeight: 0
   isStairs: 0
@@ -6359,7 +6359,6 @@ MonoBehaviour:
   isWounded: 0
   isDeath: 0
   attackState: 0
-  PlayerEquipData: {fileID: 11400000, guid: f51f756be4a1ffe44978194e3dfa7893, type: 2}
 --- !u!114 &3302864939075772850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6639,6 +6638,8 @@ MonoBehaviour:
   hpSlider: {fileID: 0}
   expSlider: {fileID: 0}
   LvText: {fileID: 0}
+  talkBtn: {fileID: 0}
+  talkText: {fileID: 0}
 --- !u!114 &7215671843790929217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6652,6 +6653,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   edge: {fileID: 4351004764640890583}
+--- !u!114 &-8952109431769246822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718427540579414978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92239727dea2921429c9cbb9b98b57bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1721934432435115764
 GameObject:
   m_ObjectHideFlags: 0

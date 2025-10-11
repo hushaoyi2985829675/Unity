@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: PlayerValueData
   m_EditorClassIdentifier: 
   PlayerInfo:
-    MaxHp: 20
-    Hp: 20
-    AttackPower: 1
+    MaxHp: 40
+    CurHp: 40
+    AttackPower: 2
     Exp: 0
-    Lv: 0
-    AttackInterval: 1
+    Lv: 1
+    AttackSpeed: 1
     JumpNum: 1
-    Armor: 0
-    walkSpeed: 4
-    runSpeed: 0
+    Armor: 2
+    MoveSpeed: 10.71
+    CritRate: 0.02
+    CritDamage: 1.5
+    DodgeRate: 0.01
     jumpSpeed: 10
-    LuckValue: 80

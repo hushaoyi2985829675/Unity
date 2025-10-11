@@ -31,21 +31,23 @@ public class LoadLayer : PanelBase
     {
        
     }
-    public void StartScene(string sceneName, Func<Slider, IEnumerator> loadData)
+
+    public void StartScene(string sceneName, Action<Slider> callback)
     {
-        StartCoroutine(LoadScene(sceneName, loadData));
+        StartCoroutine(LoadScene(sceneName, callback));
     }
-    public IEnumerator LoadScene(string sceneName,Func<Slider,IEnumerator> loadData)
+
+    public IEnumerator LoadScene(string sceneName, Action<Slider> callback)
     {
         if (!gameObject.activeSelf)
         {
-            gameObject.SetActive(true);  // ���ǰ����Ϸ����
+            gameObject.SetActive(true);  
         }
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
         operation.allowSceneActivation = false;
         while (!operation.isDone)
         {
-            slider.value += operation.progress * 50;
+            slider.value = operation.progress * 50;
 
             if (operation.progress >= 0.9f)
             {             
@@ -54,7 +56,9 @@ public class LoadLayer : PanelBase
             }
             yield return null; 
         }
-        yield return StartCoroutine(loadData.Invoke(slider));
-        UIManager.Instance.CloseLayer(gameObject.name);
+
+        callback.Invoke(slider);
+        //yield return new WaitForSeconds(1f);
+        UIManager.Instance.CloseLayer(gameObject);
     }
 }

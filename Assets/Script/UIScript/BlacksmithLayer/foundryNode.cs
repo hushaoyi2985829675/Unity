@@ -8,13 +8,6 @@ using HeroEditor.Common.Enums;
 using UnityEngine;
 using UnityEngine.UI;
 
-enum EquipClassif
-{
-    Weapon = 0,
-    Armor = 1,
-    Helmet = 2
-}
-
 public class foundryNode : PanelBase
 {
     public GridView gridView;
@@ -27,7 +20,7 @@ public class foundryNode : PanelBase
     public CardNode cardNode;
     public Button button;
     private List<FoundryInfo> FoundConfigList;
-    private Dictionary<int, Equip.EquipInfo> equipInfoList;
+    private Dictionary<int, EquipInfo> equipInfoList;
     private List<FoundryInfo> FoundryList;
     private Dictionary<int, List<FoundryInfo>> FoundryClassifyList;
     
@@ -50,7 +43,7 @@ public class foundryNode : PanelBase
     {
         selId = 0;
         refreshUI();
-        tabView.SetSelTag(EquipmentPart.MeleeWeapon1H);
+        tabView.SetSelTag((int) EquipmentPart.MeleeWeapon1H);
     }
     private void AddListener()
     {
@@ -63,7 +56,7 @@ public class foundryNode : PanelBase
         //装备分类
         foreach (var foundryInfo in FoundConfigList)
         {
-            Equip.EquipInfo equipInfo = equipInfoList[foundryInfo.foundry];
+            EquipInfo equipInfo = equipInfoList[foundryInfo.foundry];
             if (!FoundryClassifyList.ContainsKey(equipInfo.part))
             {
                 FoundryClassifyList[equipInfo.part] = new List<FoundryInfo>();
@@ -97,7 +90,6 @@ public class foundryNode : PanelBase
     private void CreateItem(int index, GameObject item)
     {
         FoundryInfo foundryInfo = FoundryList[index];
-        // Equip.EquipInfo equip = equipInfoList.Find((obj) => foundryInfo.foundry == obj.equip);
         CardNode cardNode = item.GetComponent<CardNode>();
         cardNode.SetCardData(GoodsType.Equip, foundryInfo.foundry);
         cardNode.SetSelState(selId == foundryInfo.foundry);
@@ -139,23 +131,16 @@ public class foundryNode : PanelBase
 
     public void CreateMaterial()
     {
-        Ui.Instance.RemoveAllChildren(materialNode);
-        Equip.EquipInfo equip = Ui.Instance.GetEquipInfo(selId);
-        List<ResClass> resList = Ui.Instance.FormatStr(equip.synthesisRoute);
+        CloseNodeAllUINode(materialNode);
+        EquipInfo equip = Ui.Instance.GetEquipInfo(selId);
+        List<ResClass> resList = Ui.Instance.FormatResStr(equip.synthesisRoute, GoodsType.Ingredient);
         for (int i = 0; i < resList.Count; i++)
         {
             ResClass resClass = resList[i];
-            GameObject temp = Instantiate(materialCardNode, materialNode);
+            GameObject temp = AddUINode(materialCardNode, materialNode,
+                new object[] {resClass.resourceId, resClass.num, i < resList.Count - 1}).gameObject;
             float x = -(resList.Count - 1) * 150 / 2 + i * 150;
             temp.transform.localPosition = new Vector3(x, 0, 0);
-            CardNode cardNode = temp.transform.Find("CardNode").GetComponent<CardNode>();
-            cardNode.SetSelState(false);
-            cardNode.SetCardData(GoodsType.Ingredient, resClass.resourceId, resClass.num);
-            if (i == resList.Count - 1)
-            {
-                GameObject horizontalLine = Ui.Instance.GetChild(temp.transform, "HorizontalLine");
-                horizontalLine.SetActive(false);
-            }
         }
     }
 
@@ -165,10 +150,8 @@ public class foundryNode : PanelBase
         {
             return;
         }
-
-        Equip.EquipInfo equipInfo = Ui.Instance.GetEquipInfo(selId);
         GameDataManager.Instance.AddEquip(selId);
-        Ui.Instance.ShowFlutterView("获得" + equipInfo.name);
+        Ui.Instance.ShowReward(new ResClass(selId, 1), GoodsType.Equip);
     }
 
     public override void onExit()

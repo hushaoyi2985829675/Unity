@@ -17,6 +17,7 @@ public class LoadExcel
 {
     private static string headType;
     private static ExcelWorksheet worksheet;
+    private static string filePath = "Assets/Resources/Configs/Excel";
     [MenuItem("Tools/导表")]
     private static void importExcel()
     {
@@ -40,6 +41,11 @@ public class LoadExcel
     [MenuItem("Tools/导全部表")]
     private static void importAllExcel()
     {
+        string[] files = Directory.GetFiles(filePath, "*.xlsx", SearchOption.AllDirectories);
+        foreach (string file in files)
+        {
+            ReadConfig(file);
+        }
     }
 
     private static void ReadConfig(string path)
@@ -249,6 +255,8 @@ public class LoadExcel
                 return "float";
             case "bool":
                 return "bool";
+            case "Vector2":
+                return "Vector2";
         }
         return "string"; 
     }
@@ -268,6 +276,9 @@ public class LoadExcel
                     return false;
                 }
                 return true;
+            case "Vector2":
+                string[] str = value.Split(",");
+                return new Vector2(float.Parse(str[0]), float.Parse(str[1]));
         }
         return value; 
     }

@@ -2,6 +2,7 @@ using HeroEditor.Common;
 using HeroEditor.Common.Enums;
 using System.Collections;
 using System.Collections.Generic;
+using Equip;
 using Goods;
 using UnityEngine;
 
@@ -40,17 +41,22 @@ public class GoodData
 [CreateAssetMenu(fileName = "BagData", menuName = "GameData/BagData")]
 public class BagData : ScriptableBase
 {
-    public List<EquipmentInfo> MeleeWeapon1HList = new List<EquipmentInfo>();
-    public List<EquipmentInfo> ArmorList = new List<EquipmentInfo>();
-    public List<EquipmentInfo> HelmetList = new List<EquipmentInfo>();
-    public List<EquipmentInfo> EquipmentList = new List<EquipmentInfo>();
-    public List<GoodData> GoodList = new List<GoodData>();
+    public List<EquipmentInfo> MeleeWeapon1HList;
+    public List<EquipmentInfo> ArmorList;
+    public List<EquipmentInfo> HelmetList;
+    public List<EquipmentInfo> EquipmentList;
+
+    public List<GoodData> PotionList;
+    public List<GoodData> BowList;
+    public List<GoodData> FoodList;
+    public List<GoodData> GoodList;
 
     //增加装备
-    public void AddEquip(SpriteGroupEntry data, int id, int num = 1)
+    public void AddEquip(int id, int num = 1)
     {
+        EquipInfo equipInfo = Ui.Instance.GetEquipInfo(id);
+        SpriteGroupEntry data = Ui.Instance.GetEquipEntry((EquipmentPart) equipInfo.part, equipInfo.id);
         List<EquipmentInfo> tempList = new List<EquipmentInfo>();
-        Equip.EquipInfo equipInfo = Ui.Instance.GetEquipInfo(id);
         switch ((EquipmentPart) equipInfo.part)
         {
             case EquipmentPart.MeleeWeapon1H:
@@ -64,8 +70,8 @@ public class BagData : ScriptableBase
                 tempList = HelmetList;
                 break;
         }
-        
-        var info = tempList.Find((info) => info.SpriteGroupEntry.Id == data.Id);
+
+        var info = tempList.Find((info) => info.id == id);
         if (info != null)
         {
             info.num += num;
@@ -74,8 +80,8 @@ public class BagData : ScriptableBase
         {
             tempList.Add(new EquipmentInfo(data, id, num));
         }
-        
-        var equipmentInfo = EquipmentList.Find((info) => info.SpriteGroupEntry.Id == data.Id);
+
+        var equipmentInfo = EquipmentList.Find((info) => info.id == id);
         if (equipmentInfo != null)
         {
             equipmentInfo.num += num;
@@ -89,7 +95,7 @@ public class BagData : ScriptableBase
     //移除装备
     public void RemoveEquip(int id, int num = 1)
     {
-        Equip.EquipInfo equipInfo = Ui.Instance.GetEquipInfo(id);
+        EquipInfo equipInfo = Ui.Instance.GetEquipInfo(id);
         List<EquipmentInfo> equipList = GetEquipListData((EquipmentPart) equipInfo.part);
         EquipmentInfo equipData = equipList.Find((obj) => obj.id == id);
         if (equipData is null)
@@ -108,18 +114,22 @@ public class BagData : ScriptableBase
     //增加道具
     public void AddGood(int id, int num)
     {
-        GoodData goodInfo = GoodList.Find((obj) => obj.id == id);
-        if (goodInfo != null)
+        GoodInfo goodInfo = Ui.Instance.GetGoodInfo(id);
+        List<GoodData> goodList = GetGoodListData((GoodsCategory) goodInfo.type);
+        GoodData goodData = goodList.Find((obj) => obj.id == id);
+        if (goodData != null)
         {
-            goodInfo.num += 1;
+            goodData.num += 1;
+            GoodList.Find((obj) => obj.id == id).num += 1;
             return;
         }
 
+        goodList.Add(new GoodData(id, num));
         GoodList.Add(new GoodData(id, num));
     }
 
     //移除道具
-    public void RemoveGood(int id, int num)
+    public void RemoveGood(int id, int num, int type)
     {
         GoodData goodInfo = GoodList.Find((obj) => obj.id == id);
         if (goodInfo.num - num <= 0)
@@ -131,6 +141,29 @@ public class BagData : ScriptableBase
         goodInfo.num -= num;
     }
 
+    //获取道具列表数据
+    public List<GoodData> GetGoodListData(GoodsCategory type)
+    {
+        List<GoodData> goodList;
+        switch (type)
+        {
+            case GoodsCategory.Potion:
+                goodList = PotionList;
+                break;
+            case GoodsCategory.Bow:
+                goodList = BowList;
+                break;
+            case GoodsCategory.Food:
+                goodList = FoodList;
+                break;
+            default:
+                goodList = PotionList;
+                Debug.Log("这个部位未实现");
+                break;
+        }
+
+        return goodList;
+    }
     //获取装备列表数据
     public List<EquipmentInfo> GetEquipListData(EquipmentPart part)
     {
@@ -154,13 +187,21 @@ public class BagData : ScriptableBase
 
         return equipList;
     }
-    
-    public override void Clear()
+
+    public override void Create()
     {
         MeleeWeapon1HList = new List<EquipmentInfo>();
         EquipmentList = new List<EquipmentInfo>();
         ArmorList = new List<EquipmentInfo>();
         GoodList = new List<GoodData>();
+        PotionList = new List<GoodData>();
+        BowList = new List<GoodData>();
+        FoodList = new List<GoodData>();
+    }
+
+    public override void Clear()
+    {
+        Create();
     }
 }
 

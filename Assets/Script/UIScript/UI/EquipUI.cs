@@ -24,9 +24,9 @@ public class EquipUI : MonoBehaviour
     //
     // void createEquipRef()
     // {
-    //     float x = 0;
-    //     foreach (EquipData data in equipCharate.equipDatas)
-    //     { 
+    //     float x (EquipData data in equipCharate.equipDatas)
+    //     { = 0;
+    //     foreach 
     //         GameObject item = Resources.Load<GameObject>("GameObjectRef/EquipItemRef");
     //         Vector2 pos = new Vector2(x,0);
     //         item.transform.localPosition = pos;

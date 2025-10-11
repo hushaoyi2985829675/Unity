@@ -14,7 +14,10 @@ namespace Equip
 		public string name;
 		public string id;
 		public int part;
-		public string price;
+		public int lv;
+		public string buyPrice;
+		public string sellPrice;
+		public string attr;
 		public string synthesisRoute;
 		public string desc;
 	}

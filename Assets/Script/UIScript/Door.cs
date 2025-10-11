@@ -50,6 +50,7 @@ public class Door : MonoBehaviour
             Debug.Log("Layer为空");
             return;
         }
-        UIManager.Instance.AddMap(Layer,playerPos);
+
+        UIManager.Instance.AddMap(Layer, playerPos, "酒馆");
     }
 }

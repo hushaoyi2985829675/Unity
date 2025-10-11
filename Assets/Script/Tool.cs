@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using HeroEditor.Common.Enums;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Tool 
+public class Tool
 {
     static Action PlayerEvent;
 
@@ -67,52 +69,17 @@ public class Tool
             }
         }
         return null;
+        
     }
 
-    public static string GetEquipPartName(EquipmentPart part)
+    public static Dictionary<T, T2> Clone<T, T2>(Dictionary<T, T2> dict)
     {
-        switch (part)
+        using (MemoryStream ms = new MemoryStream())
         {
-            case EquipmentPart.Armor:
-                return "Armor";
-            case EquipmentPart.Helmet:
-                return "Helmet";
-            case EquipmentPart.Pauldrons:
-                return "Pauldrons";
-            case EquipmentPart.Vest:
-                return "Vest";
-            case EquipmentPart.Gloves:
-                return "Gloves";
-            case EquipmentPart.Belt:
-                return "Belt";
-            case EquipmentPart.Boots:
-                return "Boots";
-            case EquipmentPart.MeleeWeapon1H:
-                return "MeleeWeapon1H";
-            case EquipmentPart.MeleeWeapon2H:
-                return "MeleeWeapon2H";
-            case EquipmentPart.MeleeWeaponPaired:
-                return "MeleeWeaponPaired";
-            case EquipmentPart.Bow:
-                return "Bow";
-            case EquipmentPart.Firearm1H:
-                return "Firearm1H";
-            case EquipmentPart.Firearm2H:
-                return "Firearm2H";
-            case EquipmentPart.Shield:
-                return "Shield";
-            case EquipmentPart.Earrings:
-                return "Earrings";
-            case EquipmentPart.Cape:
-                return "Cape";
-            case EquipmentPart.Back:
-                return "Back";
-            case EquipmentPart.Glasses:
-                return "Glasses";
-            case EquipmentPart.Mask:
-                return "Mask";
-            default:
-                return "Unknown";
+            BinaryFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(ms, dict);
+            ms.Position = 0;
+            return (Dictionary<T, T2>) formatter.Deserialize(ms);
         }
     }
 }

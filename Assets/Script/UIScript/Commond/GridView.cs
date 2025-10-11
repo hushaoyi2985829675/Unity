@@ -11,7 +11,7 @@ public class GridView : MonoBehaviour
     private int horizontalNum;
     int verticalNum;
     int viewCount;
-    private int cellNum;
+    private int cellNum = 0;
     Vector2 ItemSize;
     public float SpaceX;
     public float SpaceY;
@@ -28,12 +28,11 @@ public class GridView : MonoBehaviour
     public void SetItemAndRefresh(int num)
     {
         cellNum = num;
-        if (num <= 0)
+        if (cellNum <= 0)
         {
             Clear();
             return;
         }
-
         horizontalNum = HorizontalNum;
         horizontalNum = Math.Min(horizontalNum, num);
         verticalNum = (int) Mathf.Ceil((num * 1.0f) / horizontalNum);
@@ -67,7 +66,7 @@ public class GridView : MonoBehaviour
             Stack.Push(Items[i]);
             Items.Remove(i);
         }
-
+        
         for (int i = maxIdx + 1; i <= oldMaxIndex; i++)
         {
             Stack.Push(Items[i]);
@@ -91,7 +90,7 @@ public class GridView : MonoBehaviour
             }
             else
             {
-                item = Instantiate(Item, Content);
+                item = UIManager.Instance.AddUINode(Item, Content).gameObject;
                 Items[i] = item;
             }
 

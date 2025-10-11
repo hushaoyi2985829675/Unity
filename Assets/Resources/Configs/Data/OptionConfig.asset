@@ -17,13 +17,7 @@ MonoBehaviour:
     optionText: "\u63A5\u53D7\u4EFB\u52A1"
     taskEnumInfoList:
     - taskEnum: 1
-      answers: 16
-    - taskEnum: 2
-      answers: 16
   - option: 2
     optionText: "\u8FD8\u662F\u7B97\u4E86"
     taskEnumInfoList:
     - taskEnum: 1
-      answers: 9,10,11,12,13
-    - taskEnum: 2
-      answers: 18

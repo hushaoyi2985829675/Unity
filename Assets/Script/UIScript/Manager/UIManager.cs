@@ -16,29 +16,42 @@ public enum LayerAction
     AllAction,
 }
 
+public class UINodeClass
+{
+    //当前显示Node
+    public PanelBase panelNode;
+    public Dictionary<string, PanelBase> cacheDict;
+
+    public UINodeClass()
+    {
+        panelNode = null;
+        cacheDict = new Dictionary<string, PanelBase>();
+    }
+}
+
 public class UIManager : Singleton<UIManager>
 {
     public GameObject ResourceNode;
-    private Dictionary<string,PanelBase> LayerList;
-    private Dictionary<string, PanelBase> PopLayerList;
-    private Dictionary<string, PanelBase> UINodeList;
+    private Dictionary<int, PanelBase> LayerList;
+    private Dictionary<int, PanelBase> PopLayerList;
+
+    private Dictionary<int, int> instanceToPrefabGidList;
+
+    //private Dictionary<string, PanelBase> UINodeDict;
     private Dictionary<string,GameObject> MapList;
     private GameObject CurMap;
     private Transform layerCanvas;
-    GameObject NpcCamera;
-    GameObject PlayerCamera;
-    CinemachineBlenderSettings CinemachineBlenderSettings;
+    private Transform popLayerCanvas;
+    private PanelBase curActPanelNode;
 
     private void Awake()
     {
-        LayerList = new Dictionary<string, PanelBase>();
+        LayerList = new Dictionary<int, PanelBase>();
         MapList = new Dictionary<string, GameObject>();
-        //CinemachineBlenderSettings = AssetDatabase.LoadAssetAtPath<CinemachineBlenderSettings>("Assets/CameraBlends/CameraBlends.asset");
-        PopLayerList = new Dictionary<string, PanelBase>();
-        UINodeList = new Dictionary<string, PanelBase>();
-        NpcCamera = GameObject.FindWithTag("NpcCamera");
-        PlayerCamera = GameObject.FindWithTag("PlayerCamera");
+        PopLayerList = new Dictionary<int, PanelBase>();
+        instanceToPrefabGidList = new Dictionary<int, int>();
         layerCanvas = GameObject.FindWithTag("LayerCanvas").transform;
+        popLayerCanvas = GameObject.FindWithTag("PopLayerCanvas").transform;
     }
 
     private void Start()
@@ -47,18 +60,19 @@ public class UIManager : Singleton<UIManager>
     }
     public PanelBase OpenLayer(GameObject layerRef, params object[] data)
     {
+        Debug.Log("打开页面:" + layerRef.name);
         PanelBase layer = AddLayer(ref LayerList, layerRef, layerCanvas.transform, data);
         return layer;
     }
 
-    private PanelBase AddLayer(ref Dictionary<string, PanelBase> layerList, GameObject layerRef,
+    private PanelBase AddLayer(ref Dictionary<int, PanelBase> layerList, GameObject layerRef,
         Transform parent = null, params object[] data)
     {
         PanelBase layerScript;
-        if (layerList.ContainsKey(layerRef.name))
+        int gid = layerRef.GetInstanceID();
+        if (layerList.ContainsKey(gid))
         {
-            layerScript = layerList[layerRef.name];
-            layerScript.SetActive(true);
+            layerScript = layerList[gid];
         }
         else
         {
@@ -68,106 +82,132 @@ public class UIManager : Singleton<UIManager>
                 return null;
             }
 
-            var layer = Instantiate(layerRef, parent);
+            GameObject layer = Instantiate(layerRef, parent);
             layer.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
             layer.name = layerRef.name;
             layerScript = layer.GetComponent<PanelBase>();
             layerScript.onEnter(data);
-            layerList[layerRef.name] = layerScript;
+            layerList[gid] = layerScript;
+            int instanceGid = layer.GetInstanceID();
+            instanceToPrefabGidList[instanceGid] = gid;
         }
 
-        layerScript.transform.SetSiblingIndex(parent.childCount - 2);
+        layerScript.SetActive(true);
+        layerScript.transform.SetSiblingIndex(parent.childCount);
         layerScript.onShow(data);
         return layerScript;
     }
-    public PanelBase OpenLayer(GameObject layerRef, LayerAction action = 0, params object[] data)
-    {
-        if (LayerList.ContainsKey(layerRef.name))
-        {
-            LayerList[layerRef.name].SetActive(true);
-            LayerList[layerRef.name].onShow(data);
-            return LayerList[layerRef.name];
-        }
-        else
-        {
-            if (layerRef == null)
-            {
-                return null;
-            }
 
-            var layer = GameObject.Instantiate(layerRef, layerCanvas);
-            layer.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
-            PanelBase layerScript = layer.GetComponent<PanelBase>();
-            layerScript.transform.localPosition = new Vector3(0, 0, 0);
-            layerScript.onEnter(data);
-            LayerList[layerRef.name] = layerScript;
-            return layerScript;
-        }
-    }
-    public void CloseLayer(String name)
+    // public PanelBase OpenLayer(GameObject layerRef, LayerAction action = 0, params object[] data)
+    // {
+    //     if (LayerList.ContainsKey(layerRef.name))
+    //     {
+    //         LayerList[layerRef.name].SetActive(true);
+    //         LayerList[layerRef.name].onShow(data);
+    //         return LayerList[layerRef.name];
+    //     }
+    //     else
+    //     {
+    //         if (layerRef == null)
+    //         {
+    //             return null;
+    //         }
+    //
+    //         var layer = GameObject.Instantiate(layerRef, layerCanvas);
+    //         layer.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+    //         PanelBase layerScript = layer.GetComponent<PanelBase>();
+    //         layerScript.transform.localPosition = new Vector3(0, 0, 0);
+    //         layerScript.onEnter(data);
+    //         LayerList[layerRef.name] = layerScript;
+    //         return layerScript;
+    //     }
+    // }
+    public void CloseLayer(GameObject layer, params object[] data)
     {
-        PanelBase curLayer = LayerList[name];
+        int instanceGid = layer.GetInstanceID();
+        int gid = instanceToPrefabGidList[instanceGid];
+        PanelBase curLayer = LayerList[gid];
         curLayer.transform.SetSiblingIndex(0);
         curLayer.SetActive(false);
+        curLayer.Hide();
         curLayer.onExit();
     }
 
     public PanelBase AddPopLayer(GameObject layerRef, Vector2 pos, params object[] data)
     {
-        PanelBase layer = AddLayer(ref PopLayerList, layerRef, layerCanvas, data);
+        PanelBase layer = AddLayer(ref PopLayerList, layerRef, popLayerCanvas, data);
         layer.transform.localPosition = pos;
         return layer; 
     }
 
     public PanelBase AddUINode(GameObject layerRef, Transform parent, params object[] data)
     {
-        PanelBase layer = AddLayer(ref UINodeList, layerRef, parent, data);
+        var layer = Instantiate(layerRef, parent);
+        layer.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        layer.name = layerRef.name;
+        PanelBase layerScript = layer.GetComponent<PanelBase>();
+        layerScript.onEnter(data);
+        layerScript.transform.SetSiblingIndex(parent.childCount);
+        layerScript.onShow(data);
+        return layerScript;
+    }
+
+    public PanelBase AddUILayer(ref Dictionary<int, PanelBase> layerList, GameObject layerRef,
+        Transform parent, params object[] data)
+    {
+        PanelBase layer = AddLayer(ref layerList, layerRef, parent, data);
         return layer;
     }
 
-    public void ClosePopLayer(string name)
+    public void ClosePopLayer(GameObject layer)
     {
-        PanelBase curLayer = PopLayerList[name];
-        curLayer.transform.SetSiblingIndex(0);
-        curLayer.SetActive(false);
-        curLayer.onExit();
+        CloseUINode(layer);
     }
 
-    public void CloseUINode(string name)
+    public void CloseUINode(GameObject layer)
     {
-        PanelBase curLayer = UINodeList[name];
-        curLayer.transform.SetSiblingIndex(0);
-        curLayer.SetActive(false);
-        curLayer.onExit();
-    } 
-    public void AddMap(GameObject mapLayer,Vector2 position)
+        PanelBase panelBase = layer.GetComponent<PanelBase>();
+        panelBase.transform.SetSiblingIndex(0);
+        panelBase.SetActive(false);
+        panelBase.onExit();
+        panelBase.Hide();
+    }
+
+    public void SetShowHide(PanelBase layerScript, bool show)
     {
-        CameraManager.Instance.ChangeMapAction(() =>
+        if (show)
         {
-            if (CurMap != null)
+        }
+    }
+
+    public void AddMap(GameObject mapLayer, Vector2 position, string name)
+    {
+        if (CurMap != null)
+        {
+            CurMap.SetActive(false);
+        }
+
+        if (MapList.ContainsKey(mapLayer.name))
+        {
+            CurMap = MapList[mapLayer.name];
+            CurMap.SetActive(true);
+        }
+        else
+        {
+            //从最开始游戏进来就打开
+            if (CurMap == null)
             {
-                CurMap.SetActive(false);
+                CurMap = GameObject.Find("MainMap");
+                MapList.Add(CurMap.name, CurMap);
             }
-            if (MapList.ContainsKey(mapLayer.name))
-            {
-                CurMap = MapList[mapLayer.name];
-                CurMap.SetActive(true);
-            }
-            else
-            {
-                //从最开始游戏进来就打开
-                if (CurMap == null)
-                {
-                    CurMap = GameObject.Find("MainMap");
-                    MapList.Add(CurMap.name,CurMap);
-                }
-                CurMap.SetActive(false);
-                var layer = GameObject.Instantiate(mapLayer, GameObject.Find("Grid").transform);
-                MapList.Add(mapLayer.name,layer);
-                CurMap = layer;
-            }
-            SetPlayerPos(position);
-        });
+
+            CurMap.SetActive(false);
+            var layer = Instantiate(mapLayer, GameObject.Find("Grid").transform);
+            MapList.Add(mapLayer.name, layer);
+            CurMap = layer;
+        }
+
+        SetPlayerPos(position);
     }
     public void SetPlayerPos(Vector2 pos)
     {
@@ -184,9 +224,16 @@ public class UIManager : Singleton<UIManager>
         var hpBarRef = Resources.Load<GameObject>("Ref/GameObject/Monster/HpBar");
         return hpBarRef;
     }
-    public void LoadScene(string sceneName, Func<Slider, IEnumerator> loadDataClick)
+
+    public void LoadScene(string sceneName, Action<Slider> callback)
     {
-        var layer = OpenLayer(Resources.Load("Ref/LayerRef/UIRef/LoadLayer") as GameObject).GetComponent<LoadLayer>();
-        layer.StartScene(sceneName,loadDataClick);
+        LoadLayer layer = OpenLayer(Resources.Load<LoadLayer>("Ref/LayerRef/UIRef/LoadLayer/LoadLayer").gameObject)
+            .GetComponent<LoadLayer>();
+        layer.StartScene(sceneName, callback);
+    }
+
+    public void LoadMainScene()
+    {
+        LoadScene("MainScene", (slider) => { });
     }
 }

@@ -11,13 +11,14 @@ namespace NpcTalkTask
 	public class NpcIdInfo
 	{
 		public int npcId;
-		public List<PlayerLvInfo> playerLvInfoList;
+		public string name;
+		public List<PlayerTaskLvInfo> playerTaskLvInfoList;
 	}
 
 	[System.Serializable]
-	public class PlayerLvInfo
+	public class PlayerTaskLvInfo
 	{
-		public int playerLv;
+		public int playerTaskLv;
 		public int taskId;
 		public int taskLocation;
 		public int taskRequirement;

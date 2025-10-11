@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class BtnScript : MonoBehaviour
 {
     public GameObject talkLayerRef;
-    public GameObject foundryNode;
+    public GameObject NpcLayerRef;
     public int npcId;
     private Button btn;
     void Start()
@@ -14,7 +14,7 @@ public class BtnScript : MonoBehaviour
         btn = GetComponent<Button>();
         btn.onClick.AddListener(() =>
         {
-            UIManager.Instance.OpenLayer(talkLayerRef, new object[] { });
+            UIManager.Instance.OpenLayer(talkLayerRef, new object[] {npcId, NpcLayerRef});
         });
     }
 

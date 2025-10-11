@@ -23,7 +23,7 @@ public class Gray : MonoBehaviour
         button.colors = colors;
     }
 
-    public void SetsGray(bool isGray)
+    public void SetGray(bool isGray)
     {
         material.SetFloat("_Grayscale", isGray ? 1f : 0f);
         image.enabled = false;

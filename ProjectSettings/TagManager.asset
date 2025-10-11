@@ -9,6 +9,7 @@ TagManager:
   - PlayerCamera
   - Equip
   - Monster
+  - PopLayerCanvas
   layers:
   - Default
   - TransparentFX
@@ -61,12 +62,15 @@ TagManager:
   - name: House
     uniqueID: 1541127035
     locked: 0
-  - name: player
-    uniqueID: 1018542553
-    locked: 0
   - name: Plant
     uniqueID: 1852424627
     locked: 0
+  - name: player
+    uniqueID: 1018542553
+    locked: 0
   - name: Equip
     uniqueID: 2948734723
+    locked: 0
+  - name: Water
+    uniqueID: 1912895353
     locked: 0

@@ -15,17 +15,26 @@ MonoBehaviour:
   TaskList:
   - npcId: 2
     taskId: 2
-    isComplete: 0
+    isComplete: 1
     taskLocation: 0
     TaskType: 0
-    needNum: 10
-    curNum: 0
-    rewardInfo: 1,1,1
+    needNum: 4
+    curNum: 3
+    rewardList:
+    - goodsType: 4
+      resourceId: 1
+      num: 20
+    - goodsType: 4
+      resourceId: 1
+      num: 20
   - npcId: 1
     taskId: 1
     isComplete: 0
-    taskLocation: 0
+    taskLocation: 1
     TaskType: 0
-    needNum: 3
+    needNum: 2
     curNum: 0
-    rewardInfo: 1,1,1
+    rewardList:
+    - goodsType: 1
+      resourceId: 1
+      num: 13

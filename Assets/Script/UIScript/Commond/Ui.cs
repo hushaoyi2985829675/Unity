@@ -10,15 +10,19 @@ using UnityEngine.UI;
 using HeroEditor.Common;
 using HeroEditor.Common.Enums;
 using Ingredient;
+using Map;
+using NpcTalkTask;
+using PlayerLvAttr;
 using Resource;
+using Talk;
+using Task;
 using GoodInfo = Goods.GoodInfo;
 
-enum GoodType
-{
-}
 
+[Serializable]
 public class ResClass
 {
+    public GoodsType goodsType;
     public int resourceId;
     public int num;
 
@@ -30,6 +34,31 @@ public class ResClass
     {
         this.resourceId = resourceId;
         this.num = num;
+        goodsType = GoodsType.Resource;
+    }
+
+    public ResClass(GoodsType goodsType, int resourceId, int num)
+    {
+        this.resourceId = resourceId;
+        this.num = num;
+        this.goodsType = goodsType;
+    }
+}
+
+
+public class AttrClass
+{
+    public AttrType attrType;
+    public float value;
+
+    public AttrClass()
+    {
+    }
+
+    public AttrClass(AttrType attrType, float num)
+    {
+        this.attrType = attrType;
+        this.value = num;
     }
 }
 
@@ -39,7 +68,7 @@ public class Ui : Singleton<Ui>
 
     //道具表
     private Dictionary<int, GoodInfo> GoodConfig;
-    private Dictionary<int, Equip.EquipInfo> EquipConfig;
+    private Dictionary<int, EquipInfo> EquipConfig;
     private Dictionary<int, MaterialInfo> IngredientConfig;
     private Dictionary<int, ResourceInfo> ResourceConfig;
     
@@ -51,11 +80,20 @@ public class Ui : Singleton<Ui>
     private Dictionary<int, Sprite> ingredientIconList;
     private Dictionary<int, Sprite> resourceIconList;
     private Dictionary<string, SpriteGroupEntry> SpriteGroupEntryList;
-
+    private Dictionary<int, PlayerLvInfo> PlayerLvAttrList;
+    private Dictionary<int, TalkInfo> talkInfoList;
+    private Dictionary<int, MapInfo> mapInfoList;
+    private Dictionary<int, Task.TaskInfo> taskInfoList;
+    private Dictionary<int, MapLayerInfo> mapLayerInfoList;
+    
     //打开的页面
-    public GameObject flutteViewRef;
-    public GameObject showRewardRef;
+    [SerializeField] private GameObject flutteViewRef;
+    [SerializeField] private GameObject showRewardRef;
 
+    [SerializeField] private GameObject ConfirmationRef;
+
+    // 存储数值与中文描述的映射
+    private Dictionary<AttrType, string> attrChineseMap;
     private void Awake()
     {
         EquipConfig = Resources.Load<EquipConfig>("Configs/Data/EquipConfig").equipInfoList
@@ -66,18 +104,39 @@ public class Ui : Singleton<Ui>
             .ToDictionary(key => key.material, value => value);
         ResourceConfig = Resources.Load<ResourceConfig>("Configs/Data/ResourceConfig").resourceInfoList
             .ToDictionary(key => key.resource, value => value);
+        PlayerLvAttrList = Resources.Load<PlayerLvAttrConfig>("Configs/Data/PlayerLvAttrConfig").playerLvInfoList
+            .ToDictionary(key => key.playerLv, value => value);
+        talkInfoList = Resources.Load<TalkConfig>("Configs/Data/TalkConfig").talkInfoList
+            .ToDictionary(key => key.talk, value => value);
         IconCollection = Resources.Load<IconCollection>("Configs/Data/IconCollection");
         SpriteCollection = Resources.Load<SpriteCollection>("Configs/Data/SpriteCollection");
+        mapInfoList = Resources.Load<MapConfig>("Configs/Data/MapConfig").mapInfoList
+            .ToDictionary(key => key.map, value => value);
+        taskInfoList = Resources.Load<TaskConfig>("Configs/Data/TaskConfig").taskInfoList
+            .ToDictionary(key => key.task, value => value);
+        mapLayerInfoList = Resources.Load<MapLayerData>("Configs/MapLayerData/MapLayerData").mapInfoList
+            .ToDictionary(key => key.mapId, value => value);
         SpriteGroupEntryList = new Dictionary<string, SpriteGroupEntry>();
         goodIconList = new Dictionary<int, Sprite>();
         equipIconList = new Dictionary<string, Sprite>();
         ingredientIconList = new Dictionary<int, Sprite>();
         resourceIconList = new Dictionary<int, Sprite>();
+        attrChineseMap = new Dictionary<AttrType, string>
+        {
+            {AttrType.Attack, "攻击力"},
+            {AttrType.Health, "生命值"},
+            {AttrType.MoveSpeed, "移速"},
+            {AttrType.AttackSpeed, "攻速"},
+            {AttrType.Armor, "护甲"},
+            {AttrType.CritRate, "暴击率"},
+            {AttrType.CritDamage, "暴击伤害"},
+            {AttrType.DodgeRate, "闪避率"}
+        };
     }
 
     void Start()
     {
-      
+        EventManager.Instance.AddShowFlutterAction((text) => { ShowFlutterView(text); });
     }
 
     // Update is called once per frame
@@ -86,15 +145,26 @@ public class Ui : Singleton<Ui>
         
     }
 
+    //飘窗
     public void ShowFlutterView(string text)
     {
         UIManager.Instance.AddPopLayer(flutteViewRef, new Vector2(0, 0), new object[] {text});
     }
 
-    //获取装备配置信息
-    public Equip.EquipInfo GetEquipInfo(int id)
+    //提示
+    public void ShowConfirmationLayer(string text, Action action)
     {
-        return EquipConfig[id];
+        UIManager.Instance.OpenLayer(ConfirmationRef, new object[] {text, action});
+    }
+    //获取装备配置信息
+    public EquipInfo GetEquipInfo(int id)
+    {
+        if (EquipConfig.ContainsKey(id))
+        {
+            return EquipConfig[id];
+        }
+
+        return null;
     }
 
     //获取道具配置信息
@@ -108,19 +178,20 @@ public class Ui : Singleton<Ui>
     {
         return IngredientConfig[id];
     }
-
+    
     //获取资源配置信息
     public ResourceInfo GetResourceInfo(int id)
     {
         return ResourceConfig[id];
     }
+    
     //获取道具名字
     public string GetGoodName(int type, int id)
     {
         switch ((GoodsType) type)
         {
             case GoodsType.Equip:
-                Equip.EquipInfo equipInfo = GetEquipInfo(id);
+                EquipInfo equipInfo = GetEquipInfo(id);
                 return equipInfo.name;
             case GoodsType.Good:
                 GoodInfo goodInfo = GetGoodInfo(id);
@@ -142,7 +213,7 @@ public class Ui : Singleton<Ui>
         switch ((GoodsType) type)
         {
             case GoodsType.Equip:
-                Equip.EquipInfo equipInfo = GetEquipInfo(id);
+                EquipInfo equipInfo = GetEquipInfo(id);
                 return equipInfo.desc;
             case GoodsType.Good:
                 GoodInfo goodInfo = GetGoodInfo(id);
@@ -227,6 +298,16 @@ public class Ui : Singleton<Ui>
         }
     }
 
+
+    public string GetTalkText(int id)
+    {
+        return talkInfoList[id].text;
+    }
+
+    public string GetTaskDes(int id)
+    {
+        return taskInfoList[id].des;
+    }
     //删除节点下所有子节点
     public void RemoveAllChildren(Transform parent)
     {
@@ -261,7 +342,7 @@ public class Ui : Singleton<Ui>
                     return goodIconList[id];
                 }
 
-                sprite = LoadSprite(GoodConfig[id].icon);
+                sprite = LoadIcon(GoodConfig[id].icon);
                 goodIconList[id] = sprite;
                 return sprite;
             case GoodsType.Ingredient:
@@ -270,7 +351,7 @@ public class Ui : Singleton<Ui>
                     return ingredientIconList[id];
                 }
 
-                sprite = LoadSprite(IngredientConfig[id].icon);
+                sprite = LoadIcon(IngredientConfig[id].icon);
                 ingredientIconList[id] = sprite;
                 return sprite;
             case GoodsType.Resource:
@@ -279,7 +360,7 @@ public class Ui : Singleton<Ui>
                     return resourceIconList[id];
                 }
 
-                sprite = LoadSprite(ResourceConfig[id].icon);
+                sprite = LoadIcon(ResourceConfig[id].icon);
                 resourceIconList[id] = sprite;
                 return sprite;
             default:
@@ -287,8 +368,8 @@ public class Ui : Singleton<Ui>
         }
     }
 
-    //加載图片
-    private Sprite LoadSprite(string name)
+    //加載图标
+    private Sprite LoadIcon(string name)
     {
         string path = "";
         string str = name.Split("_")[0];
@@ -306,14 +387,46 @@ public class Ui : Singleton<Ui>
         }
         else
         {
-            Debug.Log("图片名字有误");
+            Debug.Log("图片名字有误 " + name);
         }
 
-        return Resources.Load<Sprite>("img/" + path + "/" + name);
+        path = "Img/DynamicImg/Icon/" + path + "/" + name;
+
+        return Resources.Load<Sprite>(path);
     }
 
+    //加载图片
+    public Sprite LoadSprite(string name)
+    {
+        string path = "";
+        string str = name.Split("_")[0];
+        if (str.Equals("i"))
+        {
+            path = "Ingredient";
+        }
+        else if (str.Equals("g"))
+        {
+            path = "Good";
+        }
+        else if (str.Equals("r"))
+        {
+            path = "Resource";
+        }
+        else if (str.Equals("m"))
+        {
+            path = "Map";
+        }
+        else
+        {
+            Debug.Log("图片名字有误 " + name);
+        }
+
+        path = "Img/DynamicImg/Sprite/" + path + "/" + name;
+
+        return Resources.Load<Sprite>(path);
+    }
     //格式化字符串 1*3||1*3
-    public List<ResClass> FormatStr(string str)
+    public List<ResClass> FormatResStr(string str)
     {
         List<ResClass> resList = new List<ResClass>();
         string[] strs = str.Split("||");
@@ -321,6 +434,24 @@ public class Ui : Singleton<Ui>
         {
             string[] s = strs[i].Split('*');
             ResClass res = new ResClass();
+            res.goodsType = (GoodsType) int.Parse(s[0]);
+            res.resourceId = int.Parse(s[1]);
+            res.num = int.Parse(s[2]);
+            resList.Add(res);
+        }
+
+        return resList;
+    }
+
+    public List<ResClass> FormatResStr(string str, GoodsType goodsType)
+    {
+        List<ResClass> resList = new List<ResClass>();
+        string[] strs = str.Split("||");
+        for (int i = 0; i < strs.Length; i++)
+        {
+            string[] s = strs[i].Split('*');
+            ResClass res = new ResClass();
+            res.goodsType = goodsType;
             res.resourceId = int.Parse(s[0]);
             res.num = int.Parse(s[1]);
             resList.Add(res);
@@ -329,6 +460,23 @@ public class Ui : Singleton<Ui>
         return resList;
     }
 
+    //格式化字符串 1*3||1*3
+    public List<AttrClass> FormatAttrStr(string str)
+    {
+        List<AttrClass> attrList = new List<AttrClass>();
+        string[] strs = str.Split("||");
+        for (int i = 0; i < strs.Length; i++)
+        {
+            string[] s = strs[i].Split('*');
+            AttrClass attrInfo = new AttrClass();
+            attrInfo.attrType = (AttrType) int.Parse(s[0]);
+            attrInfo.value = float.Parse(s[1]);
+            attrList.Add(attrInfo);
+        }
+
+        return attrList;
+    }
+    
     //根据名字查找子节点
     public GameObject GetChild(Transform parent, string name)
     {
@@ -370,6 +518,7 @@ public class Ui : Singleton<Ui>
                 entry = SpriteCollection.Shield.Find(data => data.Id == id);
                 break;
             case EquipmentPart.Helmet:
+                Debug.Log(id);
                 entry = SpriteCollection.Helmet.Find(data => data.Id == id);
                 break;
             case EquipmentPart.MeleeWeapon2H:
@@ -389,15 +538,100 @@ public class Ui : Singleton<Ui>
     }
 
     //打开恭喜获得页面
-    public void ShowReward(List<ResClass> resList, GoodsType goodsType)
+    public void ShowReward(List<ResClass> resList)
     {
-        UIManager.Instance.OpenLayer(showRewardRef, new object[] {resList, goodsType});
+        UIManager.Instance.OpenLayer(showRewardRef, new object[] {resList});
     }
 
+    //展示奖励
+    public void ShowReward(ResClass resClass, GoodsType goodsType)
+    {
+        List<ResClass> resList = new List<ResClass>();
+        resList.Add(resClass);
+        UIManager.Instance.OpenLayer(showRewardRef, new object[] {resList, goodsType});
+    }
     //设置置灰
     public void SetGray(Button button, bool isGray)
     {
         Gray gray = button.GetComponent<Gray>();
-        gray.SetsGray(isGray);
+        gray.SetGray(isGray);
     }
+
+    //获取属性名字 + 值
+    public String GetAttrText(AttrClass attrClass)
+    {
+        string name = attrChineseMap[attrClass.attrType];
+        string value = "";
+        if (attrClass.value > 0)
+        {
+            value = $"  +  <color=#{ColorUtility.ToHtmlStringRGB(MyColor.Green)}>{attrClass.value}</color>";
+        }
+        else
+        {
+            value = $"  -  <color=#{ColorUtility.ToHtmlStringRGB(MyColor.Red)}>{MathF.Abs(attrClass.value)}</color>";
+        }
+
+        return name + value;
+    }
+
+    //获取地图信息
+    public MapInfo GetMapInfo(int id)
+    {
+        return mapInfoList[id];
+    }
+
+    //获取所有地图
+    public Dictionary<int, MapInfo> GetMapInfoList()
+    {
+        return mapInfoList;
+    }
+
+    public Dictionary<int, MapLayerInfo> GetMapLayerInfoList()
+    {
+        return mapLayerInfoList;
+    }
+
+
+    //获取属性名字
+    public string GetAttrName(AttrType attrType)
+    {
+        return attrChineseMap[attrType];
+    }
+
+    //获取主角当前等级基础属性
+    public PlayerLvInfo GetPlayerLvAttr()
+    {
+        int lv = GameDataManager.Instance.GetPlayerLv();
+
+        return PlayerLvAttrList[lv];
+    }
+
+    //获取玩家基础数值
+    public float GetPlayerBaseAttrValue(AttrType attrType)
+    {
+        int lv = GameDataManager.Instance.GetPlayerLv();
+        PlayerLvInfo PlayerInfo = PlayerLvAttrList[lv];
+        switch (attrType)
+        {
+            case AttrType.Attack:
+                return PlayerInfo.attack;
+            case AttrType.Health:
+                return PlayerInfo.health;
+            case AttrType.MoveSpeed:
+                return PlayerInfo.moveSpeed;
+            case AttrType.Armor:
+                return PlayerInfo.armor;
+            case AttrType.CritRate:
+                return PlayerInfo.critRate;
+            case AttrType.CritDamage:
+                return PlayerInfo.critDamage;
+            case AttrType.AttackSpeed:
+                return PlayerInfo.attackSpeed;
+            case AttrType.DodgeRate:
+                return PlayerInfo.dodgeRate;
+            default:
+                return -1;
+        }
+    }
+    
 }

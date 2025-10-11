@@ -1,60 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Map;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MapLayer : PanelBase
 {
-    public TableView scrollView;
-    public MapConfig config;
-    private Player player;
-    private MapData curData;
+    public TableView tableView;
+    private List<MapInfo> mapInfoList;
+    private MapInfo curData;
+    Dictionary<int, MapLayerInfo> mapLayerInfoList;
+    private int mapId;
+
     public override void onEnter(params object[] data)
     {
-        player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        scrollView.AddRefreshEvent(RefreshItem);
-        scrollView.SetNum(config.data.Count);
+        mapInfoList = Ui.Instance.GetMapInfoList().Values.ToList();
+        tableView.AddRefreshEvent(RefreshItem);
+        tableView.AddScaleEvent(RefreshScaleItem);
+        mapLayerInfoList = Ui.Instance.GetMapLayerInfoList();
     }
 
     public override void onShow(object[] data)
     {
-    }
-    public void RefreshItem(int i,GameObject item)
-    { 
-        var data = config.data.Find(data => data.Id == i + 1);
-        if (data != null)
-        { 
-            var btn = item.transform.Find("Button").GetComponent<Button>();
-            btn.GetComponent<Image>().sprite = data.Sprite;
-            item.transform.Find("Text").GetComponent<Text>().text = data.Name;
-            //点击地图
-            btn.GetComponent<Button>().onClick.AddListener(() =>
-            {
-                curData = data;
-                UIManager.Instance.CloseLayer(gameObject.name);
-                UIManager.Instance.LoadScene("FightScene",InitMap);
-            });
-        }
+        tableView.SetNum(mapInfoList.Count);
     }
 
-    IEnumerator InitMap(Slider slider)
+    public void RefreshItem(int i, GameObject item)
     {
-        //加入对应地图到场景中
-        if (curData.MapLayer == null)
-        {
-            Debug.Log("地图空");
-        }
-        else
-        {
-            UIManager.Instance.AddMap(curData.MapLayer,curData.PlayerPosition);
-        }
-        slider.value = 90;
-        yield return null;
+        MapInfo mapInfo = mapInfoList[i];
+        MapNode mapNode = item.GetComponent<MapNode>();
+        mapNode.RefreshUI(mapInfo, MapClick);
     }
-    
+
+    public void RefreshScaleItem(float scale, GameObject item)
+    {
+        MapNode mapNode = item.GetComponent<MapNode>();
+        mapNode.RefreshScale(scale);
+    }
+
+    private void MapClick(int mapId)
+    {
+        this.mapId = mapId;
+        UIManager.Instance.CloseLayer(gameObject);
+        CameraManager.Instance.ChangeMapAction(() => { UIManager.Instance.LoadScene("FightScene", InitMap); });
+    }
+
+    void InitMap(Slider slider)
+    {
+        string name = Ui.Instance.GetMapInfo(this.mapId).name;
+        UIManager.Instance.AddMap(mapLayerInfoList[mapId].mapLayer, mapInfoList[mapId].playerPos, name);
+        slider.value = 90;
+    }
+
     public override void onExit()
     {
-        
+        tableView.Clear();
     }
 }

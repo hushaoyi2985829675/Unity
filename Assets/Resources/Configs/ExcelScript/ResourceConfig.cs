@@ -13,6 +13,7 @@ namespace Resource
 		public int resource;
 		public string name;
 		public string icon;
+		public string desc;
 	}
 
 	public class ResourceConfig: ScriptableObject

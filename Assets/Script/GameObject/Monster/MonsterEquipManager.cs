@@ -31,7 +31,7 @@ public enum MonsterPart
 }
 public class MonsterEquipManager : MonoBehaviour
 {
-    public MonsterEquip MonsterEquipData;
+    //public MonsterEquip MonsterEquipData;
     public SpriteCollection SpriteCollection;
     private Character monsterCharacter;
     public MonsterPart Parts;
@@ -52,54 +52,54 @@ public class MonsterEquipManager : MonoBehaviour
 
     void RefreshEquip()
     {
-        MonsterEquipData.InitMonsterEquipData();
+        // MonsterEquipData.InitMonsterEquipData();
         foreach (MonsterPart part in Enum.GetValues(typeof(MonsterPart)))
         {
             if ((Parts & part) != 0)
             {
                 EquipmentPart p =  (EquipmentPart)Math.Log((int)part, 2);
-                Equip(p);
+                //  Equip(p);
             }
         }
     }
 
-    void Equip(EquipmentPart part)
-    {
-        var id = MonsterEquipData.GetEquip(part);
-        if (id == "")
-        {
-            return;
-        }
-        SpriteGroupEntry spriteGroupEntry = null;
-        switch (part)
-        {
-            case EquipmentPart.Armor:
-                spriteGroupEntry = SpriteCollection.Armor.Find(data => data.Id == id);
-                break;
-            case EquipmentPart.MeleeWeapon1H:
-                spriteGroupEntry = SpriteCollection.MeleeWeapon1H.Find(data => data.Id == id);
-                break;
-            case EquipmentPart.Helmet:
-                
-                break;
-            
-        }
-        monsterCharacter.Equip(spriteGroupEntry,part);
-        MonsterEquipData.SetEquip(part,id);
-    }
+    // void Equip(EquipmentPart part)
+    // {
+    //     var id = MonsterEquipData.GetEquip(part);
+    //     if (id == "")
+    //     {
+    //         return;
+    //     }
+    //     SpriteGroupEntry spriteGroupEntry = null;
+    //     switch (part)
+    //     {
+    //         case EquipmentPart.Armor:
+    //             spriteGroupEntry = SpriteCollection.Armor.Find(data => data.Id == id);
+    //             break;
+    //         case EquipmentPart.MeleeWeapon1H:
+    //             spriteGroupEntry = SpriteCollection.MeleeWeapon1H.Find(data => data.Id == id);
+    //             break;
+    //         case EquipmentPart.Helmet:
+    //             
+    //             break;
+    //         
+    //     }
+    //     monsterCharacter.Equip(spriteGroupEntry,part);
+    //     MonsterEquipData.SetEquip(part,id);
+    // }
 
     public void EquipDrop()
     {
-        var player = GameObjectManager.instance.GetPlayer();
-        var value = monster.monsterValue.DropProbability + player.PlayerValueData.PlayerInfo.LuckValue;
-        EquipData equipData = MonsterEquipData.GetEquipDrop(value);
-        if (equipData != null)
-        {
-            GameObject item = Resources.Load<GameObject>("GameObjectRef/EquipItemRef");
-            item.transform.localPosition = monster.transform.localPosition;
-            //item.GetComponent<EquipItemScript>().InitData(equipData.Id,equipData.Part);
-            Instantiate(item);
-        }
+        // var player = GameObjectManager.instance.GetPlayer();
+        // var value = monster.monsterValue.DropProbability + player.PlayerValueData.PlayerInfo.LuckValue;
+        // EquipData equipData = MonsterEquipData.GetEquipDrop(value);
+        // if (equipData != null)
+        // {
+        //     GameObject item = Resources.Load<GameObject>("GameObjectRef/EquipItemRef");
+        //     item.transform.localPosition = monster.transform.localPosition;
+        //     //item.GetComponent<EquipItemScript>().InitData(equipData.Id,equipData.Part);
+        //     Instantiate(item);
+        // }
     }
 #if UNITY_EDITOR
     private void OnGUI()

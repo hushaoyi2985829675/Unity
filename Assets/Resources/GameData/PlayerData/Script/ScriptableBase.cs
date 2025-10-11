@@ -4,5 +4,6 @@ using UnityEngine;
 
 public abstract class ScriptableBase : ScriptableObject
 {
+    public abstract void Create();
     public abstract void Clear();
 }

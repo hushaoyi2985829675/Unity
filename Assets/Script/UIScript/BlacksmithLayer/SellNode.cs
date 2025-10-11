@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Equip;
 using HeroEditor.Common.Enums;
 using Shop;
 using UnityEngine;
@@ -50,12 +51,13 @@ public class SellNode : PanelBase
     {
         UINode.SetActive(false);
         selIdx = -1;
-        tabView.SetSelTag(EquipmentPart.MeleeWeapon1H);
+        tabView.SetSelTag((int) EquipmentPart.MeleeWeapon1H);
     }
 
     private void ChangeTag(int tag)
     {
         selIdx = -1;
+        oldCardNode = null;
         equipList = GameDataManager.Instance.GetBagData((EquipmentPart) tag);
         gridView.RefreshAllAction();
     }
@@ -74,7 +76,6 @@ public class SellNode : PanelBase
                 {
                     return;
                 }
-
                 selIdx = index;
                 cardNode.SetSelState(true);
                 if (oldCardNode)
@@ -87,7 +88,7 @@ public class SellNode : PanelBase
             });
         }
 
-        cardNode.SetIsNull(equipList.Count > index);
+        cardNode.SetIsNull(equipList.Count <= index);
     }
 
     private void RefreshDetails()
@@ -132,12 +133,12 @@ public class SellNode : PanelBase
     private void RefreshResNode()
     {
         Ui.Instance.RemoveAllChildren(resNode);
-        Equip.EquipInfo equipInfo = Ui.Instance.GetEquipInfo(selInfo.id);
-        resList = Ui.Instance.FormatStr(equipInfo.price);
+        EquipInfo equipInfo = Ui.Instance.GetEquipInfo(selInfo.id);
+        resList = Ui.Instance.FormatResStr(equipInfo.sellPrice);
         foreach (ResClass res in resList)
         {
             CardNode cardNode = Instantiate(resCardNodeRef, resNode).GetComponent<CardNode>();
-            cardNode.SetCardData(GoodsType.Resource, res);
+            cardNode.SetCardData(res);
         }
     }
 
@@ -164,7 +165,7 @@ public class SellNode : PanelBase
             gridView.RefreshItem(selIdx);
         }
 
-        Ui.Instance.ShowReward(resList, GoodsType.Resource);
+        Ui.Instance.ShowReward(resList);
     }
 
     public override void onExit()

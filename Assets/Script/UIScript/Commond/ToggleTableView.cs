@@ -32,8 +32,6 @@ public class ToggleTableView : MonoBehaviour
             });
             itemDic.Add(i, toggle);
         }
-
-        action?.Invoke(selTag);
     }
 
     public void SetSelTag(int tag)

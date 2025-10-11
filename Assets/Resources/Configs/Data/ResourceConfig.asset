@@ -16,6 +16,8 @@ MonoBehaviour:
   - resource: 1
     name: "\u91D1\u5E01"
     icon: r_1
+    desc: "\u6E38\u620F\u7684\u4E3B\u8981\u8D27\u5E01,\u636E\u8BF4\u662F,\u67D0\u79CD\u5916\u661F\u7269\u8D28\u5236\u6210"
   - resource: 2
     name: "\u94BB\u77F3"
     icon: r_2
+    desc: "\u94BB\u77F3\u7B80\u4ECB"

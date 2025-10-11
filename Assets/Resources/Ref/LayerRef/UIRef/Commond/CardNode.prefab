@@ -31,7 +31,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3200276721312268667}
+  m_Father: {fileID: 7107391480293674132}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -79,7 +79,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 22
+  m_Text: lv.22
 --- !u!114 &629097241338417254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,7 +225,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -24, y: -22}
+  m_SizeDelta: {x: -12, y: -12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1186962049281386807
 CanvasRenderer:
@@ -497,14 +497,13 @@ RectTransform:
   m_Children:
   - {fileID: 4318480399857190601}
   - {fileID: 6885019962239359223}
-  - {fileID: 9173885936904580247}
   - {fileID: 7107391480293674132}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -434.8184}
-  m_SizeDelta: {x: 96, y: 98}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &1642383502875207099
 CanvasRenderer:
@@ -559,6 +558,7 @@ MonoBehaviour:
   icon: {fileID: 4748334127930389412}
   checkmark: {fileID: 8891059008912388074}
   numText: {fileID: 9211251040671541108}
+  lvText: {fileID: 2986956534115671561}
   nameText: {fileID: 5570927917051434898}
   button: {fileID: 417014092484017376}
   UINode: {fileID: 6900606938036160451}
@@ -592,8 +592,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4219344929495991553}
-  - {fileID: 4872416647347224075}
+  - {fileID: 9173885936904580247}
   - {fileID: 1403999971828340949}
+  - {fileID: 4872416647347224075}
   m_Father: {fileID: 3200276721312268667}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

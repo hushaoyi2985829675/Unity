@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardNode : MonoBehaviour
+public class CardNode : PanelBase
 {
     [SerializeField] private Image icon;
     [SerializeField] private GameObject checkmark;
     [SerializeField] private Text numText;
+    [SerializeField] private Text lvText;
     [SerializeField] private Text nameText;
     [SerializeField] private Button button;
     [SerializeField] private GameObject UINode;
@@ -17,20 +18,29 @@ public class CardNode : MonoBehaviour
     private int id;
     private GoodsType type;
 
-    private void Awake()
+
+    public override void onEnter(params object[] data)
     {
         callback = DefaultClick;
         button.onClick.AddListener(() => { callback(); });
     }
 
+    public override void onShow(params object[] data)
+    {
+    }
+
+    public void DefaultClick()
+    {
+        UIManager.Instance.OpenLayer(descLayer, new object[] {type, id});
+    }
     public void SetCardData(GoodsType goodsType, int id, int num = -1)
     {
         RefreshUI(goodsType, id, num);
     }
 
-    public void SetCardData(GoodsType goodsType, ResClass resClass)
+    public void SetCardData(ResClass resClass)
     {
-        RefreshUI(goodsType, resClass.resourceId, resClass.num);
+        RefreshUI(resClass.goodsType, resClass.resourceId, (int) resClass.num);
     }
 
     private void RefreshUI(GoodsType goodsType, int id, int num = -1)
@@ -47,8 +57,19 @@ public class CardNode : MonoBehaviour
             numText.gameObject.SetActive(false);
         }
 
+        //等级
+        if (goodsType == GoodsType.Equip)
+        {
+            lvText.text = $"Lv.{Ui.Instance.GetEquipInfo(id).lv.ToString()}";
+        }
+        else
+        {
+            lvText.gameObject.SetActive(false);
+        }
+
         this.id = id;
         this.type = goodsType;
+        Debug.Log(button.onClick.GetPersistentEventCount());
     }
     
 
@@ -71,15 +92,16 @@ public class CardNode : MonoBehaviour
 
     public void SetIsNull(bool isNull)
     {
-        UINode.SetActive(isNull);
-        if (!isNull)
+        UINode.SetActive(!isNull);
+        if (isNull)
         {
-            button.onClick.RemoveAllListeners();
+            callback = () => { };
         }
     }
 
-    public void DefaultClick()
+
+    public override void onExit()
     {
-        UIManager.Instance.OpenLayer(descLayer, new object[] {type, id});
+       
     }
 }

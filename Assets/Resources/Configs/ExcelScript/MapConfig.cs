@@ -13,7 +13,8 @@ namespace Map
 		public int map;
 		public string name;
 		public string image;
-		public string playerPos;
+		public Vector2 playerPos;
+		public int lockLv;
 	}
 
 	public class MapConfig: ScriptableObject

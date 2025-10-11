@@ -19,12 +19,7 @@ MonoBehaviour:
     taskType: 1
     targetType: 1
   - task: 2
-    name: "\u91C7\u679C\u5B50"
-    des: "\u91C7{0}\u679C\u5B50"
+    name: "\u91C7\u82F9\u679C"
+    des: "\u91C7{0}\u4E2A\u82F9\u679C"
     taskType: 2
-    targetType: 1
-  - task: 3
-    name: "\u91C7\u53F6\u5B50"
-    des: "\u91C7{0}\u4E2A\u53F6\u5B50"
-    taskType: 2
-    targetType: 3
+    targetType: 5

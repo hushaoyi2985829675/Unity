@@ -20,9 +20,9 @@ public partial class Player : MonoBehaviour
 {
     [Header("玩家数值")]
     public PlayerValueData PlayerValueData;
-    
-    [Header("玩家等级加成")]
-    public PlayerLvData PlayerLvData;
+
+    // [Header("玩家等级加成")]
+    // public PlayerLvData PlayerLvData;
     
     [Header("移动参数")]
     public float speed;
@@ -71,18 +71,15 @@ public partial class Player : MonoBehaviour
         
         // 初始化玩家数据
         scale = transform.localScale;
-        speed = PlayerValueData.PlayerInfo.walkSpeed;
+        speed = PlayerValueData.PlayerInfo.MoveSpeed;
         jumpHeight = PlayerValueData.PlayerInfo.jumpSpeed;
         jumpNum = PlayerValueData.PlayerInfo.JumpNum;
-        
-        // 初始化UI
-        playerUI.InitUI();
         
         // 注册玩家对象
         GameObjectManager.instance.SetPlayer(this);
         
         // 更新装备
-        UpdateEquip();
+        //  UpdateEquip();
     }
     #endregion
     
@@ -249,10 +246,10 @@ public partial class Player : MonoBehaviour
     public void Attacked(float attackPower, Vector2 attackerPosition)
     {
         float harm = Math.Max(0, attackPower - PlayerValueData.PlayerInfo.Armor);
-        PlayerValueData.PlayerInfo.Hp = Math.Max(0, PlayerValueData.PlayerInfo.Hp - harm);
-        playerUI.setHp(PlayerValueData.PlayerInfo.Hp);
-        
-        if (PlayerValueData.PlayerInfo.Hp == 0)
+        PlayerValueData.PlayerInfo.CurHp = Math.Max(0, PlayerValueData.PlayerInfo.CurHp - harm);
+        playerUI.setHp(PlayerValueData.PlayerInfo.CurHp);
+
+        if (PlayerValueData.PlayerInfo.CurHp == 0)
         {
             DeathState(attackerPosition);
         }
@@ -274,7 +271,7 @@ public partial class Player : MonoBehaviour
         switch (eventName)
         {
             case "Hit":
-                attacked.Hit();
+                //      attacked.Hit();
                 break;
             case "Wounded":
                 isWounded = false;
@@ -283,11 +280,6 @@ public partial class Player : MonoBehaviour
                 Tool.onPlayerEvent();
                 break;
         }
-    }
-    
-    public void RefreshUI()
-    {
-        playerUI.InitUI();
     }
     
     public void SetPlayerPos(Vector2 position)

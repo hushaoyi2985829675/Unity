@@ -6,32 +6,48 @@ using UnityEngine.UI;
 using NpcTalkTask;
 using UnityEngine.Events;
 
-public class OptionScript : MonoBehaviour
+public class OptionScript : PanelBase
 {
     public Text text;
     public Button btn;
     private BaseOperator operatorInfo;
     private Action<int> callback;
+    [SerializeField] private GameObject redDotRef;
+    private RedDotNode redDot;
+    private bool isCanTaskReceive;
 
-    private void Start()
+    public override void onEnter(params object[] data)
     {
+        operatorInfo = data[0] as BaseOperator;
+        callback = data[1] as Action<int>;
+        isCanTaskReceive = (bool) data[2];
         btn.onClick.AddListener(BtnClick);
     }
 
-    public void InitData(BaseOperator operatorInfo, Action<int> callback)
+    public override void onShow(params object[] data)
     {
-        this.operatorInfo = operatorInfo;
-        this.callback = callback;
         refreshUI();
     }
 
     private void refreshUI()
     {
         text.text = operatorInfo.title;
+        if ((OperatorType) operatorInfo.id == OperatorType.Task)
+        {
+            if (isCanTaskReceive)
+            {
+                redDot = AddUINode<RedDotNode>(redDotRef, transform);
+            }
+        }
     }
 
     void BtnClick()
     {
         callback(operatorInfo.id);
     }
+
+    public override void onExit()
+    {
+    }
+    
 }

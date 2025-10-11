@@ -1264,7 +1264,7 @@ MonoBehaviour:
   m_Direction: 0
   m_MinValue: 0
   m_MaxValue: 1
-  m_WholeNumbers: 0
+  m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1912,6 +1912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a1f8c659767948468ee738e7469296a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sizeNum: 30
   tabView: {fileID: 8171571854840908315}
   gridView: {fileID: 442744833695887022}
   nameText: {fileID: 4885446989854905355}
@@ -2560,6 +2561,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9173885936904580247, guid: d52614053ec6644418934baf653e5a27, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2673,6 +2678,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EquipTabView
       objectReference: {fileID: 0}
+    - target: {fileID: 6425053459403835282, guid: 53427ab9148e65140b631be809edbf16, type: 3}
+      propertyPath: TabList.Array.data[1].icon
+      value: 
+      objectReference: {fileID: 21300000, guid: 8a7e54a0d49aa3447aff4ad464eb4dbd, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using Goods;
+using Map;
 using Npc;
 using NpcTalkTask;
 using Option;
@@ -29,7 +30,7 @@ public class BaseOperator
     {
     }
 
-    public BaseOperator(string title, int id)
+    public BaseOperator(string title, int id, bool isTask = false)
     {
         this.title = title;
         this.id = id;
@@ -39,23 +40,28 @@ public class BaseOperator
 public class NpcTalk : PanelBase
 {
     public EventTrigger trigger;
-    public PlayerTaskData PlayerTaskData;
+    private List<TaskInfo> PlayerTaskList;
     private GoodsConfig GoodsConfig;
-    public Text talkText;
+    [SerializeField] private Text talkText;
+    [SerializeField] private GameObject touchNode;
 
-    public int playerLv = 1;
-
+    private int playerLv;
     //是否接取任务
     public bool isTasking;
 
+    //是否领取任务
+    public bool isTaskReceive;
     //是否完成任务
     public bool isTaskComplete;
+
+    //是否可以领取
+    public bool isCanTaskReceive;
     public GameObject operatorRef;
     private Transform operatorNode;
-    private List<BaseOperator> operatorList = new();
+    private List<BaseOperator> operatorList;
 
-    private List<BaseOperator> taskOperatorList = new();
-    private List<string> taskTalkStrList = new();
+    private List<BaseOperator> taskOperatorList;
+    private List<string> taskTalkStrList;
     private int idx;
     private bool isCanTalk = true;
     private bool isPlayTaskTalk;
@@ -64,7 +70,6 @@ public class NpcTalk : PanelBase
 
     //触发任务选择对话
     private bool isTriggerTaskSel;
-    private Map.MapConfig MapConfig;
     private NpcCfgInfo npcCfgInfo;
     private NpcConfig NpcConfig;
     private int npcId = 1;
@@ -73,30 +78,27 @@ public class NpcTalk : PanelBase
     //配置
     private NpcTalkTaskConfig NpcTalkTaskConfig;
     private OptionConfig OptionConfig;
-    private PlayerLvInfo playerLvInfo;
+    private PlayerTaskLvInfo PlayerTaskLvInfo;
     private TalkConfig TalkConfig;
     private List<string> talkStrList = new();
     private List<string> taskAcceptTalkList = new();
+    private List<string> taskRefusetTalkList = new();
+    private List<string> taskCompletionTalkList = new();
+    private List<string> taskingTalkStrList = new();
     private TaskConfig TaskConfig;
     private ConfigTaskInfo taskInfo;
-    private List<string> taskingTalkStrList = new();
-
     //任务页面
     private GameObject TaskLayer;
     private GameObject NpcLayer;
-    private List<string> taskRefusetTalkList = new();
-    private string[] taskStrList;
     private Tween textTween;
     
     public override void onEnter(params object[] data)
     {
-        npcId = (int) data[0];
-        NpcLayer = (GameObject) data[1];
+        playerLv = GameDataManager.Instance.GetPlayerLv();
         var entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerClick;
         entry.callback.AddListener(TouchClick);
         trigger.triggers.Add(entry);
-        taskStrList = new string[2];
         isTriggerTaskSel = false;
         operatorNode = transform.Find("OptionNode").transform;
         NpcTalkTaskConfig = Resources.Load<NpcTalkTaskConfig>("Configs/Data/NpcTalkTaskConfig");
@@ -104,85 +106,144 @@ public class NpcTalk : PanelBase
         TalkConfig = Resources.Load<TalkConfig>("Configs/Data/TalkConfig");
         NpcConfig = Resources.Load<NpcConfig>("Configs/Data/NpcConfig");
         OptionConfig = Resources.Load<OptionConfig>("Configs/Data/OptionConfig");
-        MapConfig = Resources.Load<Map.MapConfig>("Configs/Data/MapConfig");
         TaskLayer = Resources.Load<GameObject>("Ref/LayerRef/UIRef/TaskLayer/TaskLayer");
-        npcInfo = NpcTalkTaskConfig.npcIdInfoList.Find(obj => obj.npcId == npcId);
-        npcCfgInfo = NpcConfig.npcIdInfoList.Find(obj => obj.npcId == npcId);
-        playerLvInfo = npcInfo.playerLvInfoList.Find(obj => obj.playerLv == playerLv);
-        taskInfo = TaskConfig.taskInfoList.Find(obj => obj.task == playerLvInfo.taskId);
-        InitTaskState();
-        InitTalkList();
-        InitBaseOperator();
-        Talk();
+        PlayerTaskList = GameDataManager.Instance.GetPlayerTaskData();
     }
 
     public override void onShow(object[] data)
     {
+        playerLv = GameDataManager.Instance.GetPlayerLv();
+        npcId = (int) data[0];
+        NpcLayer = (GameObject) data[1];
+        InitData();
+        InitTaskState();
+        InitTalkList();
+        InitBaseOperator();
+        Talk();
+        TouchNodeAni();
     }
+
+    private void TouchNodeAni()
+    {
+        touchNode.transform.localPosition = new Vector3(837, 25, 0);
+        touchNode.SetActive(true);
+        touchNode.transform.DOLocalMoveY(-25f, 1f).SetLoops(-1, LoopType.Yoyo);
+    }
+
+    private void InitData()
+    {
+        isCanTalk = true;
+        //触发任务选择对话
+        isTriggerTaskSel = false;
+        //是否接取任务
+        isTasking = false;
+        //是否完成任务
+        isTaskReceive = false;
+        idx = 0;
+        isPlayTaskTalk = false;
+        isCanTaskReceive = false;
+        taskTalkStrList = new List<string>();
+        taskingTalkStrList = new List<string>();
+        talkStrList = new List<string>();
+        operatorList = new List<BaseOperator>();
+        taskOperatorList = new List<BaseOperator>();
+        taskAcceptTalkList = new List<string>();
+        taskRefusetTalkList = new List<string>();
+        npcInfo = NpcTalkTaskConfig.npcIdInfoList.Find(obj => obj.npcId == npcId);
+        npcCfgInfo = NpcConfig.npcIdInfoList.Find(obj => obj.npcId == npcId);
+        PlayerTaskLvInfo = npcInfo.playerTaskLvInfoList.Find(obj => obj.playerTaskLv == playerLv);
+        taskInfo = TaskConfig.taskInfoList.Find(obj => obj.task == PlayerTaskLvInfo.taskId);
+    }
+
     private void InitTaskState()
     {
-        if (playerLvInfo.taskId != 0)
+        if (PlayerTaskLvInfo.taskId != 0)
         {
             isTask = true;
-            var taskData = PlayerTaskData.TaskList.Find(taskInfo => taskInfo.taskId == playerLvInfo.taskId);
+            TaskInfo taskData = PlayerTaskList.Find(taskInfo => taskInfo.taskId == PlayerTaskLvInfo.taskId);
             if (taskData != null)
             {
-                isTasking = true;
-                isTaskComplete = taskData.isComplete;
+                isTaskReceive = taskData.isComplete;
+                if (!isTaskReceive)
+                {
+                    isTasking = true;
+                }
+
+                isTaskComplete = taskData.curNum >= taskData.needNum;
+                isCanTaskReceive = !isTaskReceive && isTaskComplete;
             }
         }
     }
 
     private void InitTalkList()
     {
-        Talk.TalkInfo talkInfo;
-        string[] strList;
         //处理任务对话
-        if (isTask && !isTasking && !isTaskComplete)
+        if (isTask && !isTaskReceive)
         {
-            var parms = new object[5];
-            var i = 0;
-            if (playerLvInfo.taskLocation != 0)
+            List<string> parmsList = new List<string>();
+            string beforeString = Ui.Instance.GetTalkText(PlayerTaskLvInfo.beforeTaskCompletion);
+            if (PlayerTaskLvInfo.taskLocation != 0)
             {
-                parms[i] = MapConfig.mapInfoList.Find(obj => obj.map == playerLvInfo.taskLocation)?.name;
-                i++;
+                MapInfo mapData = Ui.Instance.GetMapInfo(PlayerTaskLvInfo.taskLocation);
+                parmsList.Add(mapData.name);
             }
 
             //目标名字
-            parms[i] = Ui.Instance.GetTaskTargetName(taskInfo.taskType, taskInfo.targetType);
-            i++;
-            //数量
-            parms[i] = playerLvInfo.taskRequirement;
-            i++;
-            talkInfo = TalkConfig.talkInfoList.Find(obj => obj.talk == playerLvInfo.beforeTaskCompletion);
-            //奖励
-            var rewardInfo = playerLvInfo.taskReward.Split(",");
-            string goodName = Ui.Instance.GetGoodName(int.Parse(rewardInfo[0]), int.Parse(rewardInfo[1]));
-            parms[i] = rewardInfo[2];
-            i++;
-            parms[i] = goodName;
-            strList = string.Format(talkInfo.text, parms).Split("-");
-            foreach (var str in strList) taskTalkStrList.Add(str);
+            string targetName = Ui.Instance.GetTaskTargetName(taskInfo.taskType, taskInfo.targetType);
+            parmsList.Add(targetName);
+            //任务数量
+            parmsList.Add(PlayerTaskLvInfo.taskRequirement.ToString());
+            //奖励数量
+            List<ResClass> resList = Ui.Instance.FormatResStr(PlayerTaskLvInfo.taskReward);
+            foreach (ResClass res in resList)
+            {
+                string goodName = Ui.Instance.GetGoodName((int) res.goodsType, res.resourceId);
+                parmsList.Add(res.num.ToString());
+                parmsList.Add(goodName);
+            }
+
+            beforeString = string.Format(beforeString, parmsList.ToArray());
+            foreach (string str in beforeString.Split("-"))
+            {
+                taskTalkStrList.Add(str);
+            }
+
+            //领取任务奖励字符
+            parmsList = new List<string>();
+            string completionStr = Ui.Instance.GetTalkText(PlayerTaskLvInfo.taskCompletion);
+            foreach (ResClass res in resList)
+            {
+                string goodName = Ui.Instance.GetGoodName((int) res.goodsType, res.resourceId);
+                parmsList.Add(res.num.ToString());
+                parmsList.Add(goodName);
+            }
+
+            completionStr = string.Format(completionStr, parmsList.ToArray());
+            foreach (string str in completionStr.Split("-"))
+            {
+                taskCompletionTalkList.Add(str);
+            }
+
+            //任务中
+            taskingTalkStrList = GetTalkText(PlayerTaskLvInfo.inTaskTalk);
+            //接受了任务对话
+            taskAcceptTalkList = GetTalkText(PlayerTaskLvInfo.choiceInfoList[0].answer);
+            //拒绝任务对话
+            taskRefusetTalkList = GetTalkText(PlayerTaskLvInfo.choiceInfoList[1].answer);
         }
 
-        //任务中
-        taskingTalkStrList = GetTalkText(playerLvInfo.inTaskTalk);
         //普通对话
-        talkStrList = GetTalkText(playerLvInfo.ordinaryTask);
-        //接受了任务对话
-        taskAcceptTalkList = GetTalkText(playerLvInfo.choiceInfoList[0].answer);
-        //拒绝任务对话
-        taskRefusetTalkList = GetTalkText(playerLvInfo.choiceInfoList[1].answer);
+        talkStrList = GetTalkText(PlayerTaskLvInfo.ordinaryTask);
     }
 
     //处理基础选项
     private void InitBaseOperator()
     {
         //任务
-        if (isTask && !isTaskComplete)
+        if (isTask && !isTaskReceive)
         {
             operatorList.Add(new BaseOperator("任务", (int) OperatorType.Task));
-            foreach (var choiceInfo in playerLvInfo.choiceInfoList)
+            foreach (var choiceInfo in PlayerTaskLvInfo.choiceInfoList)
             {
                 taskOperatorList.Add(new BaseOperator(choiceInfo.title, choiceInfo.choice));
             }
@@ -211,22 +272,29 @@ public class NpcTalk : PanelBase
 
     private void Talk()
     {
-        //触发任务
+        //领取任务对话
+        if (isCanTaskReceive)
+        {
+            PlayCompletionTalk();
+            return;
+        }
+
+        //任务描述对话
         if (isPlayTaskTalk)
         {
             PlayTaskTalk();
             return;
         }
 
-        //接受了任务
+        //接受或拒绝任务对话
         if (isTriggerTaskSel)
         {
             PlayTaskSelTalk();
             return;
         }
 
-        //有任务
-        if (isTask && isTasking && !isTaskComplete)
+        //在任务中
+        if (isTasking)
         {
             //接了任务说的话
             PlayTaskingTalk();
@@ -241,18 +309,18 @@ public class NpcTalk : PanelBase
     {
         textTween.Kill();
         talkText.text = "";
-        textTween = talkText.DOText(text, text.Length * 0.15f);
+        textTween = talkText.DOText(text, text.Length * 0.1f).SetEase(Ease.Linear);
     }
 
     //创建选项
     private void createOption(List<BaseOperator> operatorList, Action<int> callback)
     {
-        Ui.Instance.RemoveAllChildren(operatorNode);
-        foreach (var operatorInfo in operatorList)
+        for (int i = 0; i < operatorList.Count; i++)
         {
-            var option = Instantiate(operatorRef);
-            option.transform.SetParent(operatorNode);
-            option.GetComponent<OptionScript>().InitData(operatorInfo, callback);
+            BaseOperator operatorInfo = operatorList[i];
+            OptionScript option = AddUINode<OptionScript>(operatorRef, operatorNode,
+                new object[] {operatorInfo, callback, isCanTaskReceive});
+            
         }
     }
 
@@ -262,10 +330,11 @@ public class NpcTalk : PanelBase
         if (idx >= talkStrList.Count)
         {
             isCanTalk = false;
+            touchNode.SetActive(false);
             createOption(operatorList, id =>
             {
-                Ui.Instance.RemoveAllChildren(operatorNode);
                 isCanTalk = true;
+                touchNode.SetActive(true);
                 //任务对话
                 if (id == (int) OperatorType.Task)
                 {
@@ -278,6 +347,8 @@ public class NpcTalk : PanelBase
                     //打开NpcLayer
                     OpenNpcLayer();
                 }
+
+                CloseNodeAllUINode(operatorNode);
             });
             return;
         }
@@ -293,10 +364,11 @@ public class NpcTalk : PanelBase
         if (idx >= taskingTalkStrList.Count)
         {
             isCanTalk = false;
+            touchNode.SetActive(false);
             createOption(operatorList, id =>
             {
-                Ui.Instance.RemoveAllChildren(operatorNode);
                 isCanTalk = true;
+                touchNode.SetActive(true);
                 //打开NpcLayer
                 if (id == (int) OperatorType.NpcLayer)
                 {
@@ -304,7 +376,17 @@ public class NpcTalk : PanelBase
                 }
                 else if (id == (int) OperatorType.Task)
                 {
-                    OpenTaskLayer();
+                    if (isCanTaskReceive)
+                    {
+                        //领取任务
+                        CloseNodeAllUINode(operatorNode);
+                        PlayCompletionTalk();
+                    }
+                    else
+                    {
+                        OpenTaskLayer();
+                        CloseClick();
+                    }
                 }
             });
             return;
@@ -313,6 +395,7 @@ public class NpcTalk : PanelBase
         string str = taskingTalkStrList[idx];
         SetText(str);
         idx++;
+        
     }
 
     //播放任务对话
@@ -323,28 +406,35 @@ public class NpcTalk : PanelBase
         {
             isPlayTaskTalk = false;
             isCanTalk = false;
+            touchNode.SetActive(false);
             createOption(taskOperatorList, id =>
             {
                 Ui.Instance.RemoveAllChildren(operatorNode);
                 isCanTalk = true;
+                touchNode.SetActive(true);
                 //接受任务
                 if (id == 1)
                 {
-                    PlayerTaskData.AddTask(npcId, playerLvInfo);
+                    //玩家增加任务
+                    GameDataManager.Instance.AddTask(npcId, PlayerTaskLvInfo);
                     string str = string.Format("接受任务{0}", taskInfo.name);
                     Ui.Instance.ShowFlutterView(str);
                     isTasking = true;
                 }
+                else //拒绝任务
+                {
+                    isTasking = false;
+                }
 
                 idx = 0;
                 isTriggerTaskSel = true;
-
                 PlayTaskSelTalk();
+                CloseNodeAllUINode(operatorNode);
             });
         }
         else
         {
-            var text = taskTalkStrList[idx];
+            string text = taskTalkStrList[idx];
             SetText(text);
             idx++;
         }
@@ -353,7 +443,7 @@ public class NpcTalk : PanelBase
     //任务选项选择对话
     private void PlayTaskSelTalk()
     {
-        var length = isTasking ? taskAcceptTalkList.Count : taskRefusetTalkList.Count;
+        int length = isTasking ? taskAcceptTalkList.Count : taskRefusetTalkList.Count;
         if (idx >= length)
         {
             CloseClick();
@@ -374,6 +464,34 @@ public class NpcTalk : PanelBase
         idx++;
     }
 
+    //播放完成任务对话
+    private void PlayCompletionTalk()
+    {
+        //任务
+        if (idx >= taskCompletionTalkList.Count)
+        {
+            isCanTaskReceive = false;
+            //奖励数量
+            List<ResClass> resList = Ui.Instance.FormatResStr(PlayerTaskLvInfo.taskReward);
+            foreach (var res in resList)
+            {
+                //发放奖励
+                GameDataManager.Instance.AddGood(res.goodsType, res.resourceId, res.num);
+            }
+
+            //标记任务已领取
+            GameDataManager.Instance.MarkTaskCompletion(PlayerTaskLvInfo.taskId);
+            Ui.Instance.ShowReward(resList);
+            CloseClick();
+        }
+        else
+        {
+            string text = taskCompletionTalkList[idx];
+            SetText(text);
+            idx++;
+        }
+    }
+
     private void OpenNpcLayer()
     {
         UIManager.Instance.OpenLayer(NpcLayer);
@@ -383,31 +501,16 @@ public class NpcTalk : PanelBase
     private void OpenTaskLayer()
     {
         UIManager.Instance.OpenLayer(TaskLayer);
-        CloseClick();
     }
 
     private void CloseClick()
     {
-        UIManager.Instance.CloseLayer(gameObject.name);
+        UIManager.Instance.CloseLayer(gameObject);
     }
 
     public override void onExit()
     {
-        isCanTalk = true;
-        //触发任务选择对话
-        isTriggerTaskSel = false;
-        //是否接取任务
-        isTasking = false;
-        //是否完成任务
-        isTaskComplete = false;
-        idx = 0;
-        isPlayTaskTalk = false;
-        taskTalkStrList = new List<string>();
-        taskingTalkStrList = new List<string>();
-        talkStrList = new List<string>();
-        operatorList = new List<BaseOperator>();
-        taskOperatorList = new List<BaseOperator>();
-        taskAcceptTalkList = new List<string>();
-        taskRefusetTalkList = new List<string>();
+        talkText.DOKill();
+        touchNode.transform.DOKill();
     }
 }

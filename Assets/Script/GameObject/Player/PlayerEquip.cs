@@ -1,51 +1,37 @@
+using System;
 using HeroEditor.Common.Enums;
 using HeroEditor.Common;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.HeroEditor.Common.CharacterScripts;
+using Assets.HeroEditor.FantasyInventory.Scripts.Interface.Elements;
+using Equip;
 
-public partial class Player
+public class PlayerEquip : MonoBehaviour
 {
-    [Header("玩家当前装备数据")]
-    public PlayerEquipData PlayerEquipData;
-    public void CheckoutEquip(SpriteGroupEntry item, EquipmentPart part)
+    Character character;
+
+    private void Start()
     {
-        GetComponent<Character>().Equip(item, part);
-        EquipInfo data;
-        switch (part)
-        {   
-            case EquipmentPart.Armor:
-                data = PlayerEquipData.EquipInfo.Find(data => data.name == "Armor");
-                data.SpriteGroupEntry = item;
-                data.Part = part;
-                data.name = "Armor";
-                break;
-            case EquipmentPart.MeleeWeapon1H:
-                data = PlayerEquipData.EquipInfo.Find(data => data.name == "Weapon");
-                data.SpriteGroupEntry = item;
-                data.Part = part;
-                data.name = "Weapon";
-                break;
-            case EquipmentPart.MeleeWeapon2H:
-                data = PlayerEquipData.EquipInfo.Find(data => data.name == "Weapon");
-                data.SpriteGroupEntry = item;
-                data.Part = part;
-                data.name = "Weapon";
-                break;
-            default: data = null;
-                break;
-        }
-        PlayerEquipData.SaveEquip(data);
+        character = GetComponent<Character>();
+        RefreshEquip(EquipmentPart.MeleeWeapon1H);
+        RefreshEquip(EquipmentPart.Helmet);
+        RefreshEquip(EquipmentPart.Armor);
+        EventManager.Instance.AddWearEquipAction(RefreshEquip);
     }
-    public void UpdateEquip()
+
+    private void RefreshEquip(EquipmentPart part)
     {
-        foreach (var info in PlayerEquipData.EquipInfo)
+        EquipData equipData = GameDataManager.Instance.GetPlayerEquipData(part);
+        if (equipData.id == -1)
         {
-            if (info.SpriteGroupEntry != null && info.SpriteGroupEntry.Id != null && info.SpriteGroupEntry.Id != "")
-            {
-                GetComponent<Character>().Equip(info.SpriteGroupEntry, info.Part);
-            }
+            character.Equip(null, part);
+            return;
         }
+
+        EquipInfo equipInfo = Ui.Instance.GetEquipInfo(equipData.id);
+        SpriteGroupEntry spriteGroupEntry = Ui.Instance.GetEquipEntry(part, equipInfo.id);
+        character.Equip(spriteGroupEntry, part);
     }
 }

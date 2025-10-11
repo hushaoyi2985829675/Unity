@@ -10,7 +10,7 @@ namespace Option
 	[System.Serializable]
 	public class OptionInfo
 	{
-		public string option;
+		public int option;
 		public string optionText;
 		public List<TaskEnumInfo> taskEnumInfoList;
 	}
@@ -18,8 +18,7 @@ namespace Option
 	[System.Serializable]
 	public class TaskEnumInfo
 	{
-		public string taskEnum;
-		public string answers;
+		public int taskEnum;
 	}
 
 	public class OptionConfig: ScriptableObject

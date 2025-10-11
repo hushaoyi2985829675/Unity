@@ -7,13 +7,13 @@ using UnityEngine.UI;
 public class ShopLayer : PanelBase
 {
     [SerializeField] private Transform parent;
-    [SerializeField] private Button closeBtn;
     [SerializeField] private ToggleTableView tableVie;
     [Header("页面")] [SerializeField] private ShopNode shopNode;
     [SerializeField] private SellNode sellNode;
     List<ShopInfo> ShopConfig;
     Dictionary<int, List<ShopInfo>> ShopConfigDic;
     private PanelBase panel;
+    private PanelBase selPanelRef;
 
     public override void onEnter(params object[] data)
     {
@@ -42,21 +42,21 @@ public class ShopLayer : PanelBase
 
     private void TabChange(int idx)
     {
-        if (!(panel is null))
+        if (panel != null)
         {
-            UIManager.Instance.CloseUINode(panel.name);
+            CloseUILayer(panel.gameObject);
             panel = null;
         }
 
         object[] data = new object[1];
         if (idx == 0)
         {
-            panel = shopNode;
+            selPanelRef = shopNode;
             data[0] = ShopConfigDic[(int) GoodsType.Equip];
         }
         else if (idx == 1)
         {
-            panel = sellNode;
+            selPanelRef = sellNode;
             data[0] = ShopConfigDic[(int) GoodsType.Equip];
         }
 
@@ -65,15 +65,11 @@ public class ShopLayer : PanelBase
 
     private void OpenLayer(object[] data)
     {
-        UIManager.Instance.AddUINode(panel.gameObject, parent, data);
+        panel = AddUILayer(selPanelRef.gameObject, parent, data);
     }
 
     public override void onExit()
     {
-        // if (panel != null)
-        // {
-        //     UIManager.Instance.CloseUINode(panel.name);
-        //     panel = null;
-        // }
+      
     }
 }

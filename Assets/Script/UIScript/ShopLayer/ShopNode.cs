@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Equip;
 using HeroEditor.Common.Enums;
 using Shop;
 using UnityEngine;
@@ -9,9 +10,9 @@ using UnityEngine.UI;
 public class ShopNode : PanelBase
 {
     public GridView gridView;
-    public List<ShopBuyInfo> ShopBuyData;
     public EquipTabView tabView;
     private Dictionary<int, List<ShopInfo>> ShopConfigDic;
+    private List<ShopBuyInfo> ShopBuyData;
     private List<ShopInfo> shopList;
     public override void onEnter(params object[] data)
     {
@@ -24,14 +25,14 @@ public class ShopNode : PanelBase
 
     public override void onShow(object[] data)
     {
-        tabView.SetSelTag(EquipmentPart.MeleeWeapon1H);
+        tabView.SetSelTag((int) EquipmentPart.MeleeWeapon1H);
     }
 
     public void InitData(List<ShopInfo> ShopConfig)
     {
         foreach (ShopInfo shopInfo in ShopConfig)
         {
-            Equip.EquipInfo equipInfo = Ui.Instance.GetEquipInfo(shopInfo.id);
+            EquipInfo equipInfo = Ui.Instance.GetEquipInfo(shopInfo.id);
             if (ShopConfigDic.ContainsKey(equipInfo.part))
             {
                 ShopConfigDic[equipInfo.part].Add(shopInfo);
@@ -67,7 +68,7 @@ public class ShopNode : PanelBase
 
     private void BuyClick(ShopInfo shopInfo, ShopItem shopItem)
     {
-        ResClass resClass = Ui.Instance.FormatStr(shopInfo.price)[0];
+        ResClass resClass = Ui.Instance.FormatResStr(shopInfo.price)[0];
         int resNum = GameDataManager.Instance.GetResNum(resClass.resourceId);
         if (resNum < resClass.num)
         {
@@ -75,14 +76,19 @@ public class ShopNode : PanelBase
             return;
         }
 
-        GameDataManager.Instance.AddBuyInfoData(shopInfo.goodType, shopInfo.id, resClass.resourceId, resClass.num);
-        int curBuyNum = ShopBuyData.Find((obj) => obj.type == shopInfo.goodType && obj.id == shopInfo.id).buyNum;
-        shopItem.RefreshItem(curBuyNum);
-        List<ResClass> resList = new List<ResClass>()
+        //二次弹窗
+        Ui.Instance.ShowConfirmationLayer("购买", () =>
         {
-            new ResClass(shopInfo.id, shopInfo.num)
-        };
-        Ui.Instance.ShowReward(resList, (GoodsType) shopInfo.goodType);
+            GameDataManager.Instance.AddBuyInfoData(shopInfo.goodType, shopInfo.id, resClass.resourceId,
+                (int) resClass.num);
+            int curBuyNum = ShopBuyData.Find((obj) => obj.type == shopInfo.goodType && obj.id == shopInfo.id).buyNum;
+            shopItem.RefreshItem(curBuyNum);
+            List<ResClass> resList = new List<ResClass>()
+            {
+                new ResClass((GoodsType) shopInfo.goodType, shopInfo.id, shopInfo.num)
+            };
+            Ui.Instance.ShowReward(resList);
+        });
     }
     
     public override void onExit()

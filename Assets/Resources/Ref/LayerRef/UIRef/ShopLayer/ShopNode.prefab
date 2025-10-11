@@ -51,7 +51,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridView: {fileID: 1788636530311373134}
-  ShopBuyData: []
   tabView: {fileID: 9217619031254231998}
 --- !u!1001 &1968498943855528112
 PrefabInstance:
@@ -80,6 +79,10 @@ PrefabInstance:
     - target: {fileID: 5286380089801087138, guid: bc1691440f2a0b649ad31467ed2a06ab, type: 3}
       propertyPath: m_Name
       value: GridView
+      objectReference: {fileID: 0}
+    - target: {fileID: 5286380089801087138, guid: bc1691440f2a0b649ad31467ed2a06ab, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9088506391272082728, guid: bc1691440f2a0b649ad31467ed2a06ab, type: 3}
       propertyPath: m_Pivot.x

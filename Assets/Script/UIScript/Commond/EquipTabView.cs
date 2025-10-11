@@ -9,7 +9,7 @@ using UnityEngine.UI;
 [Serializable]
 public class EquipTabInfo
 {
-    public EquipmentPart Part;
+    public int tag;
     public Sprite icon;
 }
 
@@ -21,8 +21,8 @@ public class EquipTabView : MonoBehaviour
     [Header("间距")] public int spacing = 40;
     [SerializeField] private List<EquipTabInfo> TabList;
 
-    private EquipmentPart SelPart;
-    private Dictionary<EquipmentPart, Toggle> itemDic = new Dictionary<EquipmentPart, Toggle>();
+    private int selTag;
+    private Dictionary<int, Toggle> itemDic = new Dictionary<int, Toggle>();
     private Action<int> callback;
 
     public void InitTabView(Action<int> callback)
@@ -32,33 +32,33 @@ public class EquipTabView : MonoBehaviour
             return;
         }
 
-        SelPart = TabList[0].Part;
+        selTag = TabList[0].tag;
         AddLayoutGroup();
         foreach (EquipTabInfo info in TabList)
         {
             Toggle toggle = Instantiate(TabItem, transform).GetComponent<Toggle>();
-            toggle.isOn = info.Part == SelPart;
+            toggle.isOn = info.tag == selTag;
             toggle.group = transform.GetComponent<ToggleGroup>();
             toggle.transform.Find("Icon").GetComponent<Image>().sprite = info.icon;
             toggle.onValueChanged.AddListener((isOn) =>
             {
-                if (isOn && SelPart != info.Part)
+                if (isOn && selTag != info.tag)
                 {
-                    SelPart = info.Part;
-                    callback((int) SelPart);
+                    selTag = info.tag;
+                    callback((int) selTag);
                 }
             });
-            itemDic[info.Part] = toggle;
+            itemDic[info.tag] = toggle;
         }
 
-        callback((int) SelPart);
+        //callback((int) selTag);
         this.callback = callback;
     }
 
-    public void SetSelTag(EquipmentPart part)
+    public void SetSelTag(int tag)
     {
-        itemDic[part].isOn = true;
-        callback((int) part);
+        itemDic[tag].isOn = true;
+        callback(tag);
     }
 
     private void AddLayoutGroup()

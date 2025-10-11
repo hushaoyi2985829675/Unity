@@ -74,11 +74,11 @@ public class EquipItemScript : MonoBehaviour
     private void OnCollisionEnter2D (Collision2D collision)
     {   
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
-        {           
-            collision.gameObject.GetComponent<Player>().CheckoutEquip(Weapon,part);
-            //放入背包
-            BagData.AddEquip(Weapon, equipId);
-            Destroy(gameObject);
+        {
+            // collision.gameObject.GetComponent<Player>().CheckoutEquip(Weapon,part);
+            // //放入背包
+            // BagData.AddEquip(Weapon, equipId);
+            // Destroy(gameObject);
         }
     }
 }

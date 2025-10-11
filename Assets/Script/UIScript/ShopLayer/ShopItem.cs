@@ -5,7 +5,7 @@ using Shop;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopItem : MonoBehaviour
+public class ShopItem : PanelBase
 {
     public Text nameText;
     public CardNode cardNode;
@@ -17,11 +17,22 @@ public class ShopItem : MonoBehaviour
     private int buyNum;
     private ResClass resClass;
 
+    public override void onEnter(params object[] data)
+    {
+    }
+
+    public override void onShow(params object[] data)
+    {
+    }
+
+    public override void onExit()
+    {
+    }
     public void InitData(ShopInfo info, int buyNum, Action callback)
     {
         shopInfo = info;
         this.buyNum = buyNum;
-        resClass = Ui.Instance.FormatStr(shopInfo.price)[0];
+        resClass = Ui.Instance.FormatResStr(shopInfo.price)[0];
         buyBtn.onClick.RemoveAllListeners();
         buyBtn.onClick.AddListener(() => { callback(); });
         RefreshUI();

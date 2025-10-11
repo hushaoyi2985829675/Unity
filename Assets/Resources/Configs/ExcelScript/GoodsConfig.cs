@@ -12,6 +12,7 @@ namespace Goods
 	{
 		public int good;
 		public string name;
+		public int type;
 		public string icon;
 		public string image;
 		public string desc;

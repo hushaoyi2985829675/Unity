@@ -81,9 +81,9 @@ MonoBehaviour:
   directionType: 0
   spacing: 40
   TabList:
-  - Part: 7
+  - tag: 7
     icon: {fileID: 21300000, guid: 952776da634379c47abfe2bb64c5e3af, type: 3}
-  - Part: 0
+  - tag: 0
     icon: {fileID: 21300000, guid: b30c32217cca45741805dffa0e73bfe6, type: 3}
-  - Part: 1
+  - tag: 1
     icon: {fileID: 21300000, guid: fcc4a8847bd85e643bf905946256c419, type: 3}

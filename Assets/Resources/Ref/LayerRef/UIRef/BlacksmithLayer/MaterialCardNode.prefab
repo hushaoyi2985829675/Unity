@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1582052049547827033}
+  - component: {fileID: 2188256015832144680}
   m_Layer: 5
   m_Name: MaterialCardNode
   m_TagString: Untagged
@@ -38,6 +39,20 @@ RectTransform:
   m_AnchoredPosition: {x: -121, y: -17}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2188256015832144680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2728175490859025785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4250b954dccafa34cacbffdac53770e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardNode: {fileID: 3754577546741262315}
+  line: {fileID: 6186827909864576196}
 --- !u!1 &6186827909864576196
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,11 +303,30 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7496785336544064141, guid: d52614053ec6644418934baf653e5a27, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173885936904580247, guid: d52614053ec6644418934baf653e5a27, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d52614053ec6644418934baf653e5a27, type: 3}
+--- !u!114 &3754577546741262315 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8435492298484612853, guid: d52614053ec6644418934baf653e5a27, type: 3}
+  m_PrefabInstance: {fileID: 4686580282665228574}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f46abb7d5574d544e9ed56b0eaae0019, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &7882347557674375269 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3200276721312268667, guid: d52614053ec6644418934baf653e5a27, type: 3}

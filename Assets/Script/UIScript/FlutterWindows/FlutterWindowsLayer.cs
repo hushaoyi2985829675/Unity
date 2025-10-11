@@ -13,17 +13,19 @@ public class FlutterWindowsLayer : PanelBase
     private Tween aniTween;
     public override void onEnter(params object[] data)
     {
-        text.text = data[0].ToString();
-        node.transform.localPosition = new Vector3(0, 540, 0);
-        Move();
     }
 
     public override void onShow(object[] data)
     {
+        text.text = data[0].ToString();
+        node.transform.localPosition = new Vector3(0, 540, 0);
+        Move();
     }
     void Move()
     {
-        node.transform.DOLocalMove(new Vector3(0, 340, 0), aniTime).SetEase(Ease.OutBack);
+        node.transform.DOKill();
+        aniTween.Kill();
+        node.transform.DOLocalMove(new Vector3(0, 420, 0), aniTime).SetEase(Ease.OutBack);
         aniTween = DOVirtual.DelayedCall(time, () =>
         {
             node.transform.DOLocalMove(new Vector3(0, 540, 0), aniTime).SetEase(Ease.InBack).OnComplete(callback);
@@ -32,7 +34,7 @@ public class FlutterWindowsLayer : PanelBase
 
     void callback()
     {
-        UIManager.Instance.ClosePopLayer(gameObject.name);
+        UIManager.Instance.ClosePopLayer(gameObject);
     }
 
     public override void onExit()

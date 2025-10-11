@@ -21,11 +21,7 @@ public class ResBase
 [CreateAssetMenu(fileName = "PlayerResData", menuName = "GameData/PlayerResData")]
 public class PlayerResData : ScriptableBase
 {
-    public List<ResBase> ResDataList = new List<ResBase>()
-    {
-        new ResBase(1, 0),
-        new ResBase(2, 0),
-    };
+    public List<ResBase> ResDataList;
 
     public void AddResNum(int id, int num)
     {
@@ -60,12 +56,17 @@ public class PlayerResData : ScriptableBase
         return resBase.num;
     }
 
-    public override void Clear()
+    public override void Create()
     {
         ResDataList = new List<ResBase>()
         {
             new ResBase(1, 0),
             new ResBase(2, 0),
         };
+    }
+
+    public override void Clear()
+    {
+        ResDataList = null;
     }
 }

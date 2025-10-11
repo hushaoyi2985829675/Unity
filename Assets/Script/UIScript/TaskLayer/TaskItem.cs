@@ -4,23 +4,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TaskItem : MonoBehaviour
+public class TaskItem : PanelBase
 {
-    public Text text;
-    public Button button;
-    public Image image;
-    public Material Material;
+    [SerializeField] private Text text;
+    [SerializeField] private Toggle toggle;
+    private Action<int> callback;
+    private int id;
 
+    public override void onEnter(params object[] data)
+    {
+        toggle.group = transform.parent.GetComponent<ToggleGroup>();
+    }
+
+    public override void onShow(params object[] data)
+    {
+    }
     public void InitData(int id, string title, Action<int> callback)
     {
-        //image.material = new Material(Material);
-        //image.material.SetFloat("_isGray", 0.5f);
         text.text = title;
-        button.onClick.AddListener(() =>
+        this.callback = callback;
+        this.id = id;
+        toggle.onValueChanged.AddListener(ToggleClick);
+    }
+
+    public void ToggleClick(bool isOn)
+    {
+        if (isOn)
         {
-            // image.material.SetFloat("_isGray", 1f);
-            // image.SetMaterialDirty();
             callback(id);
-        });
+        }
+    }
+
+    public override void onExit()
+    {
     }
 }

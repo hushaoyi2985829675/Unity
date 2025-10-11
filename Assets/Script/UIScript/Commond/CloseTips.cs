@@ -17,6 +17,6 @@ public class CloseTips : MonoBehaviour
         sequence.Append(text.DOFade(0, 1f).From(1f));
         sequence.SetLoops(-1, LoopType.Yoyo);
         sequence.SetEase(Ease.InOutSine);
-        button.onClick.AddListener(() => { UIManager.Instance.CloseLayer(transform.parent.name); });
+        button.onClick.AddListener(() => { UIManager.Instance.CloseLayer(transform.parent.gameObject); });
     }
 }
