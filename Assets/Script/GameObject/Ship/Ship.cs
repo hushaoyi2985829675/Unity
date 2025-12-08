@@ -10,7 +10,6 @@ public class Ship : MonoBehaviour
     [SerializeField] private float moveRange = 0.3f; // 左右移动范围（较小的值更自然）
 
     [Header("动画参数")] [SerializeField] private float baseDuration = 1.5f;
-    [SerializeField] private float randomDurationRange = 0.2f; // 周期随机波动范围
     [SerializeField] private Ease swingEase = Ease.InOutSine; // 平滑缓动曲线
 
     private Tween moveTween; // 移动动画引用

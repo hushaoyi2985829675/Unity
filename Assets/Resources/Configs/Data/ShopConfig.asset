@@ -105,7 +105,43 @@ MonoBehaviour:
     limitedBuy: 1
   - shop: 16
     goodType: 1
-    id: 41
+    id: 33
     num: 1
     price: 1*1*1000
+    limitedBuy: 1
+  - shop: 17
+    goodType: 1
+    id: 34
+    num: 2
+    price: 1*1*1001
+    limitedBuy: 2
+  - shop: 18
+    goodType: 1
+    id: 35
+    num: 3
+    price: 1*1*1002
+    limitedBuy: 1
+  - shop: 19
+    goodType: 1
+    id: 36
+    num: 4
+    price: 1*1*1003
+    limitedBuy: 1
+  - shop: 20
+    goodType: 1
+    id: 37
+    num: 5
+    price: 1*1*1004
+    limitedBuy: 1
+  - shop: 21
+    goodType: 1
+    id: 38
+    num: 6
+    price: 1*1*1005
+    limitedBuy: 1
+  - shop: 22
+    goodType: 1
+    id: 39
+    num: 7
+    price: 1*1*1006
     limitedBuy: 1

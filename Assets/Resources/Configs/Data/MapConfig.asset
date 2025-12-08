@@ -16,35 +16,45 @@ MonoBehaviour:
   - map: 1
     name: "\u5730\u56FE1"
     image: m_1
-    playerPos: {x: 2.5, y: 1}
     lockLv: 1
+    scene: 2
   - map: 2
     name: "\u5730\u56FE2"
     image: m_2
-    playerPos: {x: 0, y: 0}
     lockLv: 2
+    scene: 2
   - map: 3
     name: "\u5730\u56FE3"
     image: m_3
-    playerPos: {x: 0, y: 0}
     lockLv: 3
+    scene: 2
   - map: 4
     name: "\u5730\u56FE4"
     image: m_4
-    playerPos: {x: 0, y: 0}
     lockLv: 4
+    scene: 2
   - map: 5
     name: "\u5730\u56FE5"
     image: m_5
-    playerPos: {x: 0, y: 0}
     lockLv: 5
+    scene: 2
   - map: 6
     name: "\u5730\u56FE6"
     image: m_6
-    playerPos: {x: 0, y: 0}
     lockLv: 6
+    scene: 2
   - map: 7
     name: "\u5730\u56FE7"
     image: m_7
-    playerPos: {x: 0, y: 0}
     lockLv: 7
+    scene: 2
+  - map: 8
+    name: "\u57C3\u5FB7\u8499\u5C0F\u9547"
+    image: 
+    lockLv: 0
+    scene: 1
+  - map: 9
+    name: "\u5341\u5B57\u94A5\u5319\u9152\u9986"
+    image: 
+    lockLv: 0
+    scene: 1

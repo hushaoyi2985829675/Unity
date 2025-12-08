@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2027871452395046274}
   - component: {fileID: 1423470162059733919}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8368212844678832218}
   - component: {fileID: 1423470162359434195}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1423470162948978013}
   - component: {fileID: 1423470162948978012}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -270,8 +270,8 @@ GameObject:
   - component: {fileID: 1211699911956097999}
   - component: {fileID: 1423470163212545532}
   - component: {fileID: 1423470163212545531}
-  - component: {fileID: 8829033274029990554}
-  m_Layer: 0
+  - component: {fileID: 6559175869673900871}
+  m_Layer: 10
   m_Name: Scarecrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,8 +351,8 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!70 &8829033274029990554
-CapsuleCollider2D:
+--- !u!61 &6559175869673900871
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -383,9 +383,19 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 2}
-  m_Size: {x: 1, y: 5}
-  m_Direction: 1
+  m_Offset: {x: 0, y: 2.048145}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.5873795, y: 4.424866}
+  m_EdgeRadius: 0
 --- !u!1 &1785783350246851850
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,7 +405,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2649146739849676246}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AnchorBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -427,7 +437,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5905272447964734611}
   - component: {fileID: 3327444662599983704}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -511,7 +521,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4089335836419113060}
   - component: {fileID: 691113823556864831}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Stick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -595,7 +605,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5304895848163392325}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AnchorWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -626,7 +636,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2889281290959771578}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AnchorStatus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -658,7 +668,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6828350335385692185}
   - component: {fileID: 8723837601452549658}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LeftArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}

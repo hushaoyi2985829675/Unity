@@ -1,18 +1,32 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Shop;
+using ShopNs;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ShopItem : PanelBase
 {
-    public Text nameText;
-    public CardNode cardNode;
-    public Text limitedBuy;
-    public Button buyBtn;
-    public Text buyText;
-    public Image buyImage;
+    [SerializeField]
+    private Transform cardNodeTrans;
+
+    [SerializeField]
+    private Text nameText;
+
+    [SerializeField]
+    private GameObject cardNodeRef;
+
+    [SerializeField]
+    private Text limitedBuy;
+
+    [SerializeField]
+    private Button buyBtn;
+
+    [SerializeField]
+    private Text buyText;
+
+    [SerializeField]
+    private Image buyImage;
     private ShopInfo shopInfo;
     private int buyNum;
     private ResClass resClass;
@@ -40,8 +54,9 @@ public class ShopItem : PanelBase
 
     private void RefreshUI()
     {
-        nameText.text = Ui.Instance.GetGoodName(shopInfo.goodType, shopInfo.id);
+        CardNode cardNode = AddUINode<CardNode>(cardNodeRef, cardNodeTrans);
         cardNode.SetCardData((GoodsType) shopInfo.goodType, shopInfo.id, shopInfo.num);
+        nameText.text = Ui.Instance.GetGoodName(shopInfo.goodType, shopInfo.id);
         buyImage.sprite = Ui.Instance.GetGoodIcon((int) GoodsType.Resource, resClass.resourceId);
         BuyRefreshUI();
     }
@@ -56,7 +71,7 @@ public class ShopItem : PanelBase
         buyText.color = color;
         buyText.text = string.Format("{0}/{1}", resNum, resClass.num);
         bool isGray = buyNum >= shopInfo.limitedBuy;
-        Ui.Instance.SetGray(buyBtn, isGray);
+        Ui.Instance.SetGray(buyBtn.image, isGray);
     }
 
     public void RefreshItem(int buyNum)

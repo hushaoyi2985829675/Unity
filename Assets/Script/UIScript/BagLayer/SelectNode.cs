@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Equip;
+using EquipNs;
 using HeroEditor.Common.Enums;
 using UnityEngine;
 using UnityEngine.UI;
@@ -68,7 +68,7 @@ public class SelectNode : PanelBase
                 GameDataManager.Instance.SetPlayerEquipData(id);
                 EquipInfo equipInfo = Ui.Instance.GetEquipInfo(id);
                 //装备穿戴事件
-                EventManager.Instance.PostWearEquipAction((EquipmentPart) equipInfo.part);
+                EventManager.Instance.PostEvent(GameEventType.WearEquipEvent, new object[] {(EquipmentPart) equipInfo.part});
                 //刷新装备槽位
                 callback();
             }

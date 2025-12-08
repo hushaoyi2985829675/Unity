@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Equip
+namespace EquipNs
 {
 
 	[System.Serializable]
@@ -17,6 +17,7 @@ namespace Equip
 		public int lv;
 		public string buyPrice;
 		public string sellPrice;
+		public float attacDis;
 		public string attr;
 		public string synthesisRoute;
 		public string desc;

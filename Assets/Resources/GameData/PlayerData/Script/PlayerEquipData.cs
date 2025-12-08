@@ -2,7 +2,7 @@ using HeroEditor.Common;
 using HeroEditor.Common.Enums;
 using System.Collections;
 using System.Collections.Generic;
-using Equip;
+using EquipNs;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerEquipData", menuName = "GameData/PlayerEquipData")]
@@ -22,17 +22,22 @@ public class PlayerEquipData : ScriptableBase
 
     public EquipData GetPlayerEquipData(EquipmentPart part)
     {
+        EquipData equipData = new EquipData("空", -1);
         switch (part)
         {
+            
             case EquipmentPart.Armor:
-                return Armor;
+                equipData = Armor;
+                break;
             case EquipmentPart.Helmet:
-                return Helmet;
+                equipData = Helmet;
+                break;
             case EquipmentPart.MeleeWeapon1H:
-                return Weapon;
-            default:
-                return null;
+                equipData = Weapon;
+                break;
         }
+
+        return equipData;
     }
 
     public void RemovePlayerEquipData(EquipmentPart part)

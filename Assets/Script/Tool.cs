@@ -42,19 +42,15 @@ public class Tool
     {
         var hit = Physics2D.OverlapCircle(pos, r, layer);
         return hit;
+    }
+
+    public static Collider2D[] OverlapBox(Vector2 pos, Vector2 size, int layer)
+    {
+        var hit = Physics2D.OverlapBoxAll(pos, size, 0, layer);
+        return hit;
     }   
-    public static void AddPlayerEvent(Action func)
-    {
-        PlayerEvent += func;
-    }
-
-    public static void onPlayerEvent()
-    {
-        PlayerEvent();
-    }
-
     //获取物体的子节点
-    public static GameObject FindChlidTransform(GameObject gameObject, string name)
+    public static GameObject FindChildTransform(GameObject gameObject, string name)
     {
         if (gameObject.transform.Find(name) != null)
         {
@@ -62,7 +58,7 @@ public class Tool
         }
         for (int i = 0; i < gameObject.transform.childCount; i++)
         {
-            var child = FindChlidTransform(gameObject.transform.GetChild(i).gameObject,name);
+            var child = FindChildTransform(gameObject.transform.GetChild(i).gameObject, name);
             if (child != null)
             {
                 return child;

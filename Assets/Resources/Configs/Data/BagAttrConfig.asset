@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 291511ae97fb4b84d8fad121e8463cda, type: 3}
+  m_Name: BagAttrConfig
+  m_EditorClassIdentifier: 
+  bagAttrList:
+  - bagAttr: 1
+    type: 0
+  - bagAttr: 2
+    type: 1
+  - bagAttr: 3
+    type: 2
+  - bagAttr: 4
+    type: 3
+  - bagAttr: 5
+    type: 4
+  - bagAttr: 6
+    type: 5
+  - bagAttr: 7
+    type: 6

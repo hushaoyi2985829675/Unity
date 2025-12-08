@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using HeroEditor.Common.Enums;
 using UnityEngine;
 
+//场景
+public enum SceneType
+{
+    MainScene = 1,
+    FightScene = 2
+}
+
 //道具分类
 public enum GoodsCategory
 {
@@ -53,13 +60,15 @@ public enum EquipType
 public enum AttrType
 {
     Attack = 0, //攻击力
-    Health = 1, //生命值
+    MaxHealth = 1, //生命值
     MoveSpeed = 2, //移速 百分比
     AttackSpeed = 3, //攻速
     Armor = 4, //护甲
     CritRate = 5, //暴击率
     CritDamage = 6, //暴击伤害
     DodgeRate = 7, //闪避率 0-1
+    CurHealth = 8, //当前生命值
+    Exp = 9, //经验
 }
 
 //颜色

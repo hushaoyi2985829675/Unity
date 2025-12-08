@@ -832,7 +832,7 @@ SortingGroup:
   m_GameObject: {fileID: 1284855320343530088}
   m_Enabled: 1
   m_SortingLayerID: 1018542553
-  m_SortingLayer: 7
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_SortAtRoot: 0
 --- !u!1 &1393569163218439700
@@ -1499,21 +1499,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3258705a9de6ea7458b00e01a79fe8c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterValue: {fileID: 11400000, guid: 84e66aa9a032db347b753b6bac3887e2, type: 2}
-  walkSpeed: 0
-  runSpeed: 0
-  direction: 0
-  awaitTime: 0
-  talking: 0
-  attackPower: 0
-  attackInterval: 0
-  attackDistance: 0
-  detectPlayer: {fileID: 0}
-  coll: {fileID: 0}
-  rd: {fileID: 0}
-  animator: {fileID: 0}
-  animationEvent: {fileID: 0}
+  monsterId: 0
   edge: {fileID: 5683901944407686666}
+  effTrans: {fileID: 0}
+  monsterHpBar: {fileID: 0}
 --- !u!114 &7427891405596455962
 MonoBehaviour:
   m_ObjectHideFlags: 0

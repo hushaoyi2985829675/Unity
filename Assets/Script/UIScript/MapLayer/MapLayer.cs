@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Map;
+using MapNs;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,15 +11,13 @@ public class MapLayer : PanelBase
     public TableView tableView;
     private List<MapInfo> mapInfoList;
     private MapInfo curData;
-    Dictionary<int, MapLayerInfo> mapLayerInfoList;
     private int mapId;
 
     public override void onEnter(params object[] data)
     {
-        mapInfoList = Ui.Instance.GetMapInfoList().Values.ToList();
+        mapInfoList = Ui.Instance.GetMapInfoList().Values.ToList().Where(mapInfo => mapInfo.scene == (int) SceneType.FightScene).ToList();
         tableView.AddRefreshEvent(RefreshItem);
         tableView.AddScaleEvent(RefreshScaleItem);
-        mapLayerInfoList = Ui.Instance.GetMapLayerInfoList();
     }
 
     public override void onShow(object[] data)
@@ -44,16 +42,9 @@ public class MapLayer : PanelBase
     {
         this.mapId = mapId;
         UIManager.Instance.CloseLayer(gameObject);
-        CameraManager.Instance.ChangeMapAction(() => { UIManager.Instance.LoadScene("FightScene", InitMap); });
+        UIManager.Instance.LoadScene("FightScene", mapId);
     }
-
-    void InitMap(Slider slider)
-    {
-        string name = Ui.Instance.GetMapInfo(this.mapId).name;
-        UIManager.Instance.AddMap(mapLayerInfoList[mapId].mapLayer, mapInfoList[mapId].playerPos, name);
-        slider.value = 90;
-    }
-
+    
     public override void onExit()
     {
         tableView.Clear();

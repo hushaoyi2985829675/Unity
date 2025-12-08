@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Equip;
-using Foundry;
+using EquipNs;
+using FoundryNs;
 using HeroEditor.Common;
 using HeroEditor.Common.Enums;
 using UnityEngine;
@@ -151,7 +151,7 @@ public class foundryNode : PanelBase
             return;
         }
         GameDataManager.Instance.AddEquip(selId);
-        Ui.Instance.ShowReward(new ResClass(selId, 1), GoodsType.Equip);
+        Ui.Instance.ShowReward(new ResClass(GoodsType.Equip, selId, 1));
     }
 
     public override void onExit()

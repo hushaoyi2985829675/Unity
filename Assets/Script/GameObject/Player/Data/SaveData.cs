@@ -7,7 +7,7 @@ public class SaveData : MonoBehaviour
 {
     public BagData BagData;
     public PlayerEquipData PlayerEquipData;
-    public PlayerValueData PlayerValueData;
+    public PlayerLocalValueData PlayerValueData;
     public PlayerTaskData PlayerTaskData;
 
     void Start()
@@ -31,7 +31,7 @@ public class SaveData : MonoBehaviour
         {
             File.Delete(file);
         }
-        Debug.Log("É¾³ýÊý¾Ý³É¹¦");
+        Debug.Log("É¾ï¿½ï¿½ï¿½ï¿½ï¿½Ý³É¹ï¿½");
     }
     void ToJosn<T>(string fileName,T data)
     {

@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Equip;
+using EquipNs;
 using HeroEditor.Common.Enums;
-using Shop;
+using ShopNs;
 using UnityEngine;
 using UnityEngine.UI;
 

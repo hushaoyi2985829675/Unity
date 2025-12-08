@@ -373,22 +373,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CloseBg
       objectReference: {fileID: 0}
-    - target: {fileID: 6041410405710569791, guid: 12537a619e82e7d458575b1e94764f75, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6041410405710569791, guid: 12537a619e82e7d458575b1e94764f75, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6041410405710569791, guid: 12537a619e82e7d458575b1e94764f75, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8129965105347221057, guid: 12537a619e82e7d458575b1e94764f75, type: 3}
-      propertyPath: m_Color.a
-      value: 0.62352943
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PlayerLvAttr
+namespace PlayerLvAttrNs
 {
 
 	[System.Serializable]
@@ -19,6 +19,7 @@ namespace PlayerLvAttr
 		public float critRate;
 		public float critDamage;
 		public float dodgeRate;
+		public int exp;
 	}
 
 	public class PlayerLvAttrConfig: ScriptableObject

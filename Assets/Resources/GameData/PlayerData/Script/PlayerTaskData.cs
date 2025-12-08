@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using NpcTalkTask;
-using Task;
+using NpcTalkTaskNs;
+using TaskNs;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerTaskData", menuName = "CharacterData/Player/PlayerTaskData")]

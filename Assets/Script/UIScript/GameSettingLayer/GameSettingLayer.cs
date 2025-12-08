@@ -15,16 +15,13 @@ public class GameSettingLayer : PanelBase
 
     public override void onShow(params object[] data)
     {
+        Ui.Instance.SetGray(returnMainBtn.image, SceneManager.GetActiveScene().name == "MainScene");
     }
 
     private void ReturnMainClick()
     {
-        if (SceneManager.GetActiveScene().name == "MainScene")
-        {
-            return;
-        }
-
-        UIManager.Instance.LoadScene("MainScene", (slider) => { });
+        gameObject.SetActive(false);
+        UIManager.Instance.LoadScene("MainScene", 8);
     }
 
     public override void onExit()

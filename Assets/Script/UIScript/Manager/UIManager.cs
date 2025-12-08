@@ -1,8 +1,9 @@
-using Assets.HeroEditor.Common.CommonScripts;
 using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.HeroEditor.Common.CommonScripts;
+using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -16,30 +17,26 @@ public enum LayerAction
     AllAction,
 }
 
-public class UINodeClass
-{
-    //当前显示Node
-    public PanelBase panelNode;
-    public Dictionary<string, PanelBase> cacheDict;
-
-    public UINodeClass()
-    {
-        panelNode = null;
-        cacheDict = new Dictionary<string, PanelBase>();
-    }
-}
-
 public class UIManager : Singleton<UIManager>
 {
-    public GameObject ResourceNode;
+    [Header("资源栏")]
+    [SerializeField]
+    private GameObject ResourceNode;
+
+    [Header("地图Gird")]
+    [SerializeField]
+    private Transform mapGrid;
+
+    [Header("Layer遮罩")]
+    [SerializeField]
+    private GameObject maskLayerRef;
+
+    private MaskLayer maskLayer;
     private Dictionary<int, PanelBase> LayerList;
     private Dictionary<int, PanelBase> PopLayerList;
-
     private Dictionary<int, int> instanceToPrefabGidList;
-
-    //private Dictionary<string, PanelBase> UINodeDict;
-    private Dictionary<string,GameObject> MapList;
-    private GameObject CurMap;
+    private Dictionary<int, GameObject> MapList;
+    private GameObject curMap;
     private Transform layerCanvas;
     private Transform popLayerCanvas;
     private PanelBase curActPanelNode;
@@ -47,7 +44,7 @@ public class UIManager : Singleton<UIManager>
     private void Awake()
     {
         LayerList = new Dictionary<int, PanelBase>();
-        MapList = new Dictionary<string, GameObject>();
+        MapList = new Dictionary<int, GameObject>();
         PopLayerList = new Dictionary<int, PanelBase>();
         instanceToPrefabGidList = new Dictionary<int, int>();
         layerCanvas = GameObject.FindWithTag("LayerCanvas").transform;
@@ -56,12 +53,25 @@ public class UIManager : Singleton<UIManager>
 
     private void Start()
     {
+        {
+            //测试代码
+            curMap = GameObject.Find("MainMap");
+            MapLayerInfo mapLayerInfo = Ui.Instance.GetMapLayerInfo(8);
+            GameObject mapLayer = GameObject.Find("MainMap");
+            int gid = mapLayerInfo.mapLayer.GetInstanceID();
+            MapList.Add(gid, mapLayer);
+        }
+        maskLayer = AddLayer(ref LayerList, maskLayerRef, layerCanvas.transform, new object[] { }) as MaskLayer;
+        maskLayer.SetActive(false);
         AddUINode(ResourceNode, layerCanvas);
     }
     public PanelBase OpenLayer(GameObject layerRef, params object[] data)
     {
-        Debug.Log("打开页面:" + layerRef.name);
         PanelBase layer = AddLayer(ref LayerList, layerRef, layerCanvas.transform, data);
+        SetMaskLayerActive(true);
+        EditorApplication.isPaused = true;
+        layer.transform.localScale = new Vector3(0.01f, 0.01f, 1);
+        layer.transform.DOScale(new Vector3(1, 1, 1), 0.3f).SetEase(Ease.OutCirc);
         return layer;
     }
 
@@ -92,7 +102,7 @@ public class UIManager : Singleton<UIManager>
             instanceToPrefabGidList[instanceGid] = gid;
         }
 
-        layerScript.SetActive(true);
+        layerScript.gameObject.SetActive(true);
         layerScript.transform.SetSiblingIndex(parent.childCount);
         layerScript.onShow(data);
         return layerScript;
@@ -128,8 +138,13 @@ public class UIManager : Singleton<UIManager>
         int gid = instanceToPrefabGidList[instanceGid];
         PanelBase curLayer = LayerList[gid];
         curLayer.transform.SetSiblingIndex(0);
-        curLayer.SetActive(false);
         curLayer.Hide();
+        layer.transform.DOScale(new Vector3(0.01f, 0.01f, 1), 0.15f).SetEase(Ease.OutCirc).OnComplete(() =>
+        {
+            SetMaskLayerActive(false);
+            layer.SetActive(false);
+            layer.transform.DOKill();
+        });
         curLayer.onExit();
     }
 
@@ -167,53 +182,71 @@ public class UIManager : Singleton<UIManager>
     public void CloseUINode(GameObject layer)
     {
         PanelBase panelBase = layer.GetComponent<PanelBase>();
-        panelBase.transform.SetSiblingIndex(0);
-        panelBase.SetActive(false);
+        panelBase.transform.SetSiblingIndex(1);
+        panelBase.gameObject.SetActive(false);
         panelBase.onExit();
         panelBase.Hide();
     }
 
-    public void SetShowHide(PanelBase layerScript, bool show)
-    {
-        if (show)
-        {
-        }
-    }
 
-    public void AddMap(GameObject mapLayer, Vector2 position, string name)
+    public void AddMap(int mapId, bool isAction = false)
     {
-        if (CurMap != null)
+        Action<int> action = (mapId) =>
         {
-            CurMap.SetActive(false);
-        }
+            MapLayerInfo mapLayerInfo = Ui.Instance.GetMapLayerInfo(mapId);
+            if (curMap != null)
+            {
+                curMap.transform.SetActive(false);
+            }
 
-        if (MapList.ContainsKey(mapLayer.name))
+            int gid = mapLayerInfo.mapLayer.GetInstanceID();
+            if (MapList.ContainsKey(gid))
+            {
+                curMap = MapList[gid];
+                curMap.transform.SetActive(true);
+            }
+            else
+            {
+                var layer = Instantiate(mapLayerInfo.mapLayer, mapGrid);
+                MapList.Add(gid, layer);
+                curMap = layer;
+            }
+
+            CameraManager.Instance.ChangeBoundary(mapLayerInfo.cameraBoundary);
+            //设置人物位置
+            GameObjectManager.Instance.SetPlayerPos(mapLayerInfo.playerPos);
+            //延迟调用等待黑屏结束
+            DOVirtual.DelayedCall(1f, () =>
+            {
+                Ui.Instance.ShowFlutterView(Ui.Instance.GetMapInfo(mapId).name);
+                AudioManager.Instance.PlayBGM(mapId);
+            });
+        };
+        if (isAction)
         {
-            CurMap = MapList[mapLayer.name];
-            CurMap.SetActive(true);
+            CameraManager.Instance.ChangeMapAction(() =>
+            {
+                action(mapId);
+            });
         }
         else
         {
-            //从最开始游戏进来就打开
-            if (CurMap == null)
-            {
-                CurMap = GameObject.Find("MainMap");
-                MapList.Add(CurMap.name, CurMap);
-            }
-
-            CurMap.SetActive(false);
-            var layer = Instantiate(mapLayer, GameObject.Find("Grid").transform);
-            MapList.Add(mapLayer.name, layer);
-            CurMap = layer;
+            action(mapId);
         }
+    }
 
-        SetPlayerPos(position);
-    }
-    public void SetPlayerPos(Vector2 pos)
+    private void SetMaskLayerActive(bool active)
     {
-        var player = GameObjectManager.instance.GetPlayer();
-        player.SetPlayerPos(new Vector2(pos.x,pos.y));
+        maskLayer?.SetActive(active);
     }
+
+    public void ResetMapGrid()
+    {
+        curMap = null;
+        Ui.Instance.RemoveAllChildren(mapGrid);
+        MapList.Clear();
+    }
+    
     
     public Transform getCanvas()
     {
@@ -225,15 +258,17 @@ public class UIManager : Singleton<UIManager>
         return hpBarRef;
     }
 
-    public void LoadScene(string sceneName, Action<Slider> callback)
+    public void LoadScene(string sceneName, int mapId)
     {
-        LoadLayer layer = OpenLayer(Resources.Load<LoadLayer>("Ref/LayerRef/UIRef/LoadLayer/LoadLayer").gameObject)
-            .GetComponent<LoadLayer>();
-        layer.StartScene(sceneName, callback);
+        CameraManager.Instance.ChangeMapAction(() =>
+        {
+            OpenLayer(Resources.Load<LoadLayer>("Ref/LayerRef/UIRef/LoadLayer/LoadLayer").gameObject, new object[] {sceneName, mapId}).GetComponent<LoadLayer>();
+        });
+        
     }
-
+    
     public void LoadMainScene()
     {
-        LoadScene("MainScene", (slider) => { });
+        //LoadScene("MainScene", (slider) => { });
     }
 }

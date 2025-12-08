@@ -18,8 +18,7 @@ public enum ButtonState
 
 public partial class Player : MonoBehaviour
 {
-    [Header("玩家数值")]
-    public PlayerValueData PlayerValueData;
+    private PlayerLocalValueData playerLocalValueData;
 
     // [Header("玩家等级加成")]
     // public PlayerLvData PlayerLvData;
@@ -37,9 +36,9 @@ public partial class Player : MonoBehaviour
     public bool isStairs;
     private Vector2 slopeDirection;
     private float slopeAngle;
-    PlayerUI playerUI;
     AnimationEvents animationEvent;
     PlayerAnimator playerAnimator;
+    PlayerSKill playerSKill;
     Attacked attacked;
     Vector2 scale;
     public bool isJumpKey;
@@ -52,31 +51,27 @@ public partial class Player : MonoBehaviour
     public bool isDeath;
     Action PlayerEvent;
     public ButtonState attackState;
-    private Vector3 groundPos;
     #region 初始化
     void Start()
     {
+        playerLocalValueData = GameDataManager.Instance.GetPlayerLocalValueInfo();
         // 初始化组件引用
         rd = GetComponent<Rigidbody2D>();
         coll = GetComponent<CapsuleCollider2D>();
         attacked = GetComponent<Attacked>();
-        playerUI = GetComponent<PlayerUI>();
         
         // 初始化动画相关组件
         animationEvent = transform.Find("Animation").GetComponent<AnimationEvents>();
         playerAnimator = GetComponent<PlayerAnimator>();
-        
+        playerSKill = GetComponent<PlayerSKill>();
         // 注册动画事件回调
         animationEvent.OnCustomEvent += AttackEvent;
         
         // 初始化玩家数据
         scale = transform.localScale;
-        speed = PlayerValueData.PlayerInfo.MoveSpeed;
-        jumpHeight = PlayerValueData.PlayerInfo.jumpSpeed;
-        jumpNum = PlayerValueData.PlayerInfo.JumpNum;
-        
-        // 注册玩家对象
-        GameObjectManager.instance.SetPlayer(this);
+        speed = playerLocalValueData.MoveSpeed;
+        jumpHeight = playerLocalValueData.jumpSpeed;
+        jumpNum = playerLocalValueData.JumpNum;
         
         // 更新装备
         //  UpdateEquip();
@@ -120,28 +115,17 @@ public partial class Player : MonoBehaviour
         }
         
         // 检测地面
-        leftFoot = Tool.Raycast(
-            new Vector2(-coll.size.x / 2 + 0.3f, -coll.size.y / 2),
-            Vector2.down,
-            0.15f,
-            LayerMask.GetMask("Ground"),
-            transform.localPosition
+        leftFoot = Tool.Raycast(new Vector2(-coll.size.x / 2 + 0.3f, -coll.size.y / 2), Vector2.down, 0.15f, LayerMask.GetMask("Ground"), transform.position
         );
         
-        rightFoot = Tool.Raycast(
-            new Vector2(coll.size.x / 2 - 0.3f, -coll.size.y / 2),
-            Vector2.down,
-            0.15f,
-            LayerMask.GetMask("Ground"),
-            transform.localPosition
+        rightFoot = Tool.Raycast(new Vector2(coll.size.x / 2 - 0.3f, -coll.size.y / 2), Vector2.down, 0.15f, LayerMask.GetMask("Ground"), transform.position
         );
         
         isGround = leftFoot || rightFoot;
         
         if (isGround)
         {
-            groundPos = transform.localPosition;
-            jumpNum = PlayerValueData.PlayerInfo.JumpNum;
+            jumpNum = playerLocalValueData.JumpNum;
         }
         else
         {
@@ -159,7 +143,7 @@ public partial class Player : MonoBehaviour
             transform.localScale = new Vector2(-scale.x, transform.localScale.y);
         }
     }
-    
+     
     void SlopeCheck()
     {
         stairsHit = Tool.Raycast(
@@ -201,8 +185,13 @@ public partial class Player : MonoBehaviour
         }
         else
         {
+            float localSpeed = speed;
+            if (attacked.GetAttackState())
+            {
+                localSpeed *= 0.3f;
+            }
             // 平地移动
-            rd.velocity = new Vector2(velocityX * speed, rd.velocity.y);
+            rd.velocity = new Vector2(velocityX * localSpeed, rd.velocity.y);
         }
     }
     
@@ -242,14 +231,14 @@ public partial class Player : MonoBehaviour
         isDeath = true;
         playerAnimator.PlayDeanth(attackerPosition);
     }
-    
-    public void Attacked(float attackPower, Vector2 attackerPosition)
-    {
-        float harm = Math.Max(0, attackPower - PlayerValueData.PlayerInfo.Armor);
-        PlayerValueData.PlayerInfo.CurHp = Math.Max(0, PlayerValueData.PlayerInfo.CurHp - harm);
-        playerUI.setHp(PlayerValueData.PlayerInfo.CurHp);
 
-        if (PlayerValueData.PlayerInfo.CurHp == 0)
+    public void Hit(float attackPower, Monster monster)
+    {
+        Vector2 attackerPosition = monster.transform.position;
+        float harm = Math.Max(0, attackPower - playerLocalValueData.Armor);
+        GameDataManager.Instance.SetPlayerHp((int) Math.Max(0, playerLocalValueData.CurHp - harm));
+        EventManager.Instance.PostEvent(GameEventType.PlayerUIStateEvent);
+        if (playerLocalValueData.CurHp == 0)
         {
             DeathState(attackerPosition);
         }
@@ -262,6 +251,7 @@ public partial class Player : MonoBehaviour
     void HitState()
     {
         isWounded = true;
+        AudioManager.Instance.PlayAudio(gameObject, AudioType.Attack, "Hit");
         playerAnimator.PlayTrigger("Hit");
     }
     #endregion
@@ -270,14 +260,10 @@ public partial class Player : MonoBehaviour
     {
         switch (eventName)
         {
-            case "Hit":
-                //      attacked.Hit();
-                break;
             case "Wounded":
                 isWounded = false;
                 break;
             case "Death":
-                Tool.onPlayerEvent();
                 break;
         }
     }
@@ -293,13 +279,9 @@ public partial class Player : MonoBehaviour
         {
             // 处理装备拾取
         }
-    }
-    
-    private void OnTriggerStay(Collider other)
-    {
+
         if (other.gameObject.layer == LayerMask.NameToLayer("Stairs"))
         {
-            
         }
     }
     
@@ -310,7 +292,17 @@ public partial class Player : MonoBehaviour
             // 处理装备碰撞
         }
     }
-    
+
+    public float GetPlayerBoxPosX()
+    {
+        float dis = transform.localScale.x > 0 ? 1 : -1;
+        return transform.position.x + dis;
+    }
+
+    public int GetDirection()
+    {
+        return transform.localScale.x > 0 ? 1 : -1;
+    }
     // 其他方法
     // private void UpdateEquip()
     // {

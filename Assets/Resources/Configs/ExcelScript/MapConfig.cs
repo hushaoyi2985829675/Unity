@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Map
+namespace MapNs
 {
 
 	[System.Serializable]
@@ -13,8 +13,8 @@ namespace Map
 		public int map;
 		public string name;
 		public string image;
-		public Vector2 playerPos;
 		public int lockLv;
+		public int scene;
 	}
 
 	public class MapConfig: ScriptableObject

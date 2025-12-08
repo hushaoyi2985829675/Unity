@@ -33,7 +33,7 @@ public class EquipSlot : PanelBase
     {
         GameDataManager.Instance.RemovePlayerEquipData(part);
         RefreshEquip();
-        EventManager.Instance.PostWearEquipAction(part);
+        EventManager.Instance.PostEvent(GameEventType.WearEquipEvent, new object[] {part});
         callback();
     }
 

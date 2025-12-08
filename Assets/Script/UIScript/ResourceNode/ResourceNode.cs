@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Resource;
+using ResourceNs;
 using UnityEngine;
 
 public class ResourceNode : PanelBase

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0671071956c4e654faa89dc1ec9d0e4c, type: 3}
+  m_Name: MapLayerData
+  m_EditorClassIdentifier: 
+  mapInfoList:
+  - mapId: 1
+    mapLayer: {fileID: 3581180547540379720, guid: 664377739557f154fbe65ea78c5dec0e, type: 3}
+    cameraBoundary: {fileID: 2349211450507987924, guid: 59831c0e601a50e4ab0de14799d8610e, type: 3}
+    playerPos: {x: 2.5, y: 1}
+    MusicList: []
+  - mapId: 8
+    mapLayer: {fileID: 8573745479888356818, guid: 550b0225e77b26045a3c662b5dad5672, type: 3}
+    cameraBoundary: {fileID: 607396653406166976, guid: 22f2b43665091b64688af268944ebb88, type: 3}
+    playerPos: {x: 37.64, y: -1}
+    MusicList:
+    - {fileID: 8300000, guid: 2b97f3f530c97ce4989a5e6c0bda7ce1, type: 3}
+    - {fileID: 8300000, guid: 4c68499d5b45b20438f571df6be9a4e5, type: 3}
+  - mapId: 9
+    mapLayer: {fileID: 5279015203754887154, guid: f52c4697ffe5f42449d51170179df51b, type: 3}
+    cameraBoundary: {fileID: 1724194392373648658, guid: 97a5fc152fc9e4c4da6c65bff90f1100, type: 3}
+    playerPos: {x: 85.01, y: -6.3}
+    MusicList:
+    - {fileID: 8300000, guid: cca81aea3519b41468f6d86199fa12b6, type: 3}

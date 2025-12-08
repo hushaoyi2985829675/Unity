@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using Equip;
+using EquipNs;
 using HeroEditor.Common.Enums;
-using Shop;
+using ShopNs;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -132,12 +132,11 @@ public class SellNode : PanelBase
 
     private void RefreshResNode()
     {
-        Ui.Instance.RemoveAllChildren(resNode);
         EquipInfo equipInfo = Ui.Instance.GetEquipInfo(selInfo.id);
         resList = Ui.Instance.FormatResStr(equipInfo.sellPrice);
         foreach (ResClass res in resList)
         {
-            CardNode cardNode = Instantiate(resCardNodeRef, resNode).GetComponent<CardNode>();
+            CardNode cardNode = AddUINode<CardNode>(resCardNodeRef, resNode);
             cardNode.SetCardData(res);
         }
     }

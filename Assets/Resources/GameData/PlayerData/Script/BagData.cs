@@ -2,8 +2,8 @@ using HeroEditor.Common;
 using HeroEditor.Common.Enums;
 using System.Collections;
 using System.Collections.Generic;
-using Equip;
-using Goods;
+using EquipNs;
+using GoodsNs;
 using UnityEngine;
 
 [System.Serializable]
@@ -54,7 +54,7 @@ public class BagData : ScriptableBase
     //增加装备
     public void AddEquip(int id, int num = 1)
     {
-        EquipInfo equipInfo = Ui.Instance.GetEquipInfo(id);
+        var equipInfo = Ui.Instance.GetEquipInfo(id);
         SpriteGroupEntry data = Ui.Instance.GetEquipEntry((EquipmentPart) equipInfo.part, equipInfo.id);
         List<EquipmentInfo> tempList = new List<EquipmentInfo>();
         switch ((EquipmentPart) equipInfo.part)

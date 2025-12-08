@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Assets.HeroEditor.Common.CharacterScripts;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,55 +9,97 @@ using UnityEngine.SceneManagement;
 public class Attacked : MonoBehaviour
 {
     [Header("攻击距离")]
-    public Transform edge;
+    private Transform edge;
     Player player;
-    PlayerInfo PlayerValueData;
-
-    // PlayerLvData PlayerLvData;
+    PlayerLocalValueData PlayerLocalValueData;
     PlayerAnimator playerAnimator;
-    float attackInterval;
+    PlayerSKill playerSKill;
     GameObject npcObj;
-    bool isNpc;
     bool npcObjOpen;
+    private bool isCritAttack;
+
+    [SerializeField]
+    private bool isAttack;
+
+    AnimationEvents animationEvent;
+    private int attackState = 1;
+    private float attackChangeTime = 0.5f;
+
+    [SerializeField]
+    private bool isCombo;
     void Start()
     {
+        playerSKill = GetComponent<PlayerSKill>();
+        edge = Ui.Instance.GetChild(transform, "Edge").transform;
         player = GetComponent<Player>();
         playerAnimator = GetComponent<PlayerAnimator>();
-        PlayerValueData = player.PlayerValueData.PlayerInfo;
+        PlayerLocalValueData = GameDataManager.Instance.GetPlayerLocalValueInfo();
         // PlayerLvData = player.PlayerLvData;
-        attackInterval = 0;
+        animationEvent = transform.Find("Animation").GetComponent<AnimationEvents>();
+        animationEvent.OnCustomEvent += AttackEvent;
         SceneManager.sceneLoaded += UpdateState;
         InitAttackState();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J) && npcObj != null)
+        AttackInput();
+        if (isCombo)
         {
-            isNpc = true;
+            if (attackChangeTime >= 0)
+            {
+                attackChangeTime -= Time.deltaTime;
+            }
+            else
+            {
+                isCombo = false;
+            }
         }
-      
-        switch (player.attackState)
-        { 
-            case ButtonState.Attack:
-                Attack(); 
-                break;
-            case ButtonState.Talk:
-                if (isNpc && !npcObjOpen)
-                {
-                    isNpc = false;
-                   // Talk(npcObj);
-                }
-                break;
-        }
-        attackInterval -= Time.deltaTime;
     }
-    void Attack()
+
+    public bool GetAttackState()
     {
-        if (Input.GetKeyDown(KeyCode.J) && attackInterval <= 0 && !player.isWounded)
+        return isAttack;
+    }
+
+    void AttackInput()
+    {
+        if (Input.GetKeyDown(KeyCode.J) && !isAttack && !player.isWounded)
         {
-            playerAnimator.PlayTrigger("Slash");
-            attackInterval = PlayerValueData.AttackSpeed;
+            if (isCombo)
+            {
+                attackState += 1;
+                attackState = attackState > 3 ? 1 : attackState;
+            }
+            else
+            {
+                attackState = 1;
+            }
+
+            if (attackState == 1)
+            {
+                playerAnimator.SetIntValue("WeaponType", 0);
+                playerAnimator.PlayTrigger("Slash");
+            }
+            else if (attackState == 2)
+            {
+                playerAnimator.SetIntValue("WeaponType", 0);
+                playerAnimator.PlayTrigger("Jab");
+            }
+            else if (attackState == 3)
+            {
+                playerAnimator.SetIntValue("WeaponType", 1);
+                playerAnimator.PlayTrigger("Slash");
+                attackChangeTime = 0.5f;
+                isCombo = false;
+            }
+
+            isAttack = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            playerSKill.PlaySkill(2);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -91,41 +134,84 @@ public class Attacked : MonoBehaviour
     //        Talk();
     //    }
     //}
-    // public void Hit()
-    // {
-    //     var hit = Tool.OverlapCircle(edge.position, 0.2f, LayerMask.GetMask("Monster"));
-    //     if (hit)
-    //     {
-    //         var monster = hit.GetComponent<Monster>();
-    //         bool isDeath = monster.Attacked(PlayerValueData.AttackPower);
-    //         if (isDeath)
-    //         {
-    //             var exp = monster.GetExp();
-    //             AddExp(exp);
-    //         }
-    //     }
-    // }
+    public void Attack()
+    {
+        float distance = Mathf.Abs(edge.position.x - player.GetPlayerBoxPosX());
+        float center = distance / 2;
+        Collider2D[] hits = Tool.OverlapBox(new Vector3(edge.position.x - center * player.GetDirection(), edge.position.y), new Vector2(distance, 2.5f), LayerMask.GetMask("Monster"));
+        if (hits.Length > 0)
+        {
+            bool isCritRate = Ui.Instance.IsCriticalAttack(PlayerLocalValueData.CritRate);
+            float power = PlayerLocalValueData.AttackPower * (1 + attackState / 10f);
+            for (int i = 0; i < hits.Length; i++)
+            {
+                Collider2D hit = hits[i];
+                Monster monster = hit.GetComponent<Monster>();
+                PlayEff(monster);
+                //暴击
+                if (isCritRate)
+                {
+                    power *= PlayerLocalValueData.CritDamage;
+                    isCritAttack = false;
+                }
+                // bool isDeath = monster.Hit(power);
+                // if (isDeath)
+                // {
+                //     var exp = monster.GetExp();
+                //     //AddExp(exp);
+                // }
+            }
 
+            if (isCritRate)
+            {
+                CameraManager.Instance.ShakeCamera(0.25f, 0.5f);
+                AudioManager.Instance.PlayAudio(gameObject, AudioType.Attack, "CriticalAttack");
+            }
+            else
+            {
+                AudioManager.Instance.PlayAudio(gameObject, AudioType.Attack, "BasicAttack");
+            }
+        }
+        else
+        {
+            AudioManager.Instance.PlayAudio(gameObject, AudioType.Attack, "NullAttack");
+        }
+    }
+
+    void AttackEvent(string eventName)
+    {
+        switch (eventName)
+        {
+            case "Hit":
+                Attack();
+                break;
+            case "HitEnd":
+                isAttack = false;
+                attackChangeTime = 0.5f;
+                isCombo = true;
+                break;
+        }
+    }
     // void AddExp(float exp)
     // {
-    //     if (PlayerValueData.Lv == PlayerLvData.PlayerLvDatas.Count)
+    //     if (PlayerLocalValueData.Lv == PlayerLvData.PlayerLvDatas.Count)
     //     {
     //         //满级
     //         return;
     //     }
-    //     PlayerValueData.Exp += exp; 
+    //     PlayerLocalValueData.Exp += exp; 
     //     while (true)
     //     {
-    //         var curLvInfo = PlayerLvData.PlayerLvDatas.Find(info => info.Lv == PlayerValueData.Lv);
+    //         var curLvInfo = PlayerLvData.PlayerLvDatas.Find(info => info.Lv == PlayerLocalValueData.Lv);
     //         //升级
-    //         if (PlayerValueData.Exp >= curLvInfo.Exp)
+    //         if (PlayerLocalValueData.Exp >= curLvInfo.Exp)
     //         {
     //             var n = curLvInfo.Lv;
-    //             PlayerValueData.Exp -= curLvInfo.Exp;
-    //             PlayerValueData.Lv++;
-    //             PlayerValueData.AttackPower += curLvInfo.AttackPower;
-    //             PlayerValueData.MaxHp += curLvInfo.Hp;
-    //             PlayerValueData.Armor += curLvInfo.Armor;
+    //             PlayerLocalValueData.Exp -= curLvInfo.Exp;
+    //             PlayerLocalValueData.Lv++;
+    //             PlayerLocalValueData.AttackPower += curLvInfo.AttackPower;
+    //             PlayerLocalValueData.MaxHp += curLvInfo.Hp;
+    //             PlayerLocalValueData.Armor += curLvInfo.Armor;
     //         }
     //         else
     //         {
@@ -138,8 +224,10 @@ public class Attacked : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(edge.position, 0.2f);
+        // Gizmos.color = Color.red;
+        // float distance = Mathf.Abs(edge.position.x - player.GetPlayerBoxPosX());
+        // float center = distance / 2;
+        // Gizmos.DrawWireCube(new Vector3(edge.position.x - center * player.GetDirection(), edge.position.y), new Vector2(1, 2.5f));
     }
     void Talk(GameObject npc)
     {
@@ -169,5 +257,11 @@ public class Attacked : MonoBehaviour
         {
             player.attackState = ButtonState.Attack;
         }
+    }
+
+    void PlayEff(Monster monster)
+    {
+        Vector2 pos = monster.GetHitPos(edge);
+        EffectManager.Instance.PlayEff(EffectType.CritRate, pos);
     }
 }

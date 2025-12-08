@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using PlayerLvAttrNs;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,37 +16,42 @@ public class PlayerUI : Singleton<PlayerUI>
 
     [Header("对话按钮")] [SerializeField] public Button talkBtn;
     [Header("对话按钮")] [SerializeField] public Text talkText;
-    private PlayerInfo playerValueInfo;
+    private PlayerLocalValueData playerLocalValueData;
     private Text hpText;
     private Text expText;
-
+    private GameObject playerHead;
     private void Awake()
     {
         hpText = hpSlider.transform.Find("HpText").GetComponent<Text>();
         expText = expSlider.transform.Find("ExpText").GetComponent<Text>();
+        playerHead = Resources.Load<GameObject>("Ref/GameObject/Players/PlayerHead");
+        EventManager.Instance.AddEvent(GameEventType.PlayerUIStateEvent, new object[] {(Action) refreshUI});
     }
 
     private void Start()
     {
         HideTalkBtn();
-        playerValueInfo = GameDataManager.Instance.GetPlayerValueInfo();
+        playerLocalValueData = GameDataManager.Instance.GetPlayerLocalValueInfo();
+        Instantiate(playerHead);
+        hpSlider.maxValue = 100;
         InitUI();
     }
     public void InitUI()
     {
-        hpSlider.maxValue = playerValueInfo.MaxHp;
-        hpSlider.value = playerValueInfo.CurHp;
-        hpText.text = string.Format(hpSlider.value.ToString() + "/" + hpSlider.maxValue.ToString());
-        expSlider.value = playerValueInfo.Exp;
-        expSlider.maxValue = playerValueInfo.Exp;
-        expText.text = string.Format(expSlider.value.ToString() + "/" + expSlider.maxValue.ToString());
+        hpSlider.value = playerLocalValueData.CurHp / playerLocalValueData.MaxHp * 100;
+        hpText.text = string.Format(hpSlider.value + "/" + hpSlider.maxValue);
+        expSlider.value = GameDataManager.Instance.GetPlayerExp();
+        PlayerLvInfo playerLvInfo = Ui.Instance.GetPlayerLvAttr();
+        expSlider.maxValue = playerLvInfo.exp;
+        expText.text = string.Format(expSlider.value + "/" + expSlider.maxValue);
         //等级
-        LvText.text = string.Format("等级：{0}", playerValueInfo.Lv);
+        LvText.text = string.Format("Lv.{0}", playerLocalValueData.Lv);
     }
-    public void setHp(float hp)
+
+    public void SetHp(float hp)
     { 
         hpSlider.value = hp;
-        hpText.text = string.Format(hp + "/" + hpSlider.maxValue.ToString());
+        hpText.text = string.Format(hp + "/" + hpSlider.maxValue);
     }
 
 
@@ -61,5 +67,10 @@ public class PlayerUI : Singleton<PlayerUI>
     public void HideTalkBtn()
     {
         talkBtn.gameObject.SetActive(false);
+    }
+
+    private void refreshUI()
+    {
+        InitUI();
     }
 }

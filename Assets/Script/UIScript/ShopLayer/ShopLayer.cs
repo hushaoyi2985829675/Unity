@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Shop;
+using ShopNs;
 using UnityEngine;
 using UnityEngine.UI;
 

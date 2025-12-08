@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Equip;
-using Foundry;
+using EquipNs;
+using FoundryNs;
 using HeroEditor.Common;
 using HeroEditor.Common.Enums;
-using Ingredient;
+using IngredientNs;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -1,19 +1,19 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
-using Goods;
-using Map;
-using Npc;
-using NpcTalkTask;
-using Option;
-using Talk;
-using Task;
+using GoodsNs;
+using MapNs;
+using NpcNs;
+using NpcTalkTaskNs;
+using OptionNs;
+using TalkNs;
+using TaskNs;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using NpcTalkInfo = NpcTalkTask.NpcIdInfo;
-using NpcCfgInfo = Npc.NpcIdInfo;
-using ConfigTaskInfo = Task.TaskInfo;
+using NpcTalkInfo = NpcTalkTaskNs.NpcIdInfo;
+using NpcCfgInfo = NpcNs.NpcIdInfo;
+using ConfigTaskInfo = TaskNs.TaskInfo;
 
 enum OperatorType
 {
@@ -494,8 +494,8 @@ public class NpcTalk : PanelBase
 
     private void OpenNpcLayer()
     {
-        UIManager.Instance.OpenLayer(NpcLayer);
         CloseClick();
+        UIManager.Instance.OpenLayer(NpcLayer);
     }
 
     private void OpenTaskLayer()

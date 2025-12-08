@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Shop
+namespace ShopNs
 {
 
 	[System.Serializable]

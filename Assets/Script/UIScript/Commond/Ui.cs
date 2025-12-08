@@ -3,20 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.HeroEditor.Common.CommonScripts;
-using Equip;
-using Goods;
+using EquipNs;
+using GoodsNs;
 using UnityEngine;
 using UnityEngine.UI;
 using HeroEditor.Common;
 using HeroEditor.Common.Enums;
-using Ingredient;
-using Map;
-using NpcTalkTask;
-using PlayerLvAttr;
-using Resource;
-using Talk;
-using Task;
-using GoodInfo = Goods.GoodInfo;
+using IngredientNs;
+using MapNs;
+using MonsterNs;
+using NpcTalkTaskNs;
+using PlayerLvAttrNs;
+using ResourceNs;
+using SkillNs;
+using TalkNs;
+using TaskNs;
+using GoodInfo = GoodsNs.GoodInfo;
+using Random = UnityEngine.Random;
 
 
 [Serializable]
@@ -64,38 +67,42 @@ public class AttrClass
 
 public class Ui : Singleton<Ui>
 {
+    //插件的表
     private IconCollection IconCollection;
+    private SpriteCollection SpriteCollection;
 
-    //道具表
+    //表
     private Dictionary<int, GoodInfo> GoodConfig;
     private Dictionary<int, EquipInfo> EquipConfig;
     private Dictionary<int, MaterialInfo> IngredientConfig;
     private Dictionary<int, ResourceInfo> ResourceConfig;
-    
-    private SpriteCollection SpriteCollection;
+    private Dictionary<string, Sprite> equipIconDict;
+    private Dictionary<int, Sprite> goodIconDict;
+    private Dictionary<int, Sprite> ingredientIconDict;
+    private Dictionary<int, Sprite> resourceIconDict;
+    private Dictionary<string, SpriteGroupEntry> SpriteGroupEntryDict;
+    private Dictionary<int, PlayerLvInfo> PlayerLvAttrDict;
+    private Dictionary<int, TalkInfo> talkInfoDict;
+    private Dictionary<int, MapInfo> mapInfoDict;
+    private Dictionary<int, TaskNs.TaskInfo> taskInfoDict;
+    private Dictionary<int, MapLayerInfo> mapLayerInfoDict;
+    private Dictionary<int, MonsterInfo> monsterConfig;
+    private Dictionary<int, SkillInfo> skillInfoDict;
 
-    //缓存
-    private Dictionary<string, Sprite> equipIconList;
-    private Dictionary<int, Sprite> goodIconList;
-    private Dictionary<int, Sprite> ingredientIconList;
-    private Dictionary<int, Sprite> resourceIconList;
-    private Dictionary<string, SpriteGroupEntry> SpriteGroupEntryList;
-    private Dictionary<int, PlayerLvInfo> PlayerLvAttrList;
-    private Dictionary<int, TalkInfo> talkInfoList;
-    private Dictionary<int, MapInfo> mapInfoList;
-    private Dictionary<int, Task.TaskInfo> taskInfoList;
-    private Dictionary<int, MapLayerInfo> mapLayerInfoList;
-    
+    private Dictionary<SceneType, string> sceneTypeDict;
     //打开的页面
-    [SerializeField] private GameObject flutteViewRef;
-    [SerializeField] private GameObject showRewardRef;
-
-    [SerializeField] private GameObject ConfirmationRef;
+    private GameObject flutteViewRef;
+    private GameObject showRewardRef;
+    private GameObject ConfirmationRef;
 
     // 存储数值与中文描述的映射
-    private Dictionary<AttrType, string> attrChineseMap;
+    private Dictionary<AttrType, string> attrChineseMapDict;
+    private MaskLayer maskLayer;
     private void Awake()
     {
+        flutteViewRef = Resources.Load<GameObject>("Ref/LayerRef/UIRef/Common/FlutterWindowsLayer");
+        showRewardRef = Resources.Load<GameObject>("Ref/LayerRef/UIRef/ShowRewardLayer/ShowRewardLayer");
+        ConfirmationRef = Resources.Load<GameObject>("Ref/LayerRef/UIRef/ConfirmationLayer/ConfirmationLayer");
         EquipConfig = Resources.Load<EquipConfig>("Configs/Data/EquipConfig").equipInfoList
             .ToDictionary(key => key.equip, value => value);
         GoodConfig = Resources.Load<GoodsConfig>("Configs/Data/GoodsConfig").goodInfoList
@@ -104,27 +111,29 @@ public class Ui : Singleton<Ui>
             .ToDictionary(key => key.material, value => value);
         ResourceConfig = Resources.Load<ResourceConfig>("Configs/Data/ResourceConfig").resourceInfoList
             .ToDictionary(key => key.resource, value => value);
-        PlayerLvAttrList = Resources.Load<PlayerLvAttrConfig>("Configs/Data/PlayerLvAttrConfig").playerLvInfoList
+        PlayerLvAttrDict = Resources.Load<PlayerLvAttrConfig>("Configs/Data/PlayerLvAttrConfig").playerLvInfoList
             .ToDictionary(key => key.playerLv, value => value);
-        talkInfoList = Resources.Load<TalkConfig>("Configs/Data/TalkConfig").talkInfoList
+        talkInfoDict = Resources.Load<TalkConfig>("Configs/Data/TalkConfig").talkInfoList
             .ToDictionary(key => key.talk, value => value);
         IconCollection = Resources.Load<IconCollection>("Configs/Data/IconCollection");
         SpriteCollection = Resources.Load<SpriteCollection>("Configs/Data/SpriteCollection");
-        mapInfoList = Resources.Load<MapConfig>("Configs/Data/MapConfig").mapInfoList
+        mapInfoDict = Resources.Load<MapConfig>("Configs/Data/MapConfig").mapInfoList
             .ToDictionary(key => key.map, value => value);
-        taskInfoList = Resources.Load<TaskConfig>("Configs/Data/TaskConfig").taskInfoList
+        taskInfoDict = Resources.Load<TaskConfig>("Configs/Data/TaskConfig").taskInfoList
             .ToDictionary(key => key.task, value => value);
-        mapLayerInfoList = Resources.Load<MapLayerData>("Configs/MapLayerData/MapLayerData").mapInfoList
+        mapLayerInfoDict = Resources.Load<MapLayerData>("Configs/StaticConfig/Config/MapLayerData").mapInfoList
             .ToDictionary(key => key.mapId, value => value);
-        SpriteGroupEntryList = new Dictionary<string, SpriteGroupEntry>();
-        goodIconList = new Dictionary<int, Sprite>();
-        equipIconList = new Dictionary<string, Sprite>();
-        ingredientIconList = new Dictionary<int, Sprite>();
-        resourceIconList = new Dictionary<int, Sprite>();
-        attrChineseMap = new Dictionary<AttrType, string>
+        monsterConfig = Resources.Load<MonsterConfig>("Configs/Data/MonsterConfig").monsterInfoList.ToDictionary(key => key.monster, value => value);
+        skillInfoDict = Resources.Load<SkillConfig>("Configs/Data/SkillConfig").skillInfoList.ToDictionary(key => key.id, value => value);
+        SpriteGroupEntryDict = new Dictionary<string, SpriteGroupEntry>();
+        goodIconDict = new Dictionary<int, Sprite>();
+        equipIconDict = new Dictionary<string, Sprite>();
+        ingredientIconDict = new Dictionary<int, Sprite>();
+        resourceIconDict = new Dictionary<int, Sprite>();
+        attrChineseMapDict = new Dictionary<AttrType, string>
         {
             {AttrType.Attack, "攻击力"},
-            {AttrType.Health, "生命值"},
+            {AttrType.MaxHealth, "生命值"},
             {AttrType.MoveSpeed, "移速"},
             {AttrType.AttackSpeed, "攻速"},
             {AttrType.Armor, "护甲"},
@@ -132,11 +141,16 @@ public class Ui : Singleton<Ui>
             {AttrType.CritDamage, "暴击伤害"},
             {AttrType.DodgeRate, "闪避率"}
         };
+        sceneTypeDict = new Dictionary<SceneType, string>()
+        {
+            {SceneType.FightScene, "FightScene"},
+            {SceneType.MainScene, "MainScene"}
+        };
     }
 
     void Start()
     {
-        EventManager.Instance.AddShowFlutterAction((text) => { ShowFlutterView(text); });
+        EventManager.Instance.AddEvent(GameEventType.ShowFlutterEvent, new object[] {(Action<string>) ShowFlutterView});
     }
 
     // Update is called once per frame
@@ -144,7 +158,7 @@ public class Ui : Singleton<Ui>
     {
         
     }
-
+    
     //飘窗
     public void ShowFlutterView(string text)
     {
@@ -301,12 +315,12 @@ public class Ui : Singleton<Ui>
 
     public string GetTalkText(int id)
     {
-        return talkInfoList[id].text;
+        return talkInfoDict[id].text;
     }
 
     public string GetTaskDes(int id)
     {
-        return taskInfoList[id].des;
+        return taskInfoDict[id].des;
     }
     //删除节点下所有子节点
     public void RemoveAllChildren(Transform parent)
@@ -325,43 +339,43 @@ public class Ui : Singleton<Ui>
         {
             case GoodsType.Equip:
                 string eId = EquipConfig[id].id;
-                if (equipIconList.ContainsKey(eId))
+                if (equipIconDict.ContainsKey(eId))
                 {
-                    return equipIconList[eId];
+                    return equipIconDict[eId];
                 }
                 else
                 {
                     sprite = IconCollection.FindIcon(eId);
-                    equipIconList[eId] = sprite;
+                    equipIconDict[eId] = sprite;
                     return sprite;
                 }
             
             case GoodsType.Good:
-                if (goodIconList.ContainsKey(id))
+                if (goodIconDict.ContainsKey(id))
                 {
-                    return goodIconList[id];
+                    return goodIconDict[id];
                 }
 
                 sprite = LoadIcon(GoodConfig[id].icon);
-                goodIconList[id] = sprite;
+                goodIconDict[id] = sprite;
                 return sprite;
             case GoodsType.Ingredient:
-                if (ingredientIconList.ContainsKey(id))
+                if (ingredientIconDict.ContainsKey(id))
                 {
-                    return ingredientIconList[id];
+                    return ingredientIconDict[id];
                 }
 
                 sprite = LoadIcon(IngredientConfig[id].icon);
-                ingredientIconList[id] = sprite;
+                ingredientIconDict[id] = sprite;
                 return sprite;
             case GoodsType.Resource:
-                if (resourceIconList.ContainsKey(id))
+                if (resourceIconDict.ContainsKey(id))
                 {
-                    return resourceIconList[id];
+                    return resourceIconDict[id];
                 }
 
                 sprite = LoadIcon(ResourceConfig[id].icon);
-                resourceIconList[id] = sprite;
+                resourceIconDict[id] = sprite;
                 return sprite;
             default:
                 return null;
@@ -473,7 +487,7 @@ public class Ui : Singleton<Ui>
             attrInfo.value = float.Parse(s[1]);
             attrList.Add(attrInfo);
         }
-
+        
         return attrList;
     }
     
@@ -497,12 +511,51 @@ public class Ui : Singleton<Ui>
         return null;
     }
 
+    //根据名字查找子节点
+    public GameObject FindChildByTag(Transform parent, string layer)
+    {
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            if (parent.GetChild(i).gameObject.layer == LayerMask.NameToLayer(layer))
+            {
+                return parent.GetChild(i).gameObject;
+            }
+
+            GameObject obj = FindChildByTag(parent.GetChild(i), layer);
+            if (obj != null)
+            {
+                return obj;
+            }
+        }
+
+        return null;
+    }
+
+    //根据名字查找子节点
+    public T FindChildByTag<T>(Transform parent, string layer) where T : Component
+    {
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            if (parent.GetChild(i).gameObject.layer == LayerMask.NameToLayer(layer))
+            {
+                return parent.GetChild(i).gameObject.GetComponent<T>();
+            }
+
+            T obj = FindChildByTag<T>(parent.GetChild(i), layer);
+            if (obj != null)
+            {
+                return obj;
+            }
+        }
+
+        return null;
+    }
     //获取装备词条
     public SpriteGroupEntry GetEquipEntry(EquipmentPart part, string id)
     {
-        if (SpriteGroupEntryList.ContainsKey(id))
+        if (SpriteGroupEntryDict.ContainsKey(id))
         {
-            return SpriteGroupEntryList[id];
+            return SpriteGroupEntryDict[id];
         }
 
         SpriteGroupEntry entry;
@@ -518,7 +571,6 @@ public class Ui : Singleton<Ui>
                 entry = SpriteCollection.Shield.Find(data => data.Id == id);
                 break;
             case EquipmentPart.Helmet:
-                Debug.Log(id);
                 entry = SpriteCollection.Helmet.Find(data => data.Id == id);
                 break;
             case EquipmentPart.MeleeWeapon2H:
@@ -544,23 +596,31 @@ public class Ui : Singleton<Ui>
     }
 
     //展示奖励
-    public void ShowReward(ResClass resClass, GoodsType goodsType)
+    public void ShowReward(ResClass resClass)
     {
         List<ResClass> resList = new List<ResClass>();
         resList.Add(resClass);
-        UIManager.Instance.OpenLayer(showRewardRef, new object[] {resList, goodsType});
+        UIManager.Instance.OpenLayer(showRewardRef, new object[] {resList});
     }
     //设置置灰
-    public void SetGray(Button button, bool isGray)
+    public void SetGray(Image image, bool isGray)
     {
-        Gray gray = button.GetComponent<Gray>();
-        gray.SetGray(isGray);
+        // Gray gray = button.GetComponent<Gray>();
+        // gray.SetGray(isGray);
+        if (isGray)
+        {
+            image.color = new Color(101 / 255f, 101 / 255f, 101 / 255f);
+        }
+        else
+        {
+            image.color = new Color(255, 255, 255);
+        }
     }
 
     //获取属性名字 + 值
     public String GetAttrText(AttrClass attrClass)
     {
-        string name = attrChineseMap[attrClass.attrType];
+        string name = attrChineseMapDict[attrClass.attrType];
         string value = "";
         if (attrClass.value > 0)
         {
@@ -577,25 +637,26 @@ public class Ui : Singleton<Ui>
     //获取地图信息
     public MapInfo GetMapInfo(int id)
     {
-        return mapInfoList[id];
+        return mapInfoDict[id];
     }
 
-    //获取所有地图
+    //获取地图表
     public Dictionary<int, MapInfo> GetMapInfoList()
     {
-        return mapInfoList;
+        return mapInfoDict;
     }
 
-    public Dictionary<int, MapLayerInfo> GetMapLayerInfoList()
+    //获取地图对应的预制体信息
+    public MapLayerInfo GetMapLayerInfo(int mapId)
     {
-        return mapLayerInfoList;
+        return mapLayerInfoDict[mapId];
     }
 
 
     //获取属性名字
     public string GetAttrName(AttrType attrType)
     {
-        return attrChineseMap[attrType];
+        return attrChineseMapDict[attrType];
     }
 
     //获取主角当前等级基础属性
@@ -603,19 +664,19 @@ public class Ui : Singleton<Ui>
     {
         int lv = GameDataManager.Instance.GetPlayerLv();
 
-        return PlayerLvAttrList[lv];
+        return PlayerLvAttrDict[lv];
     }
-
+    
     //获取玩家基础数值
     public float GetPlayerBaseAttrValue(AttrType attrType)
     {
         int lv = GameDataManager.Instance.GetPlayerLv();
-        PlayerLvInfo PlayerInfo = PlayerLvAttrList[lv];
+        PlayerLvInfo PlayerInfo = PlayerLvAttrDict[lv];
         switch (attrType)
         {
             case AttrType.Attack:
                 return PlayerInfo.attack;
-            case AttrType.Health:
+            case AttrType.MaxHealth:
                 return PlayerInfo.health;
             case AttrType.MoveSpeed:
                 return PlayerInfo.moveSpeed;
@@ -633,5 +694,33 @@ public class Ui : Singleton<Ui>
                 return -1;
         }
     }
-    
+
+    //获取加载的怪物数值
+    public MonsterInfo GetMonsterValue(int id)
+    {
+        if (monsterConfig.ContainsKey(id))
+        {
+            return monsterConfig[id];
+        }
+
+        Debug.Log("id为" + id + "的怪物数值找不到");
+        return null;
+    }
+
+    //是否暴击
+    public bool IsCriticalAttack(float critical)
+    {
+        return Random.value <= critical;
+    }
+
+    //技能
+    public Dictionary<int, SkillInfo> GetSkillConfig()
+    {
+        return skillInfoDict;
+    }
+
+    public SkillInfo GetSkillInfoById(int id)
+    {
+        return skillInfoDict[id];
+    }
 }

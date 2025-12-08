@@ -39,7 +39,6 @@ namespace Assets.HeroEditor.Common.CharacterScripts
                     state = CharacterState.Idle;
                     break;
             }
-
             Animator.SetInteger("State", (int) state);
         }
 

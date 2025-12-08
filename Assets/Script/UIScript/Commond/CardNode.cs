@@ -69,7 +69,6 @@ public class CardNode : PanelBase
 
         this.id = id;
         this.type = goodsType;
-        Debug.Log(button.onClick.GetPersistentEventCount());
     }
     
 

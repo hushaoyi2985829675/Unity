@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using Map;
-using Npc;
-using Task;
+using MapNs;
+using NpcNs;
+using TaskNs;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,15 +22,35 @@ public class TaskLayer : PanelBase
     [SerializeField] private Transform taskRewardNode;
     [SerializeField] private List<TaskInfo> taskList;
     [SerializeField] private TaskInfo playerTaskInfo;
-    [SerializeField] private List<Task.TaskInfo> TaskConfig;
-    [SerializeField] private Task.TaskInfo taskInfo;
+
+    [SerializeField]
+    private List<TaskNs.TaskInfo> TaskConfig;
+
+    [SerializeField]
+    private TaskNs.TaskInfo taskInfo;
     public override void onEnter(params object[] data)
     {
-        InitData();
+        TaskConfig = Resources.Load<TaskConfig>("Configs/Data/TaskConfig").taskInfoList;
+        NpcConfig = Resources.Load<NpcConfig>("Configs/Data/NpcConfig").npcIdInfoList;
+       
     }
 
     public override void onShow(object[] data)
     {
+        InitData();
+        RefreshTaskInfo(0);
+        tabView.SetNum(taskList.Count);
+    }
+    private void InitData()
+    {
+        taskList = GameDataManager.Instance.GetPlayerTaskData();
+        abandonButton.onClick.AddListener(AbandonTaskClick);
+        tabView.AddRefreshEvent(CreateItem);
+        if (taskList.Count > 0)
+        {
+            playerTaskInfo = taskList[0];
+        }
+
         taskList.Sort((a, b) =>
         {
             if (a.isComplete != b.isComplete)
@@ -40,19 +60,6 @@ public class TaskLayer : PanelBase
 
             return 0;
         });
-        tabView.SetNum(taskList.Count);
-    }
-    private void InitData()
-    {
-        TaskConfig = Resources.Load<TaskConfig>("Configs/Data/TaskConfig").taskInfoList;
-        NpcConfig = Resources.Load<NpcConfig>("Configs/Data/NpcConfig").npcIdInfoList;
-        taskList = GameDataManager.Instance.GetPlayerTaskData();
-        abandonButton.onClick.AddListener(AbandonTaskClick);
-        tabView.AddRefreshEvent(CreateItem);
-        if (taskList.Count > 0)
-        {
-            playerTaskInfo = taskList[0];
-        }
     }
 
     private void CreateItem(int i, GameObject item)

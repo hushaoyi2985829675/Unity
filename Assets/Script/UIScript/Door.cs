@@ -5,8 +5,7 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     Animator animator;
-    public GameObject Layer;
-    public Vector2 playerPos;
+    public int mapId;
     private bool isPlayer;
     void Start()
     {
@@ -45,12 +44,6 @@ public class Door : MonoBehaviour
     }
     void OpenLayer()
     {
-        if (Layer == null)
-        {
-            Debug.Log("Layer为空");
-            return;
-        }
-
-        UIManager.Instance.AddMap(Layer, playerPos, "酒馆");
+        UIManager.Instance.AddMap(mapId, true);
     }
 }

@@ -20,11 +20,11 @@ public class ResNode : MonoBehaviour
     {
         this.id = id;
         image.sprite = Ui.Instance.GetGoodIcon((int) GoodsType.Resource, id);
-        RefreshResNum();
-        EventManager.Instance.AddResEvent(id, RefreshResNum);
+        RefreshResFunc();
+        EventManager.Instance.AddEvent(GameEventType.ResEvent, new object[] {id, (Action) RefreshResFunc});
     }
 
-    private void RefreshResNum()
+    private void RefreshResFunc()
     {
         text.text = GameDataManager.Instance.GetResNum(id).ToString();
     }

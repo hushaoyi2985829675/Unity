@@ -122,7 +122,7 @@ namespace Assets.HeroEditor.Common.CharacterScripts
                         SetArmorParts(p, item?.Sprites);
                     }
                     break;
-                case EquipmentPart.MeleeWeapon1H:                  
+                case EquipmentPart.MeleeWeapon1H:
                     PrimaryMeleeWeapon = item?.Sprite;
                     PrimaryMeleeWeaponRenderer.color = color ?? (item != null && item.Tags.Contains("Paint") ? PrimaryMeleeWeaponRenderer.color : Color.white);
                     if (WeaponType != WeaponType.MeleePaired) WeaponType = WeaponType.Melee1H;

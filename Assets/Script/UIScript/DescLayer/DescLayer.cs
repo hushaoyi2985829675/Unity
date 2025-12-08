@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Equip;
+using EquipNs;
 using HeroEditor.Common.Enums;
 using UnityEngine;
 using UnityEngine.UI;

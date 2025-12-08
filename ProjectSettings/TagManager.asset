@@ -10,6 +10,7 @@ TagManager:
   - Equip
   - Monster
   - PopLayerCanvas
+  - CameraBoundary
   layers:
   - Default
   - TransparentFX
@@ -25,9 +26,9 @@ TagManager:
   - NPC
   - Player2
   - Stairs
-  - 
-  - 
-  - 
+  - Boundary
+  - PlayerHead
+  - Effect
   - 
   - 
   - 
@@ -65,6 +66,15 @@ TagManager:
   - name: Plant
     uniqueID: 1852424627
     locked: 0
+  - name: Npc
+    uniqueID: 4039992809
+    locked: 0
+  - name: Decorate
+    uniqueID: 968237959
+    locked: 0
+  - name: Monster
+    uniqueID: 3970416457
+    locked: 0
   - name: player
     uniqueID: 1018542553
     locked: 0
@@ -73,4 +83,7 @@ TagManager:
     locked: 0
   - name: Water
     uniqueID: 1912895353
+    locked: 0
+  - name: Effect
+    uniqueID: 73881987
     locked: 0

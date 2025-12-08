@@ -45,7 +45,7 @@ public class EquipTabView : MonoBehaviour
                 if (isOn && selTag != info.tag)
                 {
                     selTag = info.tag;
-                    callback((int) selTag);
+                    callback(selTag);
                 }
             });
             itemDic[info.tag] = toggle;

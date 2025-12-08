@@ -14,7 +14,7 @@ public class NpcScript : MonoBehaviour
         talkLayer = Resources.Load<GameObject>("Ref/LayerRef/UIRef/TalkLayer/TalkLayer");
     }
 
-    // Update is called once per frame
+    // Update is called once per frame 
 
     void Talk()
     {

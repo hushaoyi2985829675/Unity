@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Map;
+using MapNs;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,7 +31,7 @@ public class MapNode : PanelBase
         nameText.text = mapInfo.name;
         button.onClick.AddListener(() => { action(mapInfo.map); });
         int lv = GameDataManager.Instance.GetPlayerLv();
-        Ui.Instance.SetGray(button, lv < mapInfo.lockLv);
+        Ui.Instance.SetGray(button.image, lv < mapInfo.lockLv);
         bossText.text = string.Format("Boos: ");
         if (lv < mapInfo.lockLv)
         {

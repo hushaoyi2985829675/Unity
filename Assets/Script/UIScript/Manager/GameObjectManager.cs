@@ -2,32 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameObjectManager
+public class GameObjectManager : Singleton<GameObjectManager>
 {
+    [SerializeField]
     private Player player;
-    static GameObjectManager _instance;
-    public static GameObjectManager instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = new GameObjectManager();
-            }
-
-            return _instance;
-        }
-    }
     //装备对象池
     Stack<GameObject> equipObjStack = new Stack<GameObject>();
-    public void SetPlayer(Player player)
-    {
-        this.player = player;
-    }
 
-    public  Player GetPlayer()
+    public Player GetPlayer()
     {
         return this.player;
+    }
+
+    public Vector2 GetPlayerPos()
+    {
+        return player.transform.localPosition;
+    }
+
+    public void SetPlayerPos(Vector2 pos)
+    {
+        player.SetPlayerPos(pos);
     }
 
     public GameObject GetEquipItemObj()

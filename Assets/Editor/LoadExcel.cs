@@ -67,7 +67,7 @@ public class LoadExcel
                 }
                 scriptFIle.AppendLine("using HeroEditor.Common;\nusing HeroEditor.Common.Enums;\nusing System.Collections;\nusing System.Collections.Generic;\nusing UnityEngine;");
                 scriptFIle.AppendLine();
-                scriptFIle.AppendLine("namespace " + worksheet.Name);
+                scriptFIle.AppendLine("namespace " + worksheet.Name + "Ns");
                 scriptFIle.AppendLine("{");
                 foreach (var classStr in classStrList )
                 {
@@ -90,7 +90,7 @@ public class LoadExcel
                 }
                 AssetDatabase.Refresh();
                 File.WriteAllText(filePath, scriptFIle.ToString());
-                string fullTypeName = string.Format("{0}.{1}, Assembly-CSharp", worksheet.Name, worksheet.Name + "Config");
+                string fullTypeName = string.Format("{0}.{1}, Assembly-CSharp", worksheet.Name + "Ns", worksheet.Name + "Config");
                 Type t = Type.GetType(fullTypeName);
                 if (t == null)
                 {

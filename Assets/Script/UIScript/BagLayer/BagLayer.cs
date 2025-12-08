@@ -5,7 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Equip;
+using BagAttrNs;
+using EquipNs;
 using HeroEditor.Common.Enums;
 using UnityEngine;
 using UnityEngine.U2D;
@@ -26,7 +27,6 @@ public class BagLayer : PanelBase
     [Header("子页面父节点")] [SerializeField] private Transform viewNode;
     [Header("子页面")] [SerializeField] private GameObject bagEquipNode;
     [SerializeField] private GameObject bagGoodNode;
-    private GameObject Player;
     private BagData BagData;
     Dictionary<int, EquipmentInfo> BagDataInfo;
     private GameObject BagPlayer;
@@ -37,20 +37,21 @@ public class BagLayer : PanelBase
     private PanelBase curLayer;
     private Dictionary<AttrType, AttrTextNode> attrTextDict;
     private Dictionary<EquipmentPart, EquipSlot> equipSlotDict;
+    private Dictionary<int, BagAttr> bagAttrDict;
 
     public override void onEnter(object[] data)
     {
-        Player = GameObject.FindWithTag("Player");
-
         attrTextDict = new Dictionary<AttrType, AttrTextNode>();
         equipSlotDict = new Dictionary<EquipmentPart, EquipSlot>();
         TabView.AddRefreshEvent(RefreshTabView);
         TabNameList = new string[] {"装备", "道具", "消耗品"};
         TabView.SetNum(TabNameList.Length, selTag);
+        bagAttrDict = Resources.Load<BagAttrConfig>("Configs/Data/BagAttrConfig").bagAttrList.ToDictionary(key => key.type, value => value);
     }
 
     public override void onShow(object[] data)
     {
+        curLayer = null;
         selTag = 0;
         attrTextDict.Clear();
         onChangeTitle();
@@ -99,7 +100,7 @@ public class BagLayer : PanelBase
 
     private void onChangeTitle()
     {
-        if (layerRef != null)
+        if (curLayer != null)
         {
             CloseUILayer(curLayer.gameObject);
         }
@@ -124,7 +125,7 @@ public class BagLayer : PanelBase
         return AddUILayer(layerRef, viewNode, new object[] {callback});
     }
 
-    //字页面CardNode回调
+    //CardNode回调
     private void ItemCallback(GoodsType goodsType, int id, GameObject item, EquipmentPart part)
     {
         EquipInfo equipInfo = Ui.Instance.GetEquipInfo(id);
@@ -178,8 +179,9 @@ public class BagLayer : PanelBase
             }
         }
 
-        foreach (AttrType attrType in Enum.GetValues(typeof(AttrType)))
+        foreach (KeyValuePair<int, BagAttr> bagAttr in bagAttrDict)
         {
+            AttrType attrType = (AttrType) bagAttr.Value.bagAttr;
             if (resList.ContainsKey(attrType))
             {
                 attrTextDict[attrType].ShowAddText(resList[attrType].value);
@@ -195,8 +197,9 @@ public class BagLayer : PanelBase
     //刷新属性
     private void RefreshAttr()
     {
-        foreach (AttrType attrType in Enum.GetValues(typeof(AttrType)))
+        foreach (KeyValuePair<int, BagAttr> bagAttr in bagAttrDict)
         {
+            AttrType attrType = (AttrType) bagAttr.Value.bagAttr;
             if (!attrTextDict.ContainsKey(attrType))
             {
                 AttrTextNode attrTextNode = AddUINode<AttrTextNode>(attrTextRef, attrNode, new object[] {attrType});
