@@ -6438,7 +6438,6 @@ MonoBehaviour:
   isStairsModel: 0
   slopeDirection: {x: 0, y: 0}
   velocityX: 0
-  sY: 0
   isGround: 0
   jumpNum: 0
   isWounded: 0

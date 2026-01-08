@@ -43,7 +43,7 @@ public partial class Player : MonoBehaviour
     RaycastHit2D stairsHit;
     public bool isStairs;
     public bool isStairsModel;
-
+    private bool isUpStairs;
     [Header("方向")]
     [SerializeField]
     private Vector2 slopeDirection;
@@ -55,9 +55,6 @@ public partial class Player : MonoBehaviour
     Vector2 scale;
     private bool isJumpKey;
     public float velocityX;
-
-    [Header("缩放")]
-    public float sY;
     public bool isGround;
     public float jumpNum;
     public bool isWounded;
@@ -198,6 +195,15 @@ public partial class Player : MonoBehaviour
             slopeDirection = Vector2.Perpendicular(normal).normalized;
             Debug.DrawRay(stairsHit.point, normal, Color.blue);
             Debug.DrawRay(stairsHit.point, slopeDirection * 50, Color.magenta);
+            //判断上坡
+            if ((leftFoot && !rightFoot) || (!leftFoot && rightFoot))
+            {
+                isUpStairs = false;
+            }
+            else
+            {
+                isUpStairs = true;
+            }
             if (velocityX * slopeDirection.x > 0)
             {
                 isStairs = true;
