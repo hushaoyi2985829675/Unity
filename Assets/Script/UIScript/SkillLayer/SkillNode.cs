@@ -35,14 +35,14 @@ public class SkillNode : PanelBase
         lockImg.SetActive(!isLock);
         skillBtn.onClick.RemoveAllListeners();
         selImg.SetActive(selId == skillInfo.id);
-        skillBtn.image.sprite = Resources.Load<Sprite>("Img/skill/" + skillInfo.skillImg);
+        skillBtn.image.sprite = Ui.Instance.GetGoodIcon((int) GoodsType.Skill, skillInfo.id);
         skillBtn.onClick.AddListener(() =>
         {
-            action(skillInfo.id);
+            action?.Invoke(skillInfo.id);
         });
     }
 
-    public void RefreshSkill()
+    public void RefreshLockState()
     {
         Ui.Instance.SetGray(skillBtn.image, false);
         lockImg.SetActive(false);

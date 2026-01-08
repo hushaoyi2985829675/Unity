@@ -26,7 +26,19 @@ public class MaterialCardNode : PanelBase
     private void RefreshUI()
     {
         cardNode.SetSelState(false);
-        cardNode.SetCardData(GoodsType.Ingredient, resourcId, num);
+        cardNode.SetCardData(GoodsType.Resource, resourcId);
+        string str;
+        int curNum = GameDataManager.Instance.GetResNum(resourcId);
+        if (Ui.Instance.GetResNumIsEnough(GoodsType.Resource, resourcId, num, false))
+        {
+            str = $"<color={MyColor.GreenStr}>{curNum}</color>/{num}";
+        }
+        else
+        {
+            str = $"<color={MyColor.RedStr}>{curNum}</color>/{num}";
+        }
+
+        cardNode.SetNumText(str);
         line.SetActive(showLine);
     }
 

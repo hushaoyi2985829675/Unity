@@ -7,14 +7,11 @@ using UnityEngine;
 
 public class ResourceNode : PanelBase
 {
-    Dictionary<int, ResourceInfo> ResourceConfig;
     public GameObject resNode;
     public Transform parent;
 
     public override void onEnter(params object[] data)
     {
-        ResourceConfig = Resources.Load<ResourceConfig>("Configs/Data/ResourceConfig").resourceInfoList
-            .ToDictionary(key => key.resource, value => value);
         transform.SetSiblingIndex(100);
         refreshUI();
     }
@@ -24,10 +21,8 @@ public class ResourceNode : PanelBase
     }
     void refreshUI()
     {
-        foreach (var resource in ResourceConfig)
-        {
-            createRes(resource.Value.resource);
-        }
+        createRes((int) ResModel.Gold);
+        createRes((int) ResModel.Diamond);
     }
 
     public void createRes(int id)

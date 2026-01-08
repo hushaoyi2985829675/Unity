@@ -1,14 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using HeroEditor.Common.Enums;
 using UnityEngine;
 
+class EventInfo
+{
+    public int id;
+    public object[] data;
+
+    public EventInfo(int id, object[] data = null)
+    {
+        this.id = id;
+        this.data = data;
+    }
+}
+
 public abstract class PanelBase : MonoBehaviour
 {
     // private Dictionary<int, UINodeClass> UINodeDict = new Dictionary<int, UINodeClass>();
     Dictionary<int, PanelBase> UINodeDict = new Dictionary<int, PanelBase>();
     Dictionary<int, PanelBase> UILayerDict = new Dictionary<int, PanelBase>();
+    private List<int> scheduleList = new List<int>();
+    private List<int> delayList = new List<int>();
+    private List<EventInfo> eventList = new List<EventInfo>();
     public abstract void onEnter(params object[] data);
 
     public abstract void onShow(params object[] data);
@@ -54,6 +70,35 @@ public abstract class PanelBase : MonoBehaviour
         }
     }
 
+    public abstract void onExit();
+
+    protected void AddEvent(GameEventType type, object[] data = null)
+    {
+        int id = EventManager.Instance.AddEvent(type, data);
+        EventInfo eventInfo = new EventInfo(id, data);
+        eventList.Add(eventInfo);
+    }
+
+    private void RemoveEvent()
+    {
+        foreach (EventInfo eventInfo in eventList)
+        {
+            EventManager.Instance.RemoveEvent(GameEventType.ResEvent, eventInfo.id, eventInfo.data);
+        }
+    }
+
+    protected void AddScheduleCallback(Action callback, float delay)
+    {
+        int id = TimerManage.Instance.AddScheduleCallback(callback, delay);
+        scheduleList.Add(id);
+    }
+
+    protected void AddDelayCallback(Action callback, float delay)
+    {
+        int id = TimerManage.Instance.AddDelayCallback(callback, delay);
+        delayList.Add(id);
+    }
+
     public void Hide()
     {
         foreach (PanelBase uiNode in UINodeDict.Values)
@@ -70,7 +115,25 @@ public abstract class PanelBase : MonoBehaviour
 
         UINodeDict.Clear();
         UILayerDict.Clear();
+        RemoveEvent();
+        RemoveAllScheduleAndDelay();
     }
 
-    public abstract void onExit();
+    //清除所有定时器延时函数
+    protected void RemoveAllScheduleAndDelay()
+    {
+        //定时器
+        foreach (int id in scheduleList)
+        {
+            TimerManage.Instance.RemoveScheduleCallback(id);
+        }
+
+        scheduleList.Clear();
+        foreach (int id in delayList)
+        {
+            TimerManage.Instance.RemoveDelayCallback(id);
+        }
+
+        delayList.Clear();
+    }
 }

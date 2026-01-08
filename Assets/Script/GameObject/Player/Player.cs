@@ -16,6 +16,12 @@ public enum ButtonState
     Stairs
 }
 
+public enum PlayerState
+{
+    walk,
+    jump,
+}
+
 public partial class Player : MonoBehaviour
 {
     private PlayerLocalValueData playerLocalValueData;
@@ -28,12 +34,18 @@ public partial class Player : MonoBehaviour
     public float jumpHeight;
     
     [Header("状态相关")]
-    Rigidbody2D rd;
-    CapsuleCollider2D coll;
+    [SerializeField]
+    private bool isSkill;
+
+    private bool isDodge;
     RaycastHit2D leftFoot;
     RaycastHit2D rightFoot;
     RaycastHit2D stairsHit;
     public bool isStairs;
+    public bool isStairsModel;
+
+    [Header("方向")]
+    [SerializeField]
     private Vector2 slopeDirection;
     private float slopeAngle;
     AnimationEvents animationEvent;
@@ -41,55 +53,91 @@ public partial class Player : MonoBehaviour
     PlayerSKill playerSKill;
     Attacked attacked;
     Vector2 scale;
-    public bool isJumpKey;
-    public bool isJump;
+    private bool isJumpKey;
     public float velocityX;
-    public float velocityY;
+
+    [Header("缩放")]
+    public float sY;
     public bool isGround;
     public float jumpNum;
     public bool isWounded;
     public bool isDeath;
+    public float localSpeed;
+    Rigidbody2D rd;
+    CapsuleCollider2D coll;
     Action PlayerEvent;
     public ButtonState attackState;
+
+    private Vector2 gravity;
+
+    //禁止状态
+    private bool allowJump = true;
+    private bool allowWalk = true;
     #region 初始化
-    void Start()
+
+    private void Awake()
     {
-        playerLocalValueData = GameDataManager.Instance.GetPlayerLocalValueInfo();
+        gravity = Physics2D.gravity;
         // 初始化组件引用
         rd = GetComponent<Rigidbody2D>();
         coll = GetComponent<CapsuleCollider2D>();
         attacked = GetComponent<Attacked>();
-        
-        // 初始化动画相关组件
-        animationEvent = transform.Find("Animation").GetComponent<AnimationEvents>();
         playerAnimator = GetComponent<PlayerAnimator>();
         playerSKill = GetComponent<PlayerSKill>();
+        animationEvent = transform.Find("Animation").GetComponent<AnimationEvents>();
+        //注册移动事件
+        EventManager.Instance.AddEvent(GameEventType.PlayerMoveEvent, new object[]
+        {
+            (Action<int>) ((direction) =>
+            {
+                velocityX = direction;
+            })
+        });
+        //注册跳跃事件
+        EventManager.Instance.AddEvent(GameEventType.PlayerJumpEvent, new object[]
+        {
+            (Action) (() =>
+            {
+                if (!isGround && jumpNum > 0)
+                {
+                    Debug.Log("跳跃Bug");
+                }
+
+                if (jumpNum > 0 && !isWounded && !isDeath && !isStairs && allowJump)
+                {
+                    isJumpKey = true;
+                }
+            })
+        });
+        //注册楼梯模式
+        EventManager.Instance.AddEvent(GameEventType.StairsEvent, new object[]
+        {
+            (Action<bool>) ((isStairsModel) =>
+            {
+                this.isStairsModel = isStairsModel;
+            })
+        });
+    }
+
+    void Start()
+    {
+        playerLocalValueData = GameDataManager.Instance.GetPlayerLocalValueInfo();
         // 注册动画事件回调
         animationEvent.OnCustomEvent += AttackEvent;
-        
         // 初始化玩家数据
         scale = transform.localScale;
         speed = playerLocalValueData.MoveSpeed;
         jumpHeight = playerLocalValueData.jumpSpeed;
         jumpNum = playerLocalValueData.JumpNum;
-        
-        // 更新装备
-        //  UpdateEquip();
     }
     #endregion
     
     #region 更新循环
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && jumpNum > 0 && !isWounded && !isDeath && !isStairs)
+        if (Input.GetKeyDown(KeyCode.Space) && jumpNum > 0 && !isWounded && !isDeath && !isStairs && allowJump)
         { 
             isJumpKey = true;
-        }
-
-        if (stairsHit && Input.GetKeyDown(KeyCode.K) && !isJumpKey)
-        {
-            isStairs = true;
-            rd.gravityScale = 0;
         }
     }
     
@@ -105,14 +153,8 @@ public partial class Player : MonoBehaviour
     #region 物理检测
     void PhysicsCheck()
     {
-        if (!isWounded && !isDeath)
-        {
-            velocityX = Input.GetAxisRaw("Horizontal");
-        }
-        else
-        {
-            velocityX = 0;
-        }
+        velocityX = Input.GetAxisRaw("Horizontal");
+       
         
         // 检测地面
         leftFoot = Tool.Raycast(new Vector2(-coll.size.x / 2 + 0.3f, -coll.size.y / 2), Vector2.down, 0.15f, LayerMask.GetMask("Ground"), transform.position
@@ -126,10 +168,6 @@ public partial class Player : MonoBehaviour
         if (isGround)
         {
             jumpNum = playerLocalValueData.JumpNum;
-        }
-        else
-        {
-            isJump = false;
         }
         
         // 控制朝向
@@ -160,9 +198,16 @@ public partial class Player : MonoBehaviour
             slopeDirection = Vector2.Perpendicular(normal).normalized;
             Debug.DrawRay(stairsHit.point, normal, Color.blue);
             Debug.DrawRay(stairsHit.point, slopeDirection * 50, Color.magenta);
-            if (-velocityX * slopeDirection.y < 0)
+            if (velocityX * slopeDirection.x > 0)
             {
                 isStairs = true;
+                rd.gravityScale = 0;
+            }
+
+            if (rd.velocity.y < 0)
+            {
+                isStairs = true;
+                rd.velocity = new Vector2(rd.velocity.x, 0);
                 rd.gravityScale = 0;
             }
         }
@@ -175,6 +220,10 @@ public partial class Player : MonoBehaviour
     
     void MoveAction()
     {
+        if (isWounded || isDeath || !allowWalk)
+        {
+            return;
+        }
         if (isStairs)
         {
             // 斜坡移动
@@ -185,11 +234,13 @@ public partial class Player : MonoBehaviour
         }
         else
         {
-            float localSpeed = speed;
+            localSpeed = speed;
             if (attacked.GetAttackState())
             {
                 localSpeed *= 0.3f;
             }
+
+            playerAnimator.SetFloatValue("RunSpeed", localSpeed);
             // 平地移动
             rd.velocity = new Vector2(velocityX * localSpeed, rd.velocity.y);
         }
@@ -198,13 +249,12 @@ public partial class Player : MonoBehaviour
     void JumpAction()
     {
         // 处理跳跃输入
-        if (isJumpKey && jumpNum > 0)
+        if (isJumpKey)
         {
             rd.velocity = new Vector2(rd.velocity.x, 0);
             rd.AddForce(new Vector2(0, jumpHeight), ForceMode2D.Impulse);
             jumpNum -= 1;
             isJumpKey = false;
-            isJump = true;
         }
         
         // 如果在斜坡上，不应用额外的重力效果
@@ -216,14 +266,13 @@ public partial class Player : MonoBehaviour
         // 调整跳跃物理
         if (rd.velocity.y < 0) // 下落时
         {
-            rd.velocity += Vector2.up * Physics2D.gravity.y * (6f) * Time.deltaTime;
+            rd.velocity += Vector2.up * (Physics2D.gravity.y * 6f * Time.deltaTime);
         }
         else if (rd.velocity.y > 0) // 上升时
         {
-            rd.velocity += Vector2.up * Physics2D.gravity.y * (1.5f) * Time.deltaTime;
+            rd.velocity += Vector2.up * (Physics2D.gravity.y * 1.5f * Time.deltaTime);
         }
         
-        velocityY = rd.velocity.y;
     }
     
     void DeathState(Vector2 attackerPosition)
@@ -234,6 +283,10 @@ public partial class Player : MonoBehaviour
 
     public void Hit(float attackPower, Monster monster)
     {
+        if (isDeath)
+        {
+            return;
+        }
         Vector2 attackerPosition = monster.transform.position;
         float harm = Math.Max(0, attackPower - playerLocalValueData.Armor);
         GameDataManager.Instance.SetPlayerHp((int) Math.Max(0, playerLocalValueData.CurHp - harm));
@@ -303,10 +356,33 @@ public partial class Player : MonoBehaviour
     {
         return transform.localScale.x > 0 ? 1 : -1;
     }
-    // 其他方法
-    // private void UpdateEquip()
-    // {
-    //     // 更新装备逻辑
-    // }
+
+    public Rigidbody2D GetRigidbody()
+    {
+        return rd;
+    }
+
+    public void SetPlayerState(PlayerState state, bool allow)
+    {
+        switch (state)
+        {
+            case PlayerState.walk:
+                allowWalk = allow;
+                break;
+            case PlayerState.jump:
+                allowJump = allow;
+                break;
+        }
+    }
+
+    public void SetSkillState(bool isSkill)
+    {
+        this.isSkill = isSkill;
+    }
+
+    public void SetDodgeState(bool isDodge)
+    {
+        this.isDodge = isDodge;
+    }
 }
 

@@ -14,6 +14,9 @@ namespace Assets.HeroEditor.Common.CharacterScripts
 		/// </summary>
 		public event Action<string> OnCustomEvent = s => { };
 
+		public event Action<string> OnSkillEvent = s =>
+		{
+		};
 		/// <summary>
 		/// Set bool param, usage example: Idle=false
 		/// </summary>
@@ -42,6 +45,10 @@ namespace Assets.HeroEditor.Common.CharacterScripts
 		    OnCustomEvent(eventName);
 	    }
 
+	    public void SkillEvent(string eventName)
+	    {
+		    OnSkillEvent(eventName);
+	    }
 	    /// <summary>
 	    /// Set characters' expression. Called from animation.
 	    /// </summary>

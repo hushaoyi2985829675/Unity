@@ -10,6 +10,9 @@ using UnityEngine;
 
 public abstract class Monster : MonoBehaviour
 {
+    [Header("是否是展示")]
+    [SerializeField]
+    private bool isShow;
     //数值
     public int monsterId = 0;
 
@@ -28,7 +31,7 @@ public abstract class Monster : MonoBehaviour
     private bool rightWall;
     private BoxCollider2D coll;
     private Rigidbody2D rd;
-    private Animator animator;
+    protected Animator animator;
     private MonsterEquipManager monsterEquipManager;
     private AnimationEvents animationEvents;
     MonsterUI monsterUI;
@@ -48,13 +51,18 @@ public abstract class Monster : MonoBehaviour
     [SerializeField]
     private MonsterHpBar monsterHpBar;
 
-    public void Start()
+    public void Awake()
     {
         direction = transform.localScale.x;
         rd = GetComponent<Rigidbody2D>();
         animationEvents = transform.Find("Animation")?.GetComponent<AnimationEvents>();
-        animator = transform.Find("Animation")?.GetComponent<Animator>();
+
         coll = GetComponent<BoxCollider2D>();
+        animator = transform.Find("Animation")?.GetComponent<Animator>();
+    }
+
+    public void Start()
+    {
         InitMonster(monsterId);
         InitState(out stateList);
         ChangeState(State.Idle);
@@ -152,7 +160,7 @@ public abstract class Monster : MonoBehaviour
         {
             curState.onUpdate();
         }
-
+        
         leftFoot = Tool.Raycast(new Vector2(-coll.size.x / 2 + coll.offset.x, -coll.size.y / 2 + coll.offset.y), Vector2.down, 0.15f, LayerMask.GetMask("Ground"), transform.position);
         rightFoot = Tool.Raycast(new Vector2(coll.size.x / 2 + coll.offset.x, -coll.size.y / 2 + coll.offset.y), Vector2.down, 0.15f, LayerMask.GetMask("Ground"), transform.position);
         leftWall = Tool.Raycast(new Vector2(coll.size.x / 2 + coll.offset.x, -coll.size.y / 2 + coll.offset.y + 0.5f), Vector2.right, 0.3f, LayerMask.GetMask("Ground"), transform.position);
@@ -216,12 +224,18 @@ public abstract class Monster : MonoBehaviour
         return leftWall || rightWall || !leftFoot || !rightFoot;
     }
 
+    //受伤
     public bool Hit(float attackPower)
     {
+        if (isShow)
+        {
+            HitShow();
+            return false;
+        }
         ChangeState(State.Hit);
         var harm = Math.Max(0, attackPower - monsterInfo.armor);
         hp = Math.Max(0, hp - harm);
-        monsterHpBar.RefreshHp(hp);
+        monsterHpBar?.RefreshHp(hp);
         if (hp == 0)
         {
             ChangeState(State.Deanth);
@@ -235,6 +249,10 @@ public abstract class Monster : MonoBehaviour
         return false;
     }
 
+    void HitShow()
+    {
+        animator.SetInteger("State", (int) State.Hit);
+    }
 
     public void CreateDeathEff()
     {

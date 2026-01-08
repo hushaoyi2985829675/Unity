@@ -24,7 +24,7 @@ public class CameraManager : Singleton<CameraManager>
         startSize = playerCam.m_Lens.OrthographicSize;
         cameraConfiner = playerCamObj.GetComponent<CinemachineConfiner>();
         transposer = playerCam.GetCinemachineComponent<CinemachineFramingTransposer>();
-        // boundaryNode = GameObject.FindWithTag("CameraBoundary").transform;
+        boundaryNode = GameObject.FindWithTag("CameraBoundary").transform;
     }
 
     // Update is called once per frame
@@ -50,6 +50,7 @@ public class CameraManager : Singleton<CameraManager>
         float curTime = 0;
         float t;
         float size;
+        maskLayer.raycastTarget = true;
         while (curTime < time)
         {
             t = 1 - Mathf.Pow(1 - (curTime / time), 3);
@@ -76,6 +77,8 @@ public class CameraManager : Singleton<CameraManager>
             curTime += Time.deltaTime;
             yield return null;
         }
+
+        maskLayer.raycastTarget = false;
         playerCam.m_Lens.OrthographicSize = startSize;
     }
 

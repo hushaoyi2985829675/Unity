@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.HeroEditor.Common.CommonScripts;
 using ShopNs;
 using UnityEngine;
 using UnityEngine.UI;
@@ -64,14 +65,22 @@ public class ShopItem : PanelBase
     private void BuyRefreshUI()
     {
         limitedBuy.text = string.Format("限购：{0}/{1}", buyNum, shopInfo.limitedBuy);
-        int resNum = GameDataManager.Instance.GetResNum(resClass.resourceId);
-        Color color = resNum >= resClass.num
-            ? new Color(0x75 / 255f, 0xca / 255f, 0x6a / 255f)
-            : new Color(0xff / 255f, 0x7e / 255f, 0x7e / 255f);
-        buyText.color = color;
-        buyText.text = string.Format("{0}/{1}", resNum, resClass.num);
         bool isGray = buyNum >= shopInfo.limitedBuy;
         Ui.Instance.SetGray(buyBtn.image, isGray);
+        buyImage.SetActive(!isGray);
+        if (isGray)
+        {
+            buyText.text = "售完";
+            buyText.color = new Color(238 / 255f, 120 / 255f, 107 / 255f);
+            buyBtn.onClick.RemoveAllListeners();
+        }
+        else
+        {
+            int resNum = GameDataManager.Instance.GetResNum(resClass.resourceId);
+            Color color = resNum >= resClass.num ? new Color(0x75 / 255f, 0xca / 255f, 0x6a / 255f) : new Color(0xff / 255f, 0x7e / 255f, 0x7e / 255f);
+            buyText.color = color;
+            buyText.text = string.Format("{0}/{1}", resNum, resClass.num);
+        }
     }
 
     public void RefreshItem(int buyNum)

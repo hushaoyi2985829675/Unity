@@ -1499,6 +1499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3258705a9de6ea7458b00e01a79fe8c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isShow: 0
   monsterId: 0
   edge: {fileID: 5683901944407686666}
   effTrans: {fileID: 0}

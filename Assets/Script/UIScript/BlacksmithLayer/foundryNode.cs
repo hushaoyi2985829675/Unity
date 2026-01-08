@@ -12,7 +12,7 @@ public class foundryNode : PanelBase
 {
     public GridView gridView;
     public EquipTabView tabView;
-    public GameObject materialCardNode;
+    private GameObject materialCardNode;
     public Transform materialNode;
     public Transform UINode;
     public Text nameText;
@@ -23,12 +23,13 @@ public class foundryNode : PanelBase
     private Dictionary<int, EquipInfo> equipInfoList;
     private List<FoundryInfo> FoundryList;
     private Dictionary<int, List<FoundryInfo>> FoundryClassifyList;
-    
+    private List<ResClass> resList;
     private CardNode oldCardNode;
     private int selId;
 
     public override void onEnter(params object[] data)
     {
+        materialCardNode = Ui.Instance.GetLayerRef("BlacksmithLayer/MaterialCardNode");
         FoundConfigList = Resources.Load<FoundryConfig>("Configs/Data/FoundryConfig").foundryInfoList;
         equipInfoList = Resources.Load<EquipConfig>("Configs/Data/EquipConfig").equipInfoList
             .ToDictionary(key => key.equip, value => value);
@@ -133,7 +134,7 @@ public class foundryNode : PanelBase
     {
         CloseNodeAllUINode(materialNode);
         EquipInfo equip = Ui.Instance.GetEquipInfo(selId);
-        List<ResClass> resList = Ui.Instance.FormatResStr(equip.synthesisRoute, GoodsType.Ingredient);
+        resList = Ui.Instance.FormatResStr(equip.synthesisRoute, GoodsType.Resource);
         for (int i = 0; i < resList.Count; i++)
         {
             ResClass resClass = resList[i];
@@ -149,6 +150,22 @@ public class foundryNode : PanelBase
         if (selId == 0)
         {
             return;
+        }
+
+        for (int i = 0; i < resList.Count; i++)
+        {
+            ResClass resClass = resList[i];
+            if (!Ui.Instance.GetResNumIsEnough(resClass.goodsType, resClass.resourceId, resClass.num, false))
+            {
+                Ui.Instance.ShowTipPopLayer("材料不足!");
+                return;
+            }
+        }
+
+        for (int i = 0; i < resList.Count; i++)
+        {
+            ResClass resClass = resList[i];
+            GameDataManager.Instance.DecreaseRes(resClass.resourceId, resClass.num);
         }
         GameDataManager.Instance.AddEquip(selId);
         Ui.Instance.ShowReward(new ResClass(GoodsType.Equip, selId, 1));

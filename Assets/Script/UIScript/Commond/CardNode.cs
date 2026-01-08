@@ -13,7 +13,8 @@ public class CardNode : PanelBase
     [SerializeField] private Text nameText;
     [SerializeField] private Button button;
     [SerializeField] private GameObject UINode;
-    [SerializeField] private GameObject descLayer;
+    private GameObject equipDescLayer;
+    private GameObject goodsDescLayer;
     private Action callback;
     private int id;
     private GoodsType type;
@@ -21,6 +22,8 @@ public class CardNode : PanelBase
 
     public override void onEnter(params object[] data)
     {
+        equipDescLayer = Ui.Instance.GetLayerRef("DescLayer/EquipDescLayer");
+        goodsDescLayer = Ui.Instance.GetLayerRef("DescLayer/ResDescLayer");
         callback = DefaultClick;
         button.onClick.AddListener(() => { callback(); });
     }
@@ -31,7 +34,15 @@ public class CardNode : PanelBase
 
     public void DefaultClick()
     {
-        UIManager.Instance.OpenLayer(descLayer, new object[] {type, id});
+        if (type == GoodsType.Equip)
+        {
+            UIManager.Instance.OpenLayer(equipDescLayer, new object[] {id});
+        }
+        else
+        {
+            UIManager.Instance.OpenLayer(goodsDescLayer, new object[] {id});
+        }
+        
     }
     public void SetCardData(GoodsType goodsType, int id, int num = -1)
     {
@@ -68,7 +79,7 @@ public class CardNode : PanelBase
         }
 
         this.id = id;
-        this.type = goodsType;
+        type = goodsType;
     }
     
 
@@ -98,6 +109,11 @@ public class CardNode : PanelBase
         }
     }
 
+    public void SetNumText(string text)
+    {
+        numText.gameObject.SetActive(true);
+        numText.text = text;
+    }
 
     public override void onExit()
     {

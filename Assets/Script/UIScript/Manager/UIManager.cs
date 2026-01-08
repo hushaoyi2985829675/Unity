@@ -20,7 +20,6 @@ public enum LayerAction
 public class UIManager : Singleton<UIManager>
 {
     [Header("资源栏")]
-    [SerializeField]
     private GameObject ResourceNode;
 
     [Header("地图Gird")]
@@ -28,11 +27,10 @@ public class UIManager : Singleton<UIManager>
     private Transform mapGrid;
 
     [Header("Layer遮罩")]
-    [SerializeField]
     private GameObject maskLayerRef;
-
-    private MaskLayer maskLayer;
+    
     private Dictionary<int, PanelBase> LayerList;
+    private Dictionary<PanelBase, MaskLayer> maskLayerList;
     private Dictionary<int, PanelBase> PopLayerList;
     private Dictionary<int, int> instanceToPrefabGidList;
     private Dictionary<int, GameObject> MapList;
@@ -40,12 +38,14 @@ public class UIManager : Singleton<UIManager>
     private Transform layerCanvas;
     private Transform popLayerCanvas;
     private PanelBase curActPanelNode;
-
     private void Awake()
     {
+        ResourceNode = Ui.Instance.GetLayerRef("ResourceNode/ResourceNode");
+        maskLayerRef = Ui.Instance.GetLayerRef("Common/MaskLayer");
         LayerList = new Dictionary<int, PanelBase>();
         MapList = new Dictionary<int, GameObject>();
         PopLayerList = new Dictionary<int, PanelBase>();
+        maskLayerList = new Dictionary<PanelBase, MaskLayer>();
         instanceToPrefabGidList = new Dictionary<int, int>();
         layerCanvas = GameObject.FindWithTag("LayerCanvas").transform;
         popLayerCanvas = GameObject.FindWithTag("PopLayerCanvas").transform;
@@ -61,15 +61,29 @@ public class UIManager : Singleton<UIManager>
             int gid = mapLayerInfo.mapLayer.GetInstanceID();
             MapList.Add(gid, mapLayer);
         }
-        maskLayer = AddLayer(ref LayerList, maskLayerRef, layerCanvas.transform, new object[] { }) as MaskLayer;
-        maskLayer.SetActive(false);
-        AddUINode(ResourceNode, layerCanvas);
+        //AddUINode(ResourceNode, layerCanvas);
     }
     public PanelBase OpenLayer(GameObject layerRef, params object[] data)
     {
         PanelBase layer = AddLayer(ref LayerList, layerRef, layerCanvas.transform, data);
-        SetMaskLayerActive(true);
-        EditorApplication.isPaused = true;
+        MaskLayer maskLayer;
+        if (maskLayerList.ContainsKey(layer))
+        {
+            maskLayer = maskLayerList[layer];
+            maskLayer.SetActive(true);
+        }
+        else
+        {
+            maskLayer = Instantiate(maskLayerRef, layerCanvas.transform).GetComponent<MaskLayer>();
+            maskLayer.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+            maskLayer.SetPanel(layer);
+            maskLayer.SetActive(true);
+            maskLayerList[layer] = maskLayer;
+        }
+
+        maskLayer.transform.SetSiblingIndex(layerCanvas.transform.childCount);
+        layer.transform.SetSiblingIndex(layerCanvas.transform.childCount);
+        // EditorApplication.isPaused = true;
         layer.transform.localScale = new Vector3(0.01f, 0.01f, 1);
         layer.transform.DOScale(new Vector3(1, 1, 1), 0.3f).SetEase(Ease.OutCirc);
         return layer;
@@ -132,16 +146,16 @@ public class UIManager : Singleton<UIManager>
     //         return layerScript;
     //     }
     // }
-    public void CloseLayer(GameObject layer, params object[] data)
+    public void CloseLayer(GameObject layer)
     {
         int instanceGid = layer.GetInstanceID();
         int gid = instanceToPrefabGidList[instanceGid];
         PanelBase curLayer = LayerList[gid];
-        curLayer.transform.SetSiblingIndex(0);
         curLayer.Hide();
+        MaskLayer maskLayer = maskLayerList[curLayer];
+        maskLayer.SetActive(false);
         layer.transform.DOScale(new Vector3(0.01f, 0.01f, 1), 0.15f).SetEase(Ease.OutCirc).OnComplete(() =>
         {
-            SetMaskLayerActive(false);
             layer.SetActive(false);
             layer.transform.DOKill();
         });
@@ -234,12 +248,7 @@ public class UIManager : Singleton<UIManager>
             action(mapId);
         }
     }
-
-    private void SetMaskLayerActive(bool active)
-    {
-        maskLayer?.SetActive(active);
-    }
-
+    
     public void ResetMapGrid()
     {
         curMap = null;

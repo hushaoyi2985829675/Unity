@@ -6,6 +6,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using HeroEditor.Common.Enums;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class Tool
 {
@@ -68,14 +70,11 @@ public class Tool
         
     }
 
-    public static Dictionary<T, T2> Clone<T, T2>(Dictionary<T, T2> dict)
+    public static void BindTrigger(EventTrigger trigger, EventTriggerType type, UnityAction<BaseEventData> action)
     {
-        using (MemoryStream ms = new MemoryStream())
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(ms, dict);
-            ms.Position = 0;
-            return (Dictionary<T, T2>) formatter.Deserialize(ms);
-        }
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = type;
+        entry.callback.AddListener(action);
+        trigger.triggers.Add(entry);
     }
 }

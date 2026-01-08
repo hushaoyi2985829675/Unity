@@ -50,7 +50,10 @@ public class AudioManager : Singleton<AudioManager>
             audioObj.transform.parent = musicNode;
             bgAudioSource = audioObj.AddComponent<AudioSource>();
             audioObj.name = "BGMObj";
+            bgAudioSource.loop = true;
         }
+
+        PlayBGM(8);
     }
 
     private void LoadAllAudioClip()
@@ -80,7 +83,7 @@ public class AudioManager : Singleton<AudioManager>
         AudioClip audioClip = mapLayerInfo.GetMusicClip();
         bgAudioSource.clip = audioClip;
         bgAudioSource.Play();
-        bgAudioSource.PlayOneShot(audioClip);
+        // bgAudioSource.PlayOneShot(audioClip);
     }
 
     //调整背景音量

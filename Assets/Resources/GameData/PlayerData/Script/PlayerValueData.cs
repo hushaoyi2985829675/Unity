@@ -1,7 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using PlayerLvAttrNs;
 using UnityEngine;
+
+[Serializable]
+public class SkillEquipInfo
+{
+    public int pos;
+    public int skillId;
+
+    public SkillEquipInfo(int skillId, int pos)
+    {
+        this.pos = pos;
+        this.skillId = skillId;
+    }
+}
 
 [CreateAssetMenu(fileName = "PlayerLocalValueData", menuName = "GameData/PlayerValueData")]
 public class PlayerValueData : ScriptableBase
@@ -18,7 +32,10 @@ public class PlayerValueData : ScriptableBase
     public int lv;
 
     [Header("已解锁技能")]
-    public List<int> skillIdList = new List<int>(); 
+    public List<int> skillIdList;
+
+    [Header("已装备技能")]
+    public List<SkillEquipInfo> skillEquipList = new List<SkillEquipInfo>(); 
 
     public override void Create()
     {
@@ -67,6 +84,24 @@ public class PlayerValueData : ScriptableBase
     {
         skillIdList.Add(id);
         skillIdList.Sort();
+    }
+
+    public void EquipSkill(int skillId, int pos)
+    {
+        if (pos > 3)
+        {
+            return;
+        }
+
+        SkillEquipInfo skillEquipInfo = skillEquipList.Find((info) => info.pos == pos);
+        if (skillEquipInfo == null)
+        {
+            skillEquipList.Add(new SkillEquipInfo(skillId, pos));
+        }
+        else
+        {
+            skillEquipInfo.skillId = skillId;
+        }
     }
 
     public override void Clear()

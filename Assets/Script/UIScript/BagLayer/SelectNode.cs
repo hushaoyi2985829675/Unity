@@ -23,7 +23,7 @@ public class SelectNode : PanelBase
         parentRectTransform = UINode.parent.GetComponent<RectTransform>();
         showBtn.onClick.AddListener(() =>
         {
-            UIManager.Instance.OpenLayer(descLayer, new object[] {type, id});
+            UIManager.Instance.OpenLayer(descLayer, new object[] {id});
             UIManager.Instance.CloseUINode(gameObject);
         });
     }

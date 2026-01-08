@@ -5,11 +5,11 @@ using System.Linq;
 using Assets.HeroEditor.Common.CommonScripts;
 using EquipNs;
 using GoodsNs;
+using GoodWaysNs;
 using UnityEngine;
 using UnityEngine.UI;
 using HeroEditor.Common;
 using HeroEditor.Common.Enums;
-using IngredientNs;
 using MapNs;
 using MonsterNs;
 using NpcTalkTaskNs;
@@ -74,12 +74,7 @@ public class Ui : Singleton<Ui>
     //表
     private Dictionary<int, GoodInfo> GoodConfig;
     private Dictionary<int, EquipInfo> EquipConfig;
-    private Dictionary<int, MaterialInfo> IngredientConfig;
     private Dictionary<int, ResourceInfo> ResourceConfig;
-    private Dictionary<string, Sprite> equipIconDict;
-    private Dictionary<int, Sprite> goodIconDict;
-    private Dictionary<int, Sprite> ingredientIconDict;
-    private Dictionary<int, Sprite> resourceIconDict;
     private Dictionary<string, SpriteGroupEntry> SpriteGroupEntryDict;
     private Dictionary<int, PlayerLvInfo> PlayerLvAttrDict;
     private Dictionary<int, TalkInfo> talkInfoDict;
@@ -88,27 +83,36 @@ public class Ui : Singleton<Ui>
     private Dictionary<int, MapLayerInfo> mapLayerInfoDict;
     private Dictionary<int, MonsterInfo> monsterConfig;
     private Dictionary<int, SkillInfo> skillInfoDict;
+    private Dictionary<int, GoodWay> goodWayDict;
 
-    private Dictionary<SceneType, string> sceneTypeDict;
+    //图片缓存
+    private Dictionary<int, Sprite> ingredientIconDict;
+    private Dictionary<string, Sprite> equipIconDict;
+    private Dictionary<int, Sprite> goodIconDict;
+    private Dictionary<int, Sprite> skillIconDict;
+
+    private Dictionary<int, Sprite> resourceIconDict;
     //打开的页面
     private GameObject flutteViewRef;
     private GameObject showRewardRef;
     private GameObject ConfirmationRef;
+    private GameObject tipPopLayer;
 
     // 存储数值与中文描述的映射
     private Dictionary<AttrType, string> attrChineseMapDict;
     private MaskLayer maskLayer;
+
+    Dictionary<SceneType, string> sceneTypeDict;
     private void Awake()
     {
-        flutteViewRef = Resources.Load<GameObject>("Ref/LayerRef/UIRef/Common/FlutterWindowsLayer");
-        showRewardRef = Resources.Load<GameObject>("Ref/LayerRef/UIRef/ShowRewardLayer/ShowRewardLayer");
-        ConfirmationRef = Resources.Load<GameObject>("Ref/LayerRef/UIRef/ConfirmationLayer/ConfirmationLayer");
+        flutteViewRef = GetLayerRef("Common/FlutterWindowsLayer");
+        showRewardRef = GetLayerRef("ShowRewardLayer/ShowRewardLayer");
+        ConfirmationRef = GetLayerRef("ConfirmationLayer/ConfirmationLayer");
+        tipPopLayer = GetLayerRef("Common/TipPopNode");
         EquipConfig = Resources.Load<EquipConfig>("Configs/Data/EquipConfig").equipInfoList
             .ToDictionary(key => key.equip, value => value);
         GoodConfig = Resources.Load<GoodsConfig>("Configs/Data/GoodsConfig").goodInfoList
             .ToDictionary(key => key.good, value => value);
-        IngredientConfig = Resources.Load<IngredientConfig>("Configs/Data/IngredientConfig").materialInfoList
-            .ToDictionary(key => key.material, value => value);
         ResourceConfig = Resources.Load<ResourceConfig>("Configs/Data/ResourceConfig").resourceInfoList
             .ToDictionary(key => key.resource, value => value);
         PlayerLvAttrDict = Resources.Load<PlayerLvAttrConfig>("Configs/Data/PlayerLvAttrConfig").playerLvInfoList
@@ -125,11 +129,13 @@ public class Ui : Singleton<Ui>
             .ToDictionary(key => key.mapId, value => value);
         monsterConfig = Resources.Load<MonsterConfig>("Configs/Data/MonsterConfig").monsterInfoList.ToDictionary(key => key.monster, value => value);
         skillInfoDict = Resources.Load<SkillConfig>("Configs/Data/SkillConfig").skillInfoList.ToDictionary(key => key.id, value => value);
+        goodWayDict = Resources.Load<GoodWaysConfig>("Configs/Data/GoodWaysConfig").goodWayList.ToDictionary(key => key.id, value => value);
         SpriteGroupEntryDict = new Dictionary<string, SpriteGroupEntry>();
         goodIconDict = new Dictionary<int, Sprite>();
         equipIconDict = new Dictionary<string, Sprite>();
         ingredientIconDict = new Dictionary<int, Sprite>();
         resourceIconDict = new Dictionary<int, Sprite>();
+        skillIconDict = new Dictionary<int, Sprite>();
         attrChineseMapDict = new Dictionary<AttrType, string>
         {
             {AttrType.Attack, "攻击力"},
@@ -170,6 +176,18 @@ public class Ui : Singleton<Ui>
     {
         UIManager.Instance.OpenLayer(ConfirmationRef, new object[] {text, action});
     }
+
+    public void ShowTipPopLayer(string text)
+    {
+        UIManager.Instance.AddPopLayer(tipPopLayer, new Vector2(0, 0), new object[] {text});
+    }
+
+    //获取道具获取路径
+    public GoodWay GetWayInfoById(int id)
+    {
+        return goodWayDict[id];
+    }
+
     //获取装备配置信息
     public EquipInfo GetEquipInfo(int id)
     {
@@ -186,12 +204,7 @@ public class Ui : Singleton<Ui>
     {
         return GoodConfig[id];
     }
-
-    //获取材料配置信息
-    public MaterialInfo GetIngredientInfo(int id)
-    {
-        return IngredientConfig[id];
-    }
+    
     
     //获取资源配置信息
     public ResourceInfo GetResourceInfo(int id)
@@ -210,9 +223,6 @@ public class Ui : Singleton<Ui>
             case GoodsType.Good:
                 GoodInfo goodInfo = GetGoodInfo(id);
                 return goodInfo.name;
-            case GoodsType.Ingredient:
-                MaterialInfo materialInfo = GetIngredientInfo(id);
-                return materialInfo.name;
             case GoodsType.Resource:
                 ResourceInfo resourceInfo = GetResourceInfo(id);
                 return resourceInfo.name;
@@ -235,9 +245,9 @@ public class Ui : Singleton<Ui>
             // case GoodsType.Ingredient:
             //     MaterialInfo materialInfo = GetIngredientInfo(id);
             //     return materialInfo.desc;
-            // case GoodsType.Resource:
-            //     ResourceInfo resourceInfo = GetResourceInfo(id);
-            //     return resourceInfo.desc;
+            case GoodsType.Resource:
+                ResourceInfo resourceInfo = GetResourceInfo(id);
+                return resourceInfo.desc;
             default:
                 return "";
         }
@@ -327,7 +337,7 @@ public class Ui : Singleton<Ui>
     {
         for (int i = parent.childCount - 1; i >= 0; i--)
         {
-            Destroy(parent.GetChild(i).gameObject);
+            DestroyImmediate(parent.GetChild(i).gameObject);
         }
     }
     
@@ -359,23 +369,23 @@ public class Ui : Singleton<Ui>
                 sprite = LoadIcon(GoodConfig[id].icon);
                 goodIconDict[id] = sprite;
                 return sprite;
-            case GoodsType.Ingredient:
-                if (ingredientIconDict.ContainsKey(id))
-                {
-                    return ingredientIconDict[id];
-                }
-
-                sprite = LoadIcon(IngredientConfig[id].icon);
-                ingredientIconDict[id] = sprite;
-                return sprite;
             case GoodsType.Resource:
                 if (resourceIconDict.ContainsKey(id))
                 {
                     return resourceIconDict[id];
                 }
-
+                
                 sprite = LoadIcon(ResourceConfig[id].icon);
                 resourceIconDict[id] = sprite;
+                return sprite;
+            case GoodsType.Skill:
+                if (skillIconDict.ContainsKey(id))
+                {
+                    return skillIconDict[id];
+                }
+
+                sprite = LoadIcon(skillInfoDict[id].skillImg);
+                skillIconDict[id] = sprite;
                 return sprite;
             default:
                 return null;
@@ -398,6 +408,10 @@ public class Ui : Singleton<Ui>
         else if (str.Equals("r"))
         {
             path = "Resource";
+        }
+        else if (str.Equals("s"))
+        {
+            path = "Skill";
         }
         else
         {
@@ -439,7 +453,8 @@ public class Ui : Singleton<Ui>
 
         return Resources.Load<Sprite>(path);
     }
-    //格式化字符串 1*3||1*3
+
+    //格式化字符串 1*1*3||2*1*3
     public List<ResClass> FormatResStr(string str)
     {
         List<ResClass> resList = new List<ResClass>();
@@ -618,17 +633,31 @@ public class Ui : Singleton<Ui>
     }
 
     //获取属性名字 + 值
-    public String GetAttrText(AttrClass attrClass)
+    public String GetAttrText(AttrClass attrClass, bool isLight = false)
     {
         string name = attrChineseMapDict[attrClass.attrType];
         string value = "";
         if (attrClass.value > 0)
         {
-            value = $"  +  <color=#{ColorUtility.ToHtmlStringRGB(MyColor.Green)}>{attrClass.value}</color>";
+            if (isLight)
+            {
+                value = $"  +  <color=#{ColorUtility.ToHtmlStringRGB(MyColor.LightGreen)}>{attrClass.value}</color>";
+            }
+            else
+            {
+                value = $"  +  <color=#{ColorUtility.ToHtmlStringRGB(MyColor.Green)}>{attrClass.value}</color>";
+            }
         }
         else
         {
-            value = $"  -  <color=#{ColorUtility.ToHtmlStringRGB(MyColor.Red)}>{MathF.Abs(attrClass.value)}</color>";
+            if (isLight)
+            {
+                value = $"  -  <color=#{ColorUtility.ToHtmlStringRGB(MyColor.LightRed)}>{MathF.Abs(attrClass.value)}</color>";
+            }
+            else
+            {
+                value = $"  -  <color=#{ColorUtility.ToHtmlStringRGB(MyColor.Red)}>{MathF.Abs(attrClass.value)}</color>";
+            }
         }
 
         return name + value;
@@ -722,5 +751,60 @@ public class Ui : Singleton<Ui>
     public SkillInfo GetSkillInfoById(int id)
     {
         return skillInfoDict[id];
+    }
+
+    //判断物品是否足够
+    public bool GetResNumIsEnough(GoodsType type, int id, int needNUm, bool isOpenWays = true)
+    {
+        int curNum = 0;
+        if (type == GoodsType.Resource)
+        {
+            curNum = GameDataManager.Instance.GetResNum(id);
+        }
+
+        if (curNum < needNUm && isOpenWays)
+        {
+            //打开获取途径界面
+            GameObject layer = GetLayerRef("DescLayer/ResDescLayer");
+            UIManager.Instance.OpenLayer(layer, new object[] {id});
+        }
+
+        return curNum >= needNUm;
+    }
+
+    //查找UI页面 
+    public GameObject GetLayerRef(string name)
+    {
+        string path = "Ref/LayerRef/UIRef/";
+        GameObject layer = Resources.Load<GameObject>(path + name);
+        if (layer == null)
+        {
+            Debug.Log(path + name + "没找到");
+        }
+
+        return layer;
+    }
+
+    //根据等级获取颜色
+    public Color GetColorByLv(int lv)
+    {
+        switch (lv)
+        {
+            case 1:
+                // 1级：柔和浅蓝（原数值归一化，保持原有风格）
+                return new Color(123 / 255f, 179 / 255f, 210 / 255f);
+            case 2:
+                // 2级：柔和浅紫（原数值归一化，保持原有风格）
+                return new Color(146 / 255f, 144 / 255f, 210 / 255f);
+            case 3:
+                // 3级：柔和暖橙（原数值归一化，保持原有风格）
+                return new Color(231 / 255f, 176 / 255f, 98 / 255f);
+            case 4:
+                // 4级：柔和哑光红（匹配1-3级风格，低饱和不刺眼）
+                return new Color(220 / 255f, 80 / 255f, 80 / 255f);
+            default:
+                // 默认白色（归一化修正）
+                return new Color(1f, 1f, 1f);
+        }
     }
 }

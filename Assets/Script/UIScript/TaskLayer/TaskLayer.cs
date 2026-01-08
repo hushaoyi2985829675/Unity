@@ -109,21 +109,21 @@ public class TaskLayer : PanelBase
         completionImg.gameObject.SetActive(playerTaskInfo.isComplete);
         abandonButton.gameObject.SetActive(!playerTaskInfo.isComplete);
     }
-
-    private void CloseClick()
-    {
-        UIManager.Instance.CloseLayer(gameObject);
-    }
-
+    
     private void AbandonTaskClick()
     {
-        GameDataManager.Instance.RemoveTask(playerTaskInfo.taskId);
-        tabView.SetNum(taskList.Count);
-        if (taskList.Count > 0)
+        Ui.Instance.ShowConfirmationLayer("是否放弃任务?", () =>
         {
-            playerTaskInfo = taskList[0];
-        }
-        RefreshTaskInfo(0);
+            GameDataManager.Instance.RemoveTask(playerTaskInfo.taskId);
+            tabView.SetNum(taskList.Count);
+            if (taskList.Count > 0)
+            {
+                playerTaskInfo = taskList[0];
+            }
+
+            RefreshTaskInfo(0);
+        });
+       
     }
 
     public override void onExit()

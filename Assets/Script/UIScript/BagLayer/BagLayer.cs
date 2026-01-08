@@ -11,6 +11,7 @@ using HeroEditor.Common.Enums;
 using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
+using Object = System.Object;
 
 public class BagLayer : PanelBase
 {

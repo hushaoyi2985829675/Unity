@@ -18,7 +18,7 @@ public class EffectManager : Singleton<EffectManager>
     private void Awake()
     {
         effects = new Dictionary<EffectType, EffectBase>();
-        path = "Ref/Effect/";
+        path = "Effect/";
         if (effectNode == null)
         {
             GameObject go = new GameObject("EffectNode");

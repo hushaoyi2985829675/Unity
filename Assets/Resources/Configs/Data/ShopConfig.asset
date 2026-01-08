@@ -14,133 +14,133 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shopInfoList:
   - shop: 1
-    goodType: 1
+    goodType: 3
     id: 10
     num: 1
     price: 1*1*109
     limitedBuy: 2
   - shop: 2
-    goodType: 1
+    goodType: 3
     id: 11
     num: 1
     price: 1*1*110
     limitedBuy: 2
   - shop: 3
-    goodType: 1
+    goodType: 3
     id: 12
     num: 1
     price: 1*1*111
     limitedBuy: 2
   - shop: 4
-    goodType: 1
+    goodType: 3
     id: 13
     num: 1
     price: 1*1*112
     limitedBuy: 2
   - shop: 5
-    goodType: 1
+    goodType: 3
     id: 14
     num: 1
     price: 1*1*113
     limitedBuy: 2
   - shop: 6
-    goodType: 1
+    goodType: 3
     id: 15
     num: 1
     price: 1*1*114
     limitedBuy: 2
   - shop: 7
-    goodType: 1
+    goodType: 3
     id: 16
     num: 1
     price: 1*1*115
     limitedBuy: 2
   - shop: 8
-    goodType: 1
+    goodType: 3
     id: 17
     num: 1
     price: 1*1*116
     limitedBuy: 2
   - shop: 9
-    goodType: 1
+    goodType: 3
     id: 18
     num: 1
     price: 1*1*117
     limitedBuy: 2
   - shop: 10
-    goodType: 1
+    goodType: 3
     id: 19
     num: 1
     price: 1*1*300
     limitedBuy: 1
   - shop: 11
-    goodType: 1
+    goodType: 3
     id: 21
     num: 1
     price: 1*1*300
     limitedBuy: 1
   - shop: 12
-    goodType: 1
+    goodType: 3
     id: 32
     num: 1
     price: 1*1*301
     limitedBuy: 1
   - shop: 13
-    goodType: 1
+    goodType: 3
     id: 37
     num: 1
     price: 1*1*302
     limitedBuy: 2
   - shop: 14
-    goodType: 1
+    goodType: 3
     id: 39
     num: 1
     price: 1*1*303
     limitedBuy: 1
   - shop: 15
-    goodType: 1
+    goodType: 3
     id: 40
     num: 1
     price: 1*1*1000
     limitedBuy: 1
   - shop: 16
-    goodType: 1
+    goodType: 3
     id: 33
     num: 1
     price: 1*1*1000
     limitedBuy: 1
   - shop: 17
-    goodType: 1
+    goodType: 3
     id: 34
     num: 2
     price: 1*1*1001
     limitedBuy: 2
   - shop: 18
-    goodType: 1
+    goodType: 3
     id: 35
     num: 3
     price: 1*1*1002
     limitedBuy: 1
   - shop: 19
-    goodType: 1
+    goodType: 3
     id: 36
     num: 4
     price: 1*1*1003
     limitedBuy: 1
   - shop: 20
-    goodType: 1
+    goodType: 3
     id: 37
     num: 5
     price: 1*1*1004
     limitedBuy: 1
   - shop: 21
-    goodType: 1
+    goodType: 3
     id: 38
     num: 6
     price: 1*1*1005
     limitedBuy: 1
   - shop: 22
-    goodType: 1
+    goodType: 3
     id: 39
     num: 7
     price: 1*1*1006

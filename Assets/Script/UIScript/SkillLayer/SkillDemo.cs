@@ -8,44 +8,103 @@ public class SkillDemo : PanelBase
 {
     [SerializeField]
     private Player player;
-
     PlayerSKill playerSKill;
     PlayerAnimator playerAnimator;
+    private Rigidbody2D playerRd;
+
+    [SerializeField]
+    private SkillDemoMonster monster;
+
+    Animator monsterAnimator;
+    private Rigidbody2D monsterRd;
     Character character;
     PlayerEquip playerEquip;
-    private int id;
-
+    private int skillId;
     public override void onEnter(params object[] data)
     {
         playerSKill = player.GetComponent<PlayerSKill>();
         character = player.GetComponent<Character>();
         playerEquip = player.GetComponent<PlayerEquip>();
+        playerRd = player.GetRigidbody();
+        playerAnimator = player.GetComponent<PlayerAnimator>();
+        monsterAnimator = monster.GetAnimator();
+        monsterRd = monster.GetComponent<Rigidbody2D>();
     }
 
     public override void onShow(params object[] data)
     {
         character.SetState(CharacterState.Idle);
         playerEquip.RemoveAllEquip();
-        playerEquip.isUpdateEquip = false;
-        id = 0;
-        PlaySkill((int) data[0]);
+        skillId = (int) data[0];
+        PlaySkill(skillId);
     }
 
     public void PlaySkill(int skillId)
     {
-        if (id != 0)
+        this.skillId = skillId;
+        RemoveAllScheduleAndDelay();
+        ResetPos();
+        if (skillId == 1)
         {
-            TimerManage.Instance.RemoveScheduleCallback(id);
+            ChargeAttack();
         }
 
-        id = TimerManage.Instance.AddScheduleCallback(() =>
+        if (skillId == 2)
         {
-            playerSKill.PlaySkill(skillId);
-        }, 3f);
+            Dodge();
+        }
+    }
+
+    public void ResetPos()
+    {
+        playerRd.velocity = Vector2.zero;
+        playerAnimator.SetBoolValue("Action", false);
+        playerAnimator.SetIntValue("State", (int) State.Idle);
+        monsterAnimator.SetBool("Action", false);
+        monsterAnimator.SetInteger("State", (int) State.Idle);
+        monsterRd.velocity = Vector2.zero;
+        if (skillId == 1)
+        {
+            player.SetPlayerPos(new Vector2(-5033.92f, -128.5953f));
+            monster.SetMonsterPos(new Vector2(-5031.18f, -129.8094f));
+        }
+
+        if (skillId == 2)
+        {
+            player.SetPlayerPos(new Vector2(-5033.92f, -128.5953f));
+            monster.SetMonsterPos(new Vector2(-5031.53f, -129.8094f));
+        }
     }
 
     public override void onExit()
     {
-        TimerManage.Instance.RemoveScheduleCallback(id);
+    }
+
+    private void Dodge()
+    {
+        AddScheduleCallback(() =>
+        {
+            ResetPos();
+            AddDelayCallback(() =>
+            {
+                monster.Attack();
+                AddDelayCallback(() =>
+                {
+                    playerSKill.PlaySkill(skillId);
+                }, 0.3f);
+            }, 0.5f);
+        }, 2f);
+    }
+
+    private void ChargeAttack()
+    {
+        AddScheduleCallback(() =>
+        {
+            ResetPos();
+            AddDelayCallback(() =>
+            {
+                playerSKill.PlaySkill(skillId);
+            }, 0.5f);
+        }, 3f);
     }
 }

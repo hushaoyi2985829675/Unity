@@ -134,6 +134,7 @@ public class SellNode : PanelBase
     {
         EquipInfo equipInfo = Ui.Instance.GetEquipInfo(selInfo.id);
         resList = Ui.Instance.FormatResStr(equipInfo.sellPrice);
+        CloseNodeAllUINode(resNode);
         foreach (ResClass res in resList)
         {
             CardNode cardNode = AddUINode<CardNode>(resCardNodeRef, resNode);

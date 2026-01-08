@@ -5,7 +5,6 @@ using EquipNs;
 using FoundryNs;
 using HeroEditor.Common;
 using HeroEditor.Common.Enums;
-using IngredientNs;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -116,7 +115,7 @@ public class BreakDownNode : PanelBase
         CardNode cardNode = item.GetComponent<CardNode>();
         cardNode.SetSelState(true);
         List<ResClass> ingredient = ingredientList[selId];
-        cardNode.SetCardData(GoodsType.Ingredient, ingredient[index].resourceId, (int) ingredient[index].num);
+        cardNode.SetCardData(GoodsType.Resource, ingredient[index].resourceId, (int) ingredient[index].num);
     }
 
     private void RefreshText()
@@ -141,7 +140,7 @@ public class BreakDownNode : PanelBase
         {
             ingredientList[selId] = new List<ResClass>();
             EquipInfo equipInfo = Ui.Instance.GetEquipInfo(selId);
-            List<ResClass> resList = Ui.Instance.FormatResStr(equipInfo.synthesisRoute, GoodsType.Ingredient);
+            List<ResClass> resList = Ui.Instance.FormatResStr(equipInfo.synthesisRoute, GoodsType.Resource);
             foreach (var res in resList)
             {
                 ingredientList[selId].Add(res);

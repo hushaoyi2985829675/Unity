@@ -17,3 +17,5 @@ MonoBehaviour:
     num: 10000
   - id: 2
     num: 0
+  - id: 3
+    num: 100

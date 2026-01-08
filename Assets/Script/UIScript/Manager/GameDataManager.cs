@@ -121,7 +121,7 @@ public class GameDataManager : Singleton<GameDataManager>
     //增加资源
     public void AddRes(ResClass res)
     {
-        playerResData.AddResNum(res.resourceId, (int) res.num);
+        playerResData.AddResNum(res.resourceId, res.num);
         EventManager.Instance.PostEvent(GameEventType.ResEvent, new object[] {res.resourceId});
     }
 
@@ -155,6 +155,14 @@ public class GameDataManager : Singleton<GameDataManager>
 
     #endregion
 
+    #region 主角数据修改
+
+    public void AddSkill(int id)
+    {
+        playerValueData.AddPlayerSkill(id);
+    }
+
+    #endregion
     #region 主角装备方法
 
     //获取主角部位的当前装备
@@ -236,6 +244,17 @@ public class GameDataManager : Singleton<GameDataManager>
         return playerValueData.skillIdList;
     }
 
+    public List<SkillEquipInfo> GetPlayerSkillEquipList()
+    {
+        return playerValueData.skillEquipList;
+    }
+
+    public void SetPlayerSkillEquip(int pos, int skillId)
+    {
+        playerValueData.EquipSkill(skillId, pos);
+    }
+
+    //主角数据
     public PlayerLocalValueData GetPlayerLocalValueInfo()
     {
         return playerLocalValueData;

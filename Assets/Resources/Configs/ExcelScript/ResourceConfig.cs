@@ -14,6 +14,7 @@ namespace ResourceNs
 		public string name;
 		public string icon;
 		public string desc;
+		public string ways;
 	}
 
 	public class ResourceConfig: ScriptableObject

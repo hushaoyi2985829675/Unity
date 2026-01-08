@@ -28,6 +28,11 @@ class TimeInfo
         }
     }
 
+    public static void RecycleId(int id)
+    {
+        idStack.Push(id);
+    }
+
     public bool AddTime()
     {
         curTime += Time.deltaTime;
@@ -55,24 +60,43 @@ public class TimerManage : Singleton<TimerManage>
 {
     private Dictionary<int, TimeInfo> delayDict = new Dictionary<int, TimeInfo>();
     private Dictionary<int, TimeInfo> scheduleDict = new Dictionary<int, TimeInfo>();
+    List<int> keysToRemove = new List<int>();
+    private Dictionary<int, TimeInfo> delayCacheDict = new Dictionary<int, TimeInfo>();
 
-    public void AddDelayCallback(Action callback, float delay)
+    public int AddDelayCallback(Action callback, float delay)
     {
         TimeInfo timeInfo = new TimeInfo(callback, delay);
-        delayDict.Add(timeInfo.id, timeInfo);
+        delayCacheDict.Add(timeInfo.id, timeInfo);
+        return timeInfo.id;
     }
 
     public void Update()
+    {
+        foreach (KeyValuePair<int, TimeInfo> keyValuePair in delayCacheDict)
+        {
+            delayDict.Add(keyValuePair.Key, keyValuePair.Value);
+        }
+
+        delayCacheDict.Clear();
+    }
+
+    public void LateUpdate()
     {
         foreach (KeyValuePair<int, TimeInfo> keyValuePair in delayDict)
         {
             TimeInfo timeInfo = keyValuePair.Value;
             if (timeInfo.AddTime())
             {
-                delayDict.Remove(timeInfo.id);
+                keysToRemove.Add(timeInfo.id);
             }
         }
 
+        foreach (int key in keysToRemove)
+        {
+            delayDict.Remove(key);
+        }
+
+        keysToRemove.Clear();
         foreach (KeyValuePair<int, TimeInfo> keyValuePair in scheduleDict)
         {
             TimeInfo timeInfo = keyValuePair.Value;
@@ -94,6 +118,13 @@ public class TimerManage : Singleton<TimerManage>
 
     public void RemoveScheduleCallback(int id)
     {
+        TimeInfo.RecycleId(id);
         scheduleDict.Remove(id);
+    }
+
+    public void RemoveDelayCallback(int id)
+    {
+        TimeInfo.RecycleId(id);
+        delayDict.Remove(id);
     }
 }

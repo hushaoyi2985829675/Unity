@@ -18,6 +18,14 @@ public enum GoodsCategory
     Food = 2, //食物
 }
 
+//资源枚举
+public enum ResModel
+{
+    Gold = 1, //金币
+    Diamond = 2, //钻石
+    SKillBook = 3, //技能券轴
+}
+
 // 视图方向
 public enum DirectionType
 {
@@ -28,10 +36,10 @@ public enum DirectionType
 //道具类型
 public enum GoodsType
 {
-    Equip = 1,
+    Resource = 1,
     Good = 2,
-    Ingredient = 3,
-    Resource = 4,
+    Equip = 3,
+    Skill = 4,
 }
 
 //任务类型
@@ -75,12 +83,12 @@ public enum AttrType
 public class MyColor
 {
     public static readonly Color Green = new Color(0.2f, 0.9f, 0.25f, 1f);
-    public static readonly Color LightGreen = new Color(0.15f, 0.7f, 0.2f, 1f);
+    public static readonly string GreenStr = "#33E640";
+    public static readonly Color LightGreen = new Color(0.0196f, 0.5176f, 0.0196f);
+    public static readonly string LightGreenStr = "#058405";
     public static readonly Color Red = new Color(0.95f, 0.2f, 0.25f, 1f);
-
+    public static readonly string RedStr = "#F23340";
     public static readonly Color LightRed = new Color(0.85f, 0.15f, 0.15f, 1f);
-
-    // 扩展：临界状态（可选，数量接近不足时用）
-    public static readonly Color Critical = new Color(1f, 0.6f, 0.1f, 1f);
-    public static readonly Color LightCritical = new Color(0.9f, 0.5f, 0f, 1f);
+    public static readonly string LightRedStr = "#D92626";
+    
 }

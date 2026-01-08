@@ -19,6 +19,7 @@ namespace EquipNs
 		public string sellPrice;
 		public float attacDis;
 		public string attr;
+		public string ways;
 		public string synthesisRoute;
 		public string desc;
 	}

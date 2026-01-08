@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,11 @@ public class GameObjectManager : Singleton<GameObjectManager>
     private Player player;
     //装备对象池
     Stack<GameObject> equipObjStack = new Stack<GameObject>();
+
+    private void Awake()
+    {
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+    }
 
     public Player GetPlayer()
     {

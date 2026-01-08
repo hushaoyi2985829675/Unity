@@ -12,4 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19fe4b6a6ceab184bb61f75a97e7d712, type: 3}
   m_Name: PlayerTaskData
   m_EditorClassIdentifier: 
-  TaskList: []
+  TaskList:
+  - npcId: 1
+    taskId: 1
+    isComplete: 0
+    taskLocation: 1
+    TaskType: 0
+    needNum: 2
+    curNum: 0
+    rewardList:
+    - goodsType: 1
+      resourceId: 1
+      num: 13
+  - npcId: 1
+    taskId: 1
+    isComplete: 0
+    taskLocation: 1
+    TaskType: 0
+    needNum: 2
+    curNum: 0
+    rewardList:
+    - goodsType: 1
+      resourceId: 1
+      num: 13

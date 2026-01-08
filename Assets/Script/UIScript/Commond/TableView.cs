@@ -56,7 +56,7 @@ public class TableView : MonoBehaviour
         scrollView.vertical = false;
         scrollView.GetComponent<ScrollRect>().onValueChanged.AddListener(OnUpdate);
         size = temp.GetComponent<RectTransform>().sizeDelta;
-        Ui.Instance.RemoveAllChildren(content);
+        Clear();
         if (direction == DirectionType.Horizontal)
         {
             scrollView.horizontal = true;
@@ -92,6 +92,10 @@ public class TableView : MonoBehaviour
 
     public void OnUpdate(Vector2 v)
     {
+        if (num <= 0)
+        {
+            return;
+        }
         RefreshData();
     }
 
@@ -205,7 +209,8 @@ public class TableView : MonoBehaviour
 
     public void Clear()
     {
-        Ui.Instance.RemoveAllChildren(content.transform);
+        Ui.Instance.RemoveAllChildren(content);
+        num = 0;
         itemList.Clear();
         stack.Clear();
     }

@@ -10,12 +10,14 @@ public class PlayerAnimator : MonoBehaviour
 {
     public Animator animator;
     Player player;
+    Attacked attacked;
     Character character;
     PlayerLocalValueData playerLocalValueData;
-
+    private int eventId;
     private void Awake()
     {
-        EventManager.Instance.AddEvent(GameEventType.WearEquipEvent, new object[] {(Action<EquipmentPart>) RefreshAttackSpeed});
+        attacked = GetComponent<Attacked>();
+        eventId = EventManager.Instance.AddEvent(GameEventType.WearEquipEvent, new object[] {(Action<EquipmentPart>) RefreshAttackSpeed});
     }
 
     void Start()
@@ -23,7 +25,7 @@ public class PlayerAnimator : MonoBehaviour
         playerLocalValueData = GameDataManager.Instance.GetPlayerLocalValueInfo();
         player = GetComponent<Player>();
         character = GetComponent<Character>();
-        RefreshAttackSpeed(EquipmentPart.Armor);
+        RefreshAttackSpeed(EquipmentPart.MeleeWeapon1H);
     }
     
     void Update()
@@ -32,7 +34,8 @@ public class PlayerAnimator : MonoBehaviour
         {
             return;
         }
-        if (player.isGround)
+
+        if (player.isGround || player.isStairs)
         {
             if (Math.Abs(player.velocityX) > 0)
             {
@@ -65,7 +68,16 @@ public class PlayerAnimator : MonoBehaviour
         //else
         //{
         //    attackInterval -= Time.deltaTime;
-        //}      
+        //}    
+        if (attacked.GetPlayerAttack())
+        {
+            SetFloatValue("RunSpeed", 0.3f);
+        }
+        else
+        {
+            SetFloatValue("RunSpeed", 1f);
+        }
+       
     }
 
     public void PlayTrigger(string name)
@@ -83,6 +95,10 @@ public class PlayerAnimator : MonoBehaviour
         animator.SetInteger(name, value);
     }
 
+    public void SetFloatValue(string name, float value)
+    {
+        animator.SetFloat(name, value);
+    }
     public void PlayDeanth(Vector2 pos)
     {
         var dir = transform.position.x - pos.x;
@@ -98,6 +114,14 @@ public class PlayerAnimator : MonoBehaviour
 
     public void RefreshAttackSpeed(EquipmentPart part)
     {
-        animator.SetFloat("AttackSpeed", playerLocalValueData.AttackSpeed);
+        if (part == EquipmentPart.MeleeWeapon1H)
+        {
+            animator.SetFloat("AttackSpeed", playerLocalValueData.AttackSpeed);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.Instance?.RemoveEvent(GameEventType.WearEquipEvent, eventId);
     }
 }

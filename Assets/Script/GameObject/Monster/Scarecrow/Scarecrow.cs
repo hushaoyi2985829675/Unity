@@ -6,7 +6,7 @@ public class Scarecrow : Monster
 {
     // Start is called before the first frame update
 
-    void Start()
+    new void Start()
     {
         base.Start();
     }
@@ -17,7 +17,7 @@ public class Scarecrow : Monster
     }
 
     // Update is called once per frame
-    void Update()
+    new void Update()
     {
     }
 }

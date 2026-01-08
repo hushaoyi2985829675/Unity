@@ -58,6 +58,66 @@ MonoBehaviour:
       Tags: []
     id: 21
     num: 1
+  - SpriteGroupEntry:
+      Name: ElvenSword
+      Collection: AbandonedWorkshop
+      Edition: Extensions
+      Id: Extensions.AbandonedWorkshop.MeleeWeapon1H.ElvenSword
+      Path: Assets/HeroEditor/Extensions/AbandonedWorkshop/Sprites/Equipment/MeleeWeapon1H/AbandonedWorkshop/Sword/ElvenSword.png
+      Sprite: {fileID: 21300000, guid: 7a1b30628e35405592821716f853f357, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 7a1b30628e35405592821716f853f357, type: 3}
+      Multiple: 1
+      Hash: 0899e95f2553fb543bee4cdc07b3f1b4
+      Meta: 
+      Tags: []
+    id: 27
+    num: 1
+  - SpriteGroupEntry:
+      Name: ElvenSword
+      Collection: AbandonedWorkshop
+      Edition: Extensions
+      Id: Extensions.AbandonedWorkshop.MeleeWeapon1H.ElvenSword
+      Path: Assets/HeroEditor/Extensions/AbandonedWorkshop/Sprites/Equipment/MeleeWeapon1H/AbandonedWorkshop/Sword/ElvenSword.png
+      Sprite: {fileID: 21300000, guid: 7a1b30628e35405592821716f853f357, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 7a1b30628e35405592821716f853f357, type: 3}
+      Multiple: 1
+      Hash: 0899e95f2553fb543bee4cdc07b3f1b4
+      Meta: 
+      Tags: []
+    id: 26
+    num: 1
+  - SpriteGroupEntry:
+      Name: ElvenSword
+      Collection: AbandonedWorkshop
+      Edition: Extensions
+      Id: Extensions.AbandonedWorkshop.MeleeWeapon1H.ElvenSword
+      Path: Assets/HeroEditor/Extensions/AbandonedWorkshop/Sprites/Equipment/MeleeWeapon1H/AbandonedWorkshop/Sword/ElvenSword.png
+      Sprite: {fileID: 21300000, guid: 7a1b30628e35405592821716f853f357, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 7a1b30628e35405592821716f853f357, type: 3}
+      Multiple: 1
+      Hash: 0899e95f2553fb543bee4cdc07b3f1b4
+      Meta: 
+      Tags: []
+    id: 25
+    num: 1
+  - SpriteGroupEntry:
+      Name: ElvenSword
+      Collection: AbandonedWorkshop
+      Edition: Extensions
+      Id: Extensions.AbandonedWorkshop.MeleeWeapon1H.ElvenSword
+      Path: Assets/HeroEditor/Extensions/AbandonedWorkshop/Sprites/Equipment/MeleeWeapon1H/AbandonedWorkshop/Sword/ElvenSword.png
+      Sprite: {fileID: 21300000, guid: 7a1b30628e35405592821716f853f357, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 7a1b30628e35405592821716f853f357, type: 3}
+      Multiple: 1
+      Hash: 0899e95f2553fb543bee4cdc07b3f1b4
+      Meta: 
+      Tags: []
+    id: 44
+    num: 1
   ArmorList:
   - SpriteGroupEntry:
       Name: LeatherLightArmor
@@ -304,6 +364,66 @@ MonoBehaviour:
       Meta: 
       Tags: []
     id: 32
+    num: 1
+  - SpriteGroupEntry:
+      Name: ChampionHelm
+      Collection: Basic
+      Edition: FantasyHeroes
+      Id: FantasyHeroes.Basic.Helmet.ChampionHelm
+      Path: Assets/HeroEditor/FantasyHeroes/Sprites/Equipment/Helmet/Basic/ChampionHelm.png
+      Sprite: {fileID: 21300000, guid: afe0d901c905475898176fe862af3bca, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: afe0d901c905475898176fe862af3bca, type: 3}
+      Multiple: 1
+      Hash: dc251ed8d9ff236ee0228fa69ec15072
+      Meta: 
+      Tags: []
+    id: 40
+    num: 1
+  - SpriteGroupEntry:
+      Name: ChampionHelm
+      Collection: Basic
+      Edition: FantasyHeroes
+      Id: FantasyHeroes.Basic.Helmet.ChampionHelm
+      Path: Assets/HeroEditor/FantasyHeroes/Sprites/Equipment/Helmet/Basic/ChampionHelm.png
+      Sprite: {fileID: 21300000, guid: afe0d901c905475898176fe862af3bca, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: afe0d901c905475898176fe862af3bca, type: 3}
+      Multiple: 1
+      Hash: dc251ed8d9ff236ee0228fa69ec15072
+      Meta: 
+      Tags: []
+    id: 38
+    num: 1
+  - SpriteGroupEntry:
+      Name: ChampionHelm
+      Collection: Basic
+      Edition: FantasyHeroes
+      Id: FantasyHeroes.Basic.Helmet.ChampionHelm
+      Path: Assets/HeroEditor/FantasyHeroes/Sprites/Equipment/Helmet/Basic/ChampionHelm.png
+      Sprite: {fileID: 21300000, guid: afe0d901c905475898176fe862af3bca, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: afe0d901c905475898176fe862af3bca, type: 3}
+      Multiple: 1
+      Hash: dc251ed8d9ff236ee0228fa69ec15072
+      Meta: 
+      Tags: []
+    id: 42
+    num: 1
+  - SpriteGroupEntry:
+      Name: ChampionHelm
+      Collection: Basic
+      Edition: FantasyHeroes
+      Id: FantasyHeroes.Basic.Helmet.ChampionHelm
+      Path: Assets/HeroEditor/FantasyHeroes/Sprites/Equipment/Helmet/Basic/ChampionHelm.png
+      Sprite: {fileID: 21300000, guid: afe0d901c905475898176fe862af3bca, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: afe0d901c905475898176fe862af3bca, type: 3}
+      Multiple: 1
+      Hash: dc251ed8d9ff236ee0228fa69ec15072
+      Meta: 
+      Tags: []
+    id: 34
     num: 1
   EquipmentList:
   - SpriteGroupEntry:

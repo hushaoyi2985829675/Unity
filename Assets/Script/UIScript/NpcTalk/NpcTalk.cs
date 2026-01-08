@@ -94,6 +94,7 @@ public class NpcTalk : PanelBase
     
     public override void onEnter(params object[] data)
     {
+        NpcLayer = Ui.Instance.GetLayerRef("TalkLayer/TalkLayer");
         playerLv = GameDataManager.Instance.GetPlayerLv();
         var entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerClick;
@@ -114,7 +115,6 @@ public class NpcTalk : PanelBase
     {
         playerLv = GameDataManager.Instance.GetPlayerLv();
         npcId = (int) data[0];
-        NpcLayer = (GameObject) data[1];
         InitData();
         InitTaskState();
         InitTalkList();
@@ -409,7 +409,7 @@ public class NpcTalk : PanelBase
             touchNode.SetActive(false);
             createOption(taskOperatorList, id =>
             {
-                Ui.Instance.RemoveAllChildren(operatorNode);
+                CloseNodeAllUINode(operatorNode);
                 isCanTalk = true;
                 touchNode.SetActive(true);
                 //接受任务
@@ -429,7 +429,6 @@ public class NpcTalk : PanelBase
                 idx = 0;
                 isTriggerTaskSel = true;
                 PlayTaskSelTalk();
-                CloseNodeAllUINode(operatorNode);
             });
         }
         else

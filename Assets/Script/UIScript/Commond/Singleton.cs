@@ -6,11 +6,15 @@ using UnityEngine;
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T _instance;
-
+    private static bool applicationIsQuitting = false;
     public static T Instance
     {
         get
         {
+            if (applicationIsQuitting)
+            {
+                return null;
+            }
             if (_instance == null)
             {
                 _instance = (T) FindObjectOfType(typeof(T));
@@ -26,4 +30,14 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             return _instance;
         }
     }
+
+    protected virtual void OnDestroy()
+    {
+        applicationIsQuitting = true;
+    }
+
+    // public static implicit operator T(Singleton<T> unused)
+    // {
+    //     return Instance;
+    // }
 }

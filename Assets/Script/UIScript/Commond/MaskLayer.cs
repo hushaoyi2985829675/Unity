@@ -1,28 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class MaskLayer : PanelBase
+public class MaskLayer : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private PanelBase panel;
+
+    [SerializeField]
+    Button maskBtn;
+
+    void Awake()
     {
+        maskBtn.onClick.AddListener(OnCloseClick);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetActive(bool active)
     {
+        gameObject.SetActive(active);
     }
 
-    public override void onEnter(params object[] data)
+    public void SetPanel(PanelBase panel)
     {
+        this.panel = panel;
     }
 
-    public override void onShow(params object[] data)
+    private void OnCloseClick()
     {
-    }
-
-    public override void onExit()
-    {
+        UIManager.Instance.CloseLayer(panel.gameObject);
     }
 }

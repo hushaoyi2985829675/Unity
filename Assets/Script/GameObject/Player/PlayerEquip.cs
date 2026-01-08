@@ -12,13 +12,17 @@ public class PlayerEquip : MonoBehaviour
 {
     Character character;
     Transform edge;
-    public bool isUpdateEquip;
+
+    [SerializeField]
+    private bool isUpdateEquip;
 
     private void Awake()
     {
-        EventManager.Instance.AddEvent(GameEventType.WearEquipEvent, new object[] {(Action<EquipmentPart>) RefreshEquip});
+        if (isUpdateEquip)
+        {
+            EventManager.Instance.AddEvent(GameEventType.WearEquipEvent, new object[] {(Action<EquipmentPart>) RefreshEquip});
+        }
         character = GetComponent<Character>();
-        isUpdateEquip = true;
     }
 
     private void Start()
@@ -45,7 +49,7 @@ public class PlayerEquip : MonoBehaviour
             character.Equip(null, part);
             return;
         }
-
+        
         EquipInfo equipInfo = Ui.Instance.GetEquipInfo(equipData.id);
         SpriteGroupEntry spriteGroupEntry = Ui.Instance.GetEquipEntry(part, equipInfo.id);
         character.Equip(spriteGroupEntry, part);
