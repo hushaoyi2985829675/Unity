@@ -779,7 +779,7 @@ public class Ui : Singleton<Ui>
         GameObject layer = Resources.Load<GameObject>(path + name);
         if (layer == null)
         {
-            Debug.Log(path + name + "没找到");
+            Debug.Log(path + name + "Layer没找到");
         }
 
         return layer;

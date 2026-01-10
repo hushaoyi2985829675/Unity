@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Assets.HeroEditor.Common.CharacterScripts;
 using SkillNs;
 using UnityEngine;
+using Object = System.Object;
 
 public class PlayerSKill : MonoBehaviour
 {
@@ -12,12 +13,23 @@ public class PlayerSKill : MonoBehaviour
     PlayerAnimator playerAnimator;
     Player player;
     AnimationEvents animationEvent;
+    private int eventId;
     private void Awake()
     {
         playerAnimator = GetComponent<PlayerAnimator>();
         player = GetComponent<Player>();
         animationEvent = transform.Find("Animation").GetComponent<AnimationEvents>();
         animationEvent.OnSkillEvent += AttackEvent;
+        if (player.isListenEvent)
+        {
+            EventManager.Instance.AddEvent(GameEventType.PlayerSkillEvent, new Object[]
+            {
+                (Action<int>) ((skillId) =>
+                {
+                    PlaySkill(skillId);
+                })
+            });
+        }
     }
 
     public void PlaySkill(int id)

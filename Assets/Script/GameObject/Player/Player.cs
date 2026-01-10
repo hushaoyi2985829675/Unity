@@ -28,6 +28,8 @@ public partial class Player : MonoBehaviour
 
     // [Header("玩家等级加成")]
     // public PlayerLvData PlayerLvData;
+    [Header("是否监听事件")]
+    public bool isListenEvent;
     
     [Header("移动参数")]
     public float speed;
@@ -36,7 +38,7 @@ public partial class Player : MonoBehaviour
     [Header("状态相关")]
     [SerializeField]
     private bool isSkill;
-
+    
     private bool isDodge;
     RaycastHit2D leftFoot;
     RaycastHit2D rightFoot;
@@ -44,8 +46,6 @@ public partial class Player : MonoBehaviour
     public bool isStairs;
     public bool isStairsModel;
     private bool isUpStairs;
-    [Header("方向")]
-    [SerializeField]
     private Vector2 slopeDirection;
     private float slopeAngle;
     AnimationEvents animationEvent;
@@ -272,11 +272,11 @@ public partial class Player : MonoBehaviour
         // 调整跳跃物理
         if (rd.velocity.y < 0) // 下落时
         {
-            rd.velocity += Vector2.up * (Physics2D.gravity.y * 6f * Time.deltaTime);
+            rd.velocity += Vector2.up * (Physics2D.gravity.y * 10f * Time.deltaTime);
         }
         else if (rd.velocity.y > 0) // 上升时
         {
-            rd.velocity += Vector2.up * (Physics2D.gravity.y * 1.5f * Time.deltaTime);
+            rd.velocity += Vector2.up * (Physics2D.gravity.y * 3f * Time.deltaTime);
         }
         
     }

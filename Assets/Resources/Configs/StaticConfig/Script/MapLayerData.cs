@@ -10,6 +10,7 @@ public class MapLayerInfo
     public GameObject cameraBoundary;
     public Vector2 playerPos;
     public List<AudioClip> MusicList;
+    public AudioClip BossMusic;
 
     public AudioClip GetMusicClip()
     {

@@ -94,7 +94,6 @@ public class NpcTalk : PanelBase
     
     public override void onEnter(params object[] data)
     {
-        NpcLayer = Ui.Instance.GetLayerRef("TalkLayer/TalkLayer");
         playerLv = GameDataManager.Instance.GetPlayerLv();
         var entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerClick;
@@ -115,6 +114,7 @@ public class NpcTalk : PanelBase
     {
         playerLv = GameDataManager.Instance.GetPlayerLv();
         npcId = (int) data[0];
+        NpcLayer = (GameObject) data[1];
         InitData();
         InitTaskState();
         InitTalkList();

@@ -125,6 +125,7 @@ public class SkillLayer : PanelBase
         bool isLock = skillList.Find((id) => id == skillInfo.id) != 0;
         if (!isLock)
         {
+            lockButton.SetActive(true);
             if (resText == null)
             {
                 resText = AddUINode<ResText>(resTextRef.gameObject, resTextTrans, new object[]
@@ -146,6 +147,7 @@ public class SkillLayer : PanelBase
                 resText.SetActive(false);
             }
             //是否装备
+            lockButton.SetActive(false);
         }
     }
 

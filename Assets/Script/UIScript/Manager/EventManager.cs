@@ -194,7 +194,7 @@ public class EventManager : Singleton<EventManager>
                 PlayerJumpEventAction?.Invoke();
                 break;
             case GameEventType.PlayerSkillEvent:
-                playerSkillAction.Invoke((int) data[0]);
+                playerSkillAction?.Invoke((int) data[0]);
                 break;
             case GameEventType.PlayerSkillUpdateEvent:
                 playerSkillUpdateAction.Invoke((int) data[0]);

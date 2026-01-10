@@ -15,5 +15,5 @@ MonoBehaviour:
   curHp: 68
   exp: 0
   lv: 1
-  skillIdList: 010000000200000003000000
+  skillIdList: 
   skillEquipList: []

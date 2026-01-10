@@ -7,6 +7,7 @@ public enum AudioType
 {
     Attack,
     Run,
+    Catapult
 }
 
 class AudioObject

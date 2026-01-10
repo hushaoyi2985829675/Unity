@@ -68,7 +68,7 @@ public class PlayerLocalValueData : ScriptableObject
         JumpNum = 1;
         Armor = playerLvInfo.armor;
         MoveSpeed = playerLvInfo.moveSpeed;
-        jumpSpeed = 10;
+        jumpSpeed = 13;
         CritRate = playerLvInfo.critRate;
         CritDamage = playerLvInfo.critDamage;
         AttackSpeed = playerLvInfo.attackSpeed;

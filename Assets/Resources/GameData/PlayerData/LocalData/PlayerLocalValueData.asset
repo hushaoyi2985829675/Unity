@@ -14,14 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHp: 68
   CurHp: 68
-  AttackPower: 2
-  Exp: 1
+  AttackPower: 14
   Lv: 1
-  AttackSpeed: 0.25
+  AttackSpeed: 1.25
   JumpNum: 1
   Armor: 4.06
-  MoveSpeed: 5.29
-  CritRate: 0.05
+  MoveSpeed: 5.33
+  CritRate: 0.08
   CritDamage: 1.5
   DodgeRate: 0.03
-  jumpSpeed: 10
+  jumpSpeed: 15
